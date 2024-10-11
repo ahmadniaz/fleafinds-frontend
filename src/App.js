@@ -1,22 +1,21 @@
-import "./App.css";
+import React from "react";
+import { Home } from "./pages";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        {/* Define your routes */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} /> */}
+          {/* Catch-all route for 404 Not Found */}
+          {/* <Route path="*" element={<NotFoundPage />} /> */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
