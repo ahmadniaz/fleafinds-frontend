@@ -4,5 +4,8 @@ const OwnerRegistration = React.lazy(() =>
 );
 
 const CitiesList = React.lazy(() => import("./citiesList/citiesList"));
+const RegistrationBanner = React.lazy(() =>
+  import("./registrationBanner/registrationBanner")
+);
 
-export { OwnerRegistration, CitiesList };
+export { OwnerRegistration, CitiesList, RegistrationBanner };

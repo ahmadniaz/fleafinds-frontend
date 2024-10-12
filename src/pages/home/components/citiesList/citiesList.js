@@ -1,11 +1,13 @@
-import React from "react";
-import { TextField, Button, Box, Typography, Grid2 } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Typography, Grid2 } from "@mui/material";
 import CityCard from "./components/cityCard";
+import SearchBar from "./components/citySearch";
 import Turku from "../../../../assets/images/turku.jpeg";
 import Helsinki from "../../../../assets/images/helsinki.jpeg";
 import Vaasa from "../../../../assets/images/vaasa.jpeg";
 
 const CitiesList = () => {
+  const [citySearch, setCitySearch] = useState("");
   const cityInfo = [
     {
       name: "Helsinki",
@@ -59,32 +61,66 @@ const CitiesList = () => {
     },
   ];
 
-  return (
-    <Grid2 container spacing={1} direction="column">
-      <Box textAlign="center">
-        <Typography variant="h4" color="#f00404">
-          Looking for Flea Markets in your City?
-        </Typography>
+  const handleSearch = (event) => {
+    setCitySearch(event.target.value);
+  };
 
-        <Typography variant="h6" color="#15a0db">
-          Select your current City to find nearby Flea markets
-        </Typography>
+  // Filtered list based on search query
+  const filteredCities = cityInfo.filter((city) =>
+    city.name.toLowerCase().includes(citySearch.toLowerCase())
+  );
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        padding: "40px 0",
+        backgroundColor: "#f9f9f9",
+        textAlign: "center",
+      }}
+    >
+      <Typography
+        variant="h3"
+        fontWeight="bold"
+        color="#d32f2f"
+        sx={{ marginBottom: "20px" }}
+      >
+        Find Flea Markets in Your City
+      </Typography>
+      <Typography variant="h6" sx={{ marginBottom: "40px", color: "#555" }}>
+        Select your city below to discover nearby flea markets
+      </Typography>
+
+      {/* Search Bar */}
+      <Box sx={{ marginBottom: "40px" }}>
+        <SearchBar handleSearch={handleSearch} citySearch={citySearch} />
       </Box>
 
-      <Box>
-        <Grid2 container spacing={1}>
-          {cityInfo.map((city, index) => (
-            <Grid2 xs={12} sm={6} md={4} lg={4} key={index}>
+      {/* City Cards */}
+      <Grid2
+        container
+        spacing={3}
+        sx={{
+          justifyContent: "center",
+        }}
+      >
+        {filteredCities.length > 0 ? (
+          filteredCities.map((city, index) => (
+            <Grid2 item xs={12} sm={6} md={4} key={index}>
               <CityCard
                 name={city.name}
                 description={city.description}
                 image={city.image}
               />
             </Grid2>
-          ))}
-        </Grid2>
-      </Box>
-    </Grid2>
+          ))
+        ) : (
+          <Typography variant="h6" color="textSecondary">
+            No flea markets found in the searched city.
+          </Typography>
+        )}
+      </Grid2>
+    </Box>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField, Button, Box, Typography, Grid2 } from "@mui/material";
+import { TextField, Button, Box, Typography } from "@mui/material";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -32,7 +32,8 @@ const OwnerRegistration = () => {
     console.log("Form Submitted", values);
   };
   return (
-    <Grid2 container spacing={1} direction="column">
+    // <Grid2 container spacing={1} direction="column">
+    <div>
       <Box>
         <Typography variant="h4" color="#f00404">
           Are you a Flea Market Owner?
@@ -127,7 +128,8 @@ const OwnerRegistration = () => {
           )}
         </Formik>
       </Box>
-    </Grid2>
+      {/* </Grid2> */}
+    </div>
   );
 };
 
