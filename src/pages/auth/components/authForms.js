@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup"; // For validation
+import { useNavigate } from "react-router-dom";
 
 // Validation schemas for Signup and Login
 const signupValidationSchema = Yup.object({
@@ -27,16 +28,17 @@ const loginValidationSchema = Yup.object({
 });
 
 const AuthForm = () => {
+  const navigate = useNavigate();
   const handleSignupSubmit = (values) => {
     // Signup API call logic
     console.log("Signup values:", values);
-    // navigate("/dashboard"); // Uncomment to redirect to the dashboard after signup
+    navigate("/dashboard"); // Uncomment to redirect to the dashboard after signup
   };
 
   const handleLoginSubmit = (values) => {
     // Login API call logic
     console.log("Login values:", values);
-    // navigate("/dashboard"); // Uncomment to redirect to the dashboard after login
+    navigate("/dashboard"); // Uncomment to redirect to the dashboard after login
   };
 
   return (
