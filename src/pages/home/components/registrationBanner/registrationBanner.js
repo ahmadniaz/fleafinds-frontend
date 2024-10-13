@@ -6,7 +6,7 @@ const RegistrationBanner = () => {
   const navigate = useNavigate(); // Hook to navigate to the registration page
 
   const handleRegisterClick = () => {
-    navigate("/register"); // Navigate to the registration page when the button is clicked
+    navigate("/auth"); // Navigate to the registration page when the button is clicked
   };
 
   return (
@@ -25,7 +25,7 @@ const RegistrationBanner = () => {
         maxWidth="md"
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "space-evenly",
           alignItems: "center",
           backgroundColor: "#ffffff", // White background for the content box
           padding: "20px",
@@ -43,6 +43,15 @@ const RegistrationBanner = () => {
           onClick={handleRegisterClick}
         >
           Register Now
+        </Button>
+
+        <Button
+          variant="contained"
+          color="primary" // Red button
+          sx={{ fontWeight: "bold", padding: "10px 20px" }}
+          onClick={handleRegisterClick}
+        >
+          Login
         </Button>
       </Container>
     </Box>

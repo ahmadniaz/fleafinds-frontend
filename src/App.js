@@ -1,20 +1,24 @@
-import React from "react";
-import { Home } from "./pages";
+import React, { Suspense } from "react";
+import { Home, AuthPage } from "./pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
+import LoadingFallback from "./components/loader/loader";
 
 function App() {
   return (
     <Router>
       <div>
         {/* Define your routes */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          {/* <Route path="/about" element={<AboutPage />} />
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/auth" element={<AuthPage />} />
+            {/* <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} /> */}
-          {/* Catch-all route for 404 Not Found */}
-          {/* <Route path="*" element={<NotFoundPage />} /> */}
-        </Routes>
+            {/* Catch-all route for 404 Not Found */}
+            {/* <Route path="*" element={<NotFoundPage />} /> */}
+          </Routes>
+        </Suspense>
       </div>
     </Router>
   );
