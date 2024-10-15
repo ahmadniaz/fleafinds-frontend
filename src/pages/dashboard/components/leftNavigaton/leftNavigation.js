@@ -42,6 +42,16 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
       <List>
         <ListItem
           button
+          onClick={() => setActiveForm("home")}
+          sx={{
+            cursor: "pointer",
+            backgroundColor: activeForm === "home" ? "primary.main" : "",
+          }}
+        >
+          <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem
+          button
           onClick={() => setActiveForm("marketInfo")}
           sx={{
             cursor: "pointer",

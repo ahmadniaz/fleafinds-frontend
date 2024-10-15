@@ -44,15 +44,6 @@ const RegistrationBanner = () => {
         >
           Register Now
         </Button>
-
-        <Button
-          variant="contained"
-          color="primary" // Red button
-          sx={{ fontWeight: "bold", padding: "10px 20px" }}
-          onClick={handleRegisterClick}
-        >
-          Login
-        </Button>
       </Container>
     </Box>
   );

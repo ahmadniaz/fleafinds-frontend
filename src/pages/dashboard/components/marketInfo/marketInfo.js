@@ -242,13 +242,13 @@ const MarketInfoForm = () => {
               {/* Categories */}
               <Grid2 item size={12}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Categories
+                  Categories(Seperate different categories using comma ",")
                 </Typography>
                 <Field
                   as={TextField}
                   fullWidth
                   name="categories"
-                  label="Categories"
+                  label="e.g(clothes,toys,furniture)"
                   error={touched.categories && Boolean(errors.categories)}
                   helperText={touched.categories && errors.categories}
                 />

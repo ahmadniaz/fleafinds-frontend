@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 // import Layout from "../../layout/layout";
-import { LeftNavigation, MarketInfoForm, OwnerInfoForm } from "./components";
+import {
+  LeftNavigation,
+  MarketInfoForm,
+  OwnerInfoForm,
+  HomeSection,
+} from "./components";
 
-const Header = () => {
-  const [activeForm, setActiveForm] = useState("marketInfo");
+const Dashboard = () => {
+  const [activeForm, setActiveForm] = useState("home");
 
   return (
     <div style={{ display: "flex" }}>
       <LeftNavigation setActiveForm={setActiveForm} activeForm={activeForm} />
       {activeForm === "marketInfo" && <MarketInfoForm />}
       {activeForm === "ownerInfo" && <OwnerInfoForm />}
+      {activeForm === "home" && <HomeSection setActiveForm={setActiveForm} />}
     </div>
   );
 };
 
-export default Header;
+export default Dashboard;
