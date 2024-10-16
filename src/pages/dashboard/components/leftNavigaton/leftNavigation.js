@@ -7,9 +7,11 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../../../assets/images/logo.png";
 
 const LeftNavigation = ({ activeForm, setActiveForm }) => {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -26,7 +28,13 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
       <Box sx={{ textAlign: "center", marginBottom: "20px" }}>
         {/* Logo */}
         <Box display="flex">
-          <img src={Logo} alt="Logo" width="200px" />
+          <img
+            src={Logo}
+            alt="Logo"
+            width="200px"
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/")}
+          />
         </Box>
       </Box>
 

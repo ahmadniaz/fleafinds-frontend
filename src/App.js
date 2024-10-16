@@ -1,8 +1,8 @@
 import React, { Suspense } from "react";
-import { Home, AuthPage, DashboardPage } from "./pages";
+import { Home, AuthPage, DashboardPage, FleaMarketListing } from "./pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
 import LoadingFallback from "./components/loader/loader";
+import "./App.css";
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/markets-listing" element={<FleaMarketListing />} />
             {/* <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} /> */}
             {/* Catch-all route for 404 Not Found */}

@@ -12,10 +12,17 @@ import {
   Menu,
   MenuItem,
   Avatar,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  FormControl,
+  Select,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { CloudUpload, Facebook, Instagram, Twitter } from "@mui/icons-material";
+import { CloudUpload } from "@mui/icons-material";
+import MarketImagesSection from "./components/marketImagesSection";
+import SocialMediaSection from "./components/socialMediaSection";
 
 // Validation schema for the dashboard form
 const validationSchema = Yup.object({
@@ -34,6 +41,52 @@ const MarketInfoForm = () => {
   const [imagePreviews, setImagePreviews] = useState(Array(10).fill(null));
   const [logoPreview, setLogoPreview] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedType, setSelectedType] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  const fleaMarketCategories = [
+    "Clothes",
+    "Toys",
+    "Furniture",
+    "Books",
+    "Antiques",
+    "Electronics",
+    "Home Decor",
+    "Jewelry & Accessories",
+    "Sports Equipment",
+    "Kitchenware",
+    "Musical Instruments",
+    "Gardening Tools",
+    "Collectibles",
+    "Handmade Crafts",
+    "Bicycles & Scooters",
+  ];
+
+  const fleaMarketTypesInFinland = [
+    "Indoor Flea Market",
+    "Outdoor Flea Market",
+    // "Car Boot Sale",
+    "Secondhand Store",
+    "Donation Market",
+    // "Antique Market",
+    // "Handicraft Market",
+    "Pop-up Market",
+  ];
+
+  const handleTypeChange = (event) => {
+    setSelectedType(event.target.value);
+  };
+
+  const handleChange = (event) => {
+    const { value } = event.target;
+    setSelectedCategories((prev) =>
+      prev.includes(value)
+        ? prev.filter((category) => category !== value)
+        : [...prev, value]
+    );
+  };
+
+  console.log(selectedCategories, "selected categories");
 
   const handleImageUpload = (index, event) => {
     const file = event.target.files[0];
@@ -130,7 +183,7 @@ const MarketInfoForm = () => {
           <Form>
             <Grid2 container spacing={2}>
               {/* Market Name */}
-              <Grid2 item size={12}>
+              <Grid2 item size={12} mt={3}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                   Market Name
                 </Typography>
@@ -144,8 +197,28 @@ const MarketInfoForm = () => {
                 />
               </Grid2>
 
+              {/* Market Name */}
+              <Grid2 item size={12} mt={3}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  Select your flea market type
+                </Typography>
+                <FormControl fullWidth>
+                  <Select
+                    value={selectedType}
+                    onChange={handleTypeChange}
+                    label="Select your flea market type"
+                  >
+                    {fleaMarketTypesInFinland.map((type) => (
+                      <MenuItem key={type} value={type}>
+                        {type}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid2>
+
               {/* Logo Upload */}
-              <Grid2 item size={12}>
+              <Grid2 item size={12} mt={3}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                   Upload Market Logo / Display Picture
                 </Typography>
@@ -208,7 +281,7 @@ const MarketInfoForm = () => {
               </Grid2>
 
               {/* Description */}
-              <Grid2 item size={12}>
+              <Grid2 item size={12} mt={3}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                   Description
                 </Typography>
@@ -225,7 +298,7 @@ const MarketInfoForm = () => {
               </Grid2>
 
               {/* Location */}
-              <Grid2 item size={12}>
+              <Grid2 item size={12} mt={3}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                   Location
                 </Typography>
@@ -240,167 +313,53 @@ const MarketInfoForm = () => {
               </Grid2>
 
               {/* Categories */}
-              <Grid2 item size={12}>
+              <Grid2 item size={12} mt={3}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Categories(Seperate different categories using comma ",")
+                  Categories (Select all that apply)
                 </Typography>
-                <Field
-                  as={TextField}
-                  fullWidth
-                  name="categories"
-                  label="e.g(clothes,toys,furniture)"
-                  error={touched.categories && Boolean(errors.categories)}
-                  helperText={touched.categories && errors.categories}
-                />
+                <FormGroup>
+                  <Grid2 container spacing={2}>
+                    {fleaMarketCategories.map((category) => (
+                      <FormControlLabel
+                        key={category}
+                        control={
+                          <Checkbox
+                            name="categories"
+                            value={category}
+                            onChange={handleChange}
+                          />
+                        }
+                        label={category}
+                      />
+                    ))}
+                  </Grid2>
+                </FormGroup>
               </Grid2>
 
               {/* Image Uploads */}
-              <Grid2 item size={12}>
+              <Grid2 item size={12} mt={3}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                   Upload Market Images (up to 10)
                 </Typography>
-                <Grid2 container spacing={2}>
-                  {imagePreviews.map((preview, index) => (
-                    <Grid2 item size={{ xs: 6, sm: 4, md: 3 }} key={index}>
-                      <Box
-                        sx={{
-                          border: "2px dashed #ccc",
-                          borderRadius: "8px",
-                          padding: "10px",
-                          textAlign: "center",
-                          position: "relative",
-                          backgroundColor: "#fafafa",
-                        }}
-                      >
-                        {preview ? (
-                          <img
-                            src={preview}
-                            alt={`Market${index + 1}`}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              borderRadius: "8px",
-                            }}
-                          />
-                        ) : (
-                          <Typography variant="body2" color="textSecondary">
-                            No Image Uploaded
-                          </Typography>
-                        )}
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(event) => handleImageUpload(index, event)}
-                          style={{ display: "none" }}
-                          id={`image-upload-${index}`}
-                        />
-                        <label htmlFor={`image-upload-${index}`}>
-                          <IconButton
-                            component="span"
-                            sx={{
-                              position: "absolute",
-                              bottom: "0",
-                              left: "10%",
-                              padding: "5px",
-                              transform: "translateX(-50%)",
-                              backgroundColor: "#d32f2f",
-                              color: "#fff",
-                              "&:hover": {
-                                backgroundColor: "#b71c1c",
-                              },
-                            }}
-                          >
-                            <CloudUpload />
-                          </IconButton>
-                        </label>
-                      </Box>
-                    </Grid2>
-                  ))}
-                </Grid2>
+                <MarketImagesSection
+                  handleImageUpload={handleImageUpload}
+                  imagePreviews={imagePreviews}
+                />
               </Grid2>
 
               {/* Social Media Links */}
-              <Grid2 item size={12}>
+              <Grid2 item size={12} mt={3}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                   Social Media Links
                 </Typography>
-                <Grid2 container spacing={2}>
-                  <Grid2 item size={4}>
-                    <Field
-                      as={TextField}
-                      fullWidth
-                      name="socialMedia.facebook"
-                      label="Facebook"
-                      InputProps={{
-                        startAdornment: (
-                          <Facebook
-                            sx={{ color: "#3b5998", marginRight: "10px" }}
-                          />
-                        ),
-                      }}
-                      error={
-                        touched.socialMedia?.facebook &&
-                        Boolean(errors.socialMedia?.facebook)
-                      }
-                      helperText={
-                        touched.socialMedia?.facebook &&
-                        errors.socialMedia?.facebook
-                      }
-                    />
-                  </Grid2>
-                  <Grid2 item size={4}>
-                    <Field
-                      as={TextField}
-                      fullWidth
-                      name="socialMedia.instagram"
-                      label="Instagram"
-                      InputProps={{
-                        startAdornment: (
-                          <Instagram
-                            sx={{ color: "#C13584", marginRight: "10px" }}
-                          />
-                        ),
-                      }}
-                      error={
-                        touched.socialMedia?.instagram &&
-                        Boolean(errors.socialMedia?.instagram)
-                      }
-                      helperText={
-                        touched.socialMedia?.instagram &&
-                        errors.socialMedia?.instagram
-                      }
-                    />
-                  </Grid2>
-                  <Grid2 item size={4}>
-                    <Field
-                      as={TextField}
-                      fullWidth
-                      name="socialMedia.twitter"
-                      label="Twitter"
-                      InputProps={{
-                        startAdornment: (
-                          <Twitter
-                            sx={{ color: "#1DA1F2", marginRight: "10px" }}
-                          />
-                        ),
-                      }}
-                      error={
-                        touched.socialMedia?.twitter &&
-                        Boolean(errors.socialMedia?.twitter)
-                      }
-                      helperText={
-                        touched.socialMedia?.twitter &&
-                        errors.socialMedia?.twitter
-                      }
-                    />
-                  </Grid2>
-                </Grid2>
+                <SocialMediaSection errors={errors} touched={touched} />
               </Grid2>
 
               {/* Submit and Preview Buttons */}
               <Grid2
                 item
                 size={12}
+                mt={3}
                 sx={{ textAlign: "center", marginTop: "20px" }}
               >
                 <Button
