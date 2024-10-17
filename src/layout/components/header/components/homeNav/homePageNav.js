@@ -14,7 +14,7 @@ const HomeNavbar = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         position: "relative",
-        padding: 3,
+        padding: 2,
         "::before": {
           content: '""',
           position: "absolute",
@@ -34,13 +34,16 @@ const HomeNavbar = () => {
         sx={{ position: "relative", zIndex: 2, height: "auto" }}
       >
         {/* Logo */}
-        <Box display="flex" alignItems="center">
+        <Box alignItems="center">
           <img
             src={Logo}
             alt="Logo"
             style={{ width: "250px", height: "auto" }}
           />
-          <Typography variant="h6" sx={{ color: "white", ml: 2 }}>
+          <Typography
+            variant="h6"
+            sx={{ color: "white", ml: 2, textAlign: "center" }}
+          >
             FleaMarket Finder
           </Typography>
         </Box>

@@ -1,25 +1,16 @@
 import React, { useState } from "react";
 import {
   Grid2,
-  Typography,
-  Card,
-  CardContent,
-  CardMedia,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
   Pagination,
-  Chip,
-  Rating,
   Box,
   TextField,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  Checkbox,
-  FormGroup,
 } from "@mui/material";
+import MarketCard from "./components/marketCards";
+import MarketFilters from "./components/marketFilters";
 import { Breadcrumb } from "../../components";
 import { HomeNav } from "../../layout/components/header/components";
 import FleaMarket from "../../assets/images/fleaMarketLogo.jpg";
@@ -41,7 +32,7 @@ const fleaMarkets = [
     image: FleaMarket,
     rating: 4.1,
     reviewCount: 25,
-    type: "Indoor Flea Market",
+    type: "Secondhand Store",
     location: "Turku",
   },
   {
@@ -50,7 +41,25 @@ const fleaMarkets = [
     image: FleaMarket,
     rating: 4.9,
     reviewCount: 35,
+    type: "Donation Market",
+    location: "Oulu",
+  },
+  {
+    id: 4,
+    name: "Oulu Flea Market",
+    image: FleaMarket,
+    rating: 4.2,
+    reviewCount: 35,
     type: "Indoor Flea Market",
+    location: "Oulu",
+  },
+  {
+    id: 5,
+    name: "Oulu Flea Market",
+    image: FleaMarket,
+    rating: 3.1,
+    reviewCount: 19,
+    type: "Pop-up Market",
     location: "Oulu",
   },
   // Add more flea markets...
@@ -100,61 +109,16 @@ const MarketListing = () => {
     <>
       <HomeNav />
 
-      <Grid2 container padding={2}>
+      <Grid2 container padding={2} spacing={2}>
         {/* Left Filters Section */}
-        <Grid2 item size={{ xs: 12, md: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            Filters
-          </Typography>
 
-          {/* Rating Filter */}
-          <Box marginBottom={2}>
-            <Typography variant="subtitle1">Rating</Typography>
-            <RadioGroup>
-              <FormControlLabel
-                value="4.5+"
-                control={<Radio />}
-                label="4.5 and above"
-              />
-              <FormControlLabel
-                value="4.0+"
-                control={<Radio />}
-                label="4.0 and above"
-              />
-            </RadioGroup>
-          </Box>
-
-          {/* Categories Filter */}
-          <Box marginBottom={2}>
-            <Typography variant="subtitle1">Categories</Typography>
-            <FormGroup>
-              {fleaMarketCategories.map((category) => (
-                <FormControlLabel
-                  key={category}
-                  control={<Checkbox name="categories" />}
-                  label={category}
-                />
-              ))}
-            </FormGroup>
-          </Box>
-
-          {/* Flea Market Types Filter */}
-          <Box marginBottom={2}>
-            <Typography variant="subtitle1">Flea Market Types</Typography>
-            <FormGroup>
-              {fleaMarketTypesInFinland.map((type) => (
-                <FormControlLabel
-                  key={type}
-                  control={<Checkbox name="marketType" />}
-                  label={type}
-                />
-              ))}
-            </FormGroup>
-          </Box>
-        </Grid2>
+        <MarketFilters
+          fleaMarketCategories={fleaMarketCategories}
+          fleaMarketTypesInFinland={fleaMarketTypesInFinland}
+        />
 
         {/* Flea Market Listings Section */}
-        <Grid2 item size={{ xs: 12, md: 9 }}>
+        <Grid2 item size={{ xs: 12, md: 10 }}>
           {/* Breadcrumb Navigation */}
           <Box mb={2}>
             <Breadcrumb />
@@ -163,12 +127,39 @@ const MarketListing = () => {
           {/* Search Bar and Sorting Dropdown */}
           <Grid2 container spacing={2} alignItems="center">
             <Grid2 item size={{ xs: 8 }}>
-              <TextField fullWidth label="Search by name" variant="outlined" />
+              <TextField
+                fullWidth
+                label="Search by name"
+                variant="outlined"
+                sx={{
+                  backgroundColor: "#fff",
+                  borderRadius: "5px",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "#15a0db",
+                    },
+                  },
+                }}
+              />
             </Grid2>
             <Grid2 item size={{ xs: 4 }}>
               <FormControl fullWidth>
                 <InputLabel>Sort By</InputLabel>
-                <Select value={sortOption} onChange={handleSortChange}>
+                <Select
+                  value={sortOption}
+                  onChange={handleSortChange}
+                  sx={{
+                    backgroundColor: "#fff",
+                    borderRadius: "5px",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "#15a0db",
+                      },
+                    },
+                  }}
+                >
                   <MenuItem value="highest-rated">Highest Rated</MenuItem>
                   <MenuItem value="lowest-rated">Lowest Rated</MenuItem>
                   <MenuItem value="most-reviews">Most Reviews</MenuItem>
@@ -181,42 +172,7 @@ const MarketListing = () => {
           {/* Flea Market Cards */}
           <Grid2 container spacing={4} mt={3}>
             {fleaMarkets.map((market) => (
-              <Grid2 item size={{ xs: 12, md: 6, sm: 3 }} key={market.id}>
-                <Card
-                  sx={{
-                    transition: "transform 0.2s ease-in-out",
-                    "&:hover": {
-                      boxShadow: 6,
-                      transform: "translateY(-5px)",
-                    },
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={market.image}
-                    alt={market.name}
-                  />
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      {market.name}
-                    </Typography>
-                    <Rating
-                      value={market.rating}
-                      precision={0.1}
-                      readOnly
-                      sx={{ display: "flex", alignItems: "center" }}
-                    />
-                    <Typography variant="body2" color="text.secondary">
-                      {market.rating} stars ({market.reviewCount} reviews)
-                    </Typography>
-                    <Chip label={market.type} color="primary" size="small" />
-                    <Typography variant="body2" color="text.secondary">
-                      {market.location}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid2>
+              <MarketCard market={market} />
             ))}
           </Grid2>
 
@@ -225,7 +181,7 @@ const MarketListing = () => {
             count={10} // Assume 10 pages for demonstration
             page={page}
             onChange={handlePageChange}
-            sx={{ marginTop: 4 }}
+            sx={{ marginTop: 4, display: "flex", justifyContent: "center" }}
           />
         </Grid2>
       </Grid2>

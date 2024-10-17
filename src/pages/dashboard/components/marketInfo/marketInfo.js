@@ -35,6 +35,8 @@ const validationSchema = Yup.object({
     instagram: Yup.string().url("Invalid URL"),
     twitter: Yup.string().url("Invalid URL"),
   }),
+  openingHours: Yup.string().required("Opening hours are required"),
+  priceList: Yup.string().required("Price information is required"),
 });
 
 const MarketInfoForm = () => {
@@ -167,6 +169,8 @@ const MarketInfoForm = () => {
           description: "",
           location: "",
           categories: "",
+          openingHours: "",
+          priceList: "",
           socialMedia: {
             facebook: "",
             instagram: "",
@@ -344,6 +348,42 @@ const MarketInfoForm = () => {
                 <MarketImagesSection
                   handleImageUpload={handleImageUpload}
                   imagePreviews={imagePreviews}
+                />
+              </Grid2>
+
+              {/* Opening Days and Hours */}
+              <Grid2 item size={12} mt={3}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  Opening Days and Hours
+                </Typography>
+                <Field
+                  as={TextField}
+                  fullWidth
+                  name="openingHours"
+                  label="Opening Days and Hours"
+                  placeholder="e.g., Mon-Fri: 10-18, Sat-Sun: 10-15"
+                  multiline
+                  rows={2}
+                  error={touched.openingHours && Boolean(errors.openingHours)}
+                  helperText={touched.openingHours && errors.openingHours}
+                />
+              </Grid2>
+
+              {/* Price List */}
+              <Grid2 item size={12} mt={3}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  Price List
+                </Typography>
+                <Field
+                  as={TextField}
+                  fullWidth
+                  name="priceList"
+                  label="Price List"
+                  placeholder="e.g., Shelf €29 / 1 week (Additional days €4.20)"
+                  multiline
+                  rows={4}
+                  error={touched.priceList && Boolean(errors.priceList)}
+                  helperText={touched.priceList && errors.priceList}
                 />
               </Grid2>
 
