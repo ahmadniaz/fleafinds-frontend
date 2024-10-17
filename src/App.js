@@ -1,5 +1,11 @@
 import React, { Suspense } from "react";
-import { Home, AuthPage, DashboardPage, FleaMarketListing } from "./pages";
+import {
+  Home,
+  AuthPage,
+  DashboardPage,
+  FleaMarketListing,
+  MarketDescription,
+} from "./pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoadingFallback from "./components/loader/loader";
 import "./App.css";
@@ -15,6 +21,7 @@ function App() {
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/markets-listing" element={<FleaMarketListing />} />
+            <Route path="/description" element={<MarketDescription />} />
             {/* <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} /> */}
             {/* Catch-all route for 404 Not Found */}

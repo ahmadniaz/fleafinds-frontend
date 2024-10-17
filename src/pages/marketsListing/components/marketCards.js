@@ -14,7 +14,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const MarketCard = ({ market }) => {
   return (
-    <Grid2 item size={{ xs: 12, md: 3, sm: 3 }} key={market.id}>
+    <Grid2 item size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={market.id}>
       <Card
         sx={{
           transition: "transform 0.2s ease-in-out",

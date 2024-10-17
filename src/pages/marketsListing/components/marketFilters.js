@@ -45,6 +45,16 @@ const MarketFilters = ({ fleaMarketCategories, fleaMarketTypesInFinland }) => {
           </RadioGroup>
         </Box>
 
+        {/* Divider Line */}
+        <Box
+          sx={{
+            height: "1px",
+            width: "100%",
+            backgroundColor: "#e0e0e0",
+            marginBottom: 2,
+          }}
+        />
+
         {/* Flea Market Types Filter */}
         <Box marginBottom={2}>
           <Typography variant="subtitle1" fontWeight="bold" color="#ff0000">
@@ -68,6 +78,16 @@ const MarketFilters = ({ fleaMarketCategories, fleaMarketTypesInFinland }) => {
             ))}
           </FormGroup>
         </Box>
+
+        {/* Divider Line */}
+        <Box
+          sx={{
+            height: "1px",
+            width: "100%",
+            backgroundColor: "#e0e0e0",
+            marginBottom: 2,
+          }}
+        />
 
         {/* Categories Filter */}
         <Box marginBottom={2}>

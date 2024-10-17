@@ -6,5 +6,8 @@ const DashboardPage = React.lazy(() => import("./dashboard/dashboard"));
 const FleaMarketListing = React.lazy(() =>
   import("./marketsListing/marketsListing")
 );
+const MarketDescription = React.lazy(() =>
+  import("./marketDescription/marketDescription")
+);
 
-export { Home, AuthPage, DashboardPage, FleaMarketListing };
+export { Home, AuthPage, DashboardPage, FleaMarketListing, MarketDescription };
