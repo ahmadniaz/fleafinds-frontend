@@ -22,6 +22,8 @@ import RateReviewIcon from "@mui/icons-material/RateReview";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EventIcon from "@mui/icons-material/Event";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import DirectionsIcon from "@mui/icons-material/Directions";
 import { HomeNav } from "../../layout/components/header/components";
 import Image1 from "../../assets/images/helsinki.jpeg";
 import Image2 from "../../assets/images/fleaMarketbg.jpg";
@@ -283,6 +285,7 @@ const MarketDescriptionPage = () => {
 
         {/* Information Sections */}
         <Grid2 container spacing={3}>
+          {/* Description */}
           <Grid2 item size={{ xs: 12, md: 6 }}>
             <SectionCard>
               <CardContent>
@@ -370,13 +373,19 @@ const MarketDescriptionPage = () => {
               <CardContent>
                 <HeaderTypography variant="h5">Location & Map</HeaderTypography>
 
+                {/* Map Container */}
                 <MapContainer
                   center={[
                     testMarketData.location.latitude,
                     testMarketData.location.longitude,
                   ]}
                   zoom={15}
-                  style={{ height: "400px", width: "100%" }}
+                  style={{
+                    height: "400px",
+                    width: "100%",
+                    borderRadius: "8px",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.15)",
+                  }}
                 >
                   <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -392,17 +401,31 @@ const MarketDescriptionPage = () => {
                   </Marker>
                 </MapContainer>
 
-                <Box mt={2}>
-                  <FieldLabel>Address</FieldLabel>
-                  <Typography>{testMarketData.location.address}</Typography>
+                {/* Address Section */}
+                <Box mt={2} display="flex" alignItems="center">
+                  <LocationOnIcon
+                    sx={{ color: "primary.main", marginRight: 1 }}
+                  />
+                  <Box>
+                    <FieldLabel>Address</FieldLabel>
+                    <Typography>{testMarketData.location.address}</Typography>
+                  </Box>
                 </Box>
 
+                {/* Directions Button */}
                 <Box mt={2}>
                   <Button
                     variant="contained"
                     color="primary"
                     href={`https://www.openstreetmap.org/directions?mlat=${testMarketData.location.latitude}&mlon=${testMarketData.location.longitude}#map=15/${testMarketData.location.latitude}/${testMarketData.location.longitude}`}
                     target="_blank"
+                    startIcon={<DirectionsIcon />}
+                    sx={{
+                      bgcolor: "primary.main",
+                      "&:hover": {
+                        bgcolor: "primary.dark",
+                      },
+                    }}
                   >
                     Get Directions
                   </Button>
