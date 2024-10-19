@@ -34,19 +34,21 @@ const HomeNavbar = () => {
         sx={{ position: "relative", zIndex: 2, height: "auto" }}
       >
         {/* Logo */}
-        <Box alignItems="center">
-          <img
-            src={Logo}
-            alt="Logo"
-            style={{ width: "250px", height: "auto" }}
-          />
-          <Typography
-            variant="h6"
-            sx={{ color: "white", ml: 2, textAlign: "center" }}
-          >
-            FleaMarket Finder
-          </Typography>
-        </Box>
+        <Link to={"/"} style={{ textDecoration: "none" }}>
+          <Box alignItems="center">
+            <img
+              src={Logo}
+              alt="Logo"
+              style={{ width: "250px", height: "auto" }}
+            />
+            <Typography
+              variant="h6"
+              sx={{ color: "white", ml: 2, textAlign: "center" }}
+            >
+              FleaMarket Finder
+            </Typography>
+          </Box>
+        </Link>
 
         {/* Navigation Links */}
         <Box display="flex" alignItems="center">

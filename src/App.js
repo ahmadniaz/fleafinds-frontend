@@ -23,7 +23,10 @@ function App() {
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/markets-listing" element={<FleaMarketListing />} />
-            <Route path="/description" element={<MarketDescription />} />
+            <Route
+              path="/markets-listing/:slug"
+              element={<MarketDescription />}
+            />
             {/* <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} /> */}
             {/* Catch-all route for 404 Not Found */}
