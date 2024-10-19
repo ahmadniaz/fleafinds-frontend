@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import {
   Home,
+  About,
   AuthPage,
   DashboardPage,
   FleaMarketListing,
@@ -18,6 +19,7 @@ function App() {
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/markets-listing" element={<FleaMarketListing />} />

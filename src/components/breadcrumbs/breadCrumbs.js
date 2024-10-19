@@ -1,34 +1,47 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Breadcrumbs, Typography } from "@mui/material";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Breadcrumbs, Typography, IconButton } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const Breadcrumb = () => {
   const location = useLocation();
-  const pathnames = location.pathname.split("/").filter((x) => x); // Split the pathname and filter empty parts
+  const navigate = useNavigate();
+  const pathnames = location.pathname.split("/").filter((x) => x);
+
+  const handleBack = () => {
+    navigate(-1); // Navigates to the previous page
+  };
 
   return (
-    <Breadcrumbs aria-label="breadcrumb">
-      {/* Link to the Home page */}
-      <Link to="/">Home</Link>
+    <div style={{ display: "flex", alignItems: "center" }}>
+      {/* Back button with icon */}
+      <IconButton onClick={handleBack} aria-label="back">
+        <ArrowBackIcon />
+      </IconButton>
 
-      {pathnames.map((value, index) => {
-        const to = `/${pathnames.slice(0, index + 1).join("/")}`;
+      {/* Breadcrumbs navigation */}
+      <Breadcrumbs aria-label="breadcrumb">
+        {/* Home link */}
+        <Link to="/">Home</Link>
 
-        const isLast = index === pathnames.length - 1;
+        {pathnames.map((value, index) => {
+          const to = `/${pathnames.slice(0, index + 1).join("/")}`;
+          const isLast = index === pathnames.length - 1;
 
-        return isLast ? (
-          // If it's the last breadcrumb, show as plain text
-          <Typography key={to} color="text.primary">
-            {value.charAt(0).toUpperCase() + value.slice(1)} {/* Capitalize */}
-          </Typography>
-        ) : (
-          // Otherwise show a link
-          <Link key={to} to={to}>
-            {value.charAt(0).toUpperCase() + value.slice(1)}
-          </Link>
-        );
-      })}
-    </Breadcrumbs>
+          return isLast ? (
+            // If it's the last breadcrumb, show as plain text
+            <Typography key={to} color="text.primary">
+              {value.charAt(0).toUpperCase() + value.slice(1)}
+            </Typography>
+          ) : (
+            // Otherwise, show as a link
+            <Link key={to} to={to}>
+              {value.charAt(0).toUpperCase() + value.slice(1)}
+            </Link>
+          );
+        })}
+      </Breadcrumbs>
+    </div>
   );
 };
 

@@ -10,6 +10,7 @@ import {
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup"; // For validation
 import { useNavigate } from "react-router-dom";
+import { Breadcrumb } from "../../../components";
 
 // Validation schemas for Signup and Login
 const signupValidationSchema = Yup.object({
@@ -43,6 +44,7 @@ const AuthForm = () => {
 
   return (
     <Container maxWidth="lg">
+      <Breadcrumb />
       <Box
         sx={{
           marginTop: "50px",

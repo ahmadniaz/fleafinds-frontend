@@ -13,6 +13,7 @@ import Image2 from "../../assets/images/fleaMarketbg.jpg";
 import Image3 from "../../assets/images/turku.jpeg";
 import Image4 from "../../assets/images/vaasa.jpeg";
 import Image5 from "../../assets/images/fleaMarketLogo.jpg";
+import { Breadcrumb } from "../../components";
 
 // Styled components for elegance
 const Container = styled(Box)({
@@ -109,6 +110,7 @@ const MarketDescriptionPage = () => {
     <>
       <HomeNav />
       <Container>
+        <Breadcrumb />
         {/* Title Section */}
         <TitleSection testMarketData={testMarketData} />
         {/* Information Sections */}

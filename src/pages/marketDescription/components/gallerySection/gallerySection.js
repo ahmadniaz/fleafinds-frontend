@@ -33,6 +33,7 @@ const GallerySection = ({ testMarketData }) => {
     paddingBottom: "20px",
     borderBottom: "2px solid #ff0000",
   });
+
   return (
     <>
       <Card>
