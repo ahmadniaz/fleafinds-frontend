@@ -22,11 +22,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/markets-listing" element={<FleaMarketListing />} />
-            <Route
-              path="/markets-listing/:slug"
-              element={<MarketDescription />}
-            />
+            <Route path="/markets" element={<FleaMarketListing />} />
+            <Route path="/markets/:slug" element={<MarketDescription />} />
             {/* <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} /> */}
             {/* Catch-all route for 404 Not Found */}

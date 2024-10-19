@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const CityCard = ({ name, description, image }) => {
   return (
     <>
-      <Link to={"/markets-listing"} style={{ textDecoration: "none" }}>
+      <Link to={"/markets"} style={{ textDecoration: "none" }}>
         <Card
           sx={{
             width: "400px",

@@ -22,7 +22,7 @@ const MarketCard = ({ market }) => {
   const slug = createSlug(market.name);
   return (
     <Grid2 item size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={market.id}>
-      <Link to={`/markets-listing/${slug}`} style={{ textDecoration: "none" }}>
+      <Link to={`/markets/${slug}`} style={{ textDecoration: "none" }}>
         <Card
           sx={{
             transition: "transform 0.2s ease-in-out",
