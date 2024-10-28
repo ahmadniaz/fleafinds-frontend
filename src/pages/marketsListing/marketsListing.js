@@ -8,62 +8,16 @@ import {
   Pagination,
   Box,
   TextField,
+  Typography,
 } from "@mui/material";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 import MarketCard from "./components/marketCards";
 import MarketFilters from "./components/marketFilters";
 import { Breadcrumb } from "../../components";
 import { HomeNav } from "../../layout/components/header/components";
-import FleaMarket from "../../assets/images/fleaMarketLogo.jpg";
-
-// Sample flea market data (Replace with real data)
-const fleaMarkets = [
-  {
-    id: 1,
-    name: "Helsinki Flea Market",
-    image: FleaMarket,
-    rating: 4.6,
-    reviewCount: 45,
-    type: "Indoor Flea Market",
-    location: "Helsinki",
-  },
-  {
-    id: 2,
-    name: "Turku Flea Market",
-    image: FleaMarket,
-    rating: 4.1,
-    reviewCount: 25,
-    type: "Secondhand Store",
-    location: "Turku",
-  },
-  {
-    id: 3,
-    name: "Oulu Flea Market",
-    image: FleaMarket,
-    rating: 4.9,
-    reviewCount: 35,
-    type: "Donation Market",
-    location: "Oulu",
-  },
-  {
-    id: 4,
-    name: "Oulu Flea Market",
-    image: FleaMarket,
-    rating: 4.2,
-    reviewCount: 35,
-    type: "Indoor Flea Market",
-    location: "Oulu",
-  },
-  {
-    id: 5,
-    name: "Oulu Flea Market",
-    image: FleaMarket,
-    rating: 3.1,
-    reviewCount: 19,
-    type: "Pop-up Market",
-    location: "Oulu",
-  },
-  // Add more flea markets...
-];
+import { fleaMarketsList } from "../../data/data";
 
 // Categories and Types for Filters
 const fleaMarketCategories = [
@@ -92,10 +46,13 @@ const fleaMarketTypesInFinland = [
   "Pop-up Market",
 ];
 
-// Flea Market Listing Page
 const MarketListing = () => {
   const [page, setPage] = useState(1);
   const [sortOption, setSortOption] = useState("");
+
+  const marketsPerPage = 12;
+  const totalMarkets = fleaMarketsList.length;
+  const totalPages = Math.ceil(totalMarkets / marketsPerPage);
 
   const handleSortChange = (event) => {
     setSortOption(event.target.value);
@@ -105,19 +62,63 @@ const MarketListing = () => {
     setPage(value);
   };
 
+  const startIndex = (page - 1) * marketsPerPage;
+  const endIndex = startIndex + marketsPerPage;
+  const displayedMarkets = fleaMarketsList.slice(startIndex, endIndex);
+
+  // Make sure to set the default icon for Leaflet markers
+  delete L.Icon.Default.prototype._getIconUrl; // Fix for marker icon not displaying
+  L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+    iconUrl: require("leaflet/dist/images/marker-icon.png"),
+    shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
+  });
+
   return (
     <>
       <HomeNav />
+      <Grid2 container padding={2} spacing={2}>
+        <Grid2 item size={{ xs: 12, md: 6 }}>
+          <Typography variant="h4" gutterBottom>
+            Turku Flea Markets List
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            Showing {totalMarkets} flea markets in Turku.
+          </Typography>
+          <Typography variant="body2">
+            Explore popular flea markets in Turku. You can browse, filter by
+            category, and find their locations on the map.
+          </Typography>
+        </Grid2>
+
+        <Grid2 item size={{ xs: 12, md: 6 }}>
+          <MapContainer
+            center={[60.4518, 22.2666]} // Coordinates of Turku, Finland
+            zoom={12}
+            style={{ height: "300px", width: "100%" }}
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            {fleaMarketsList.map((market) => (
+              <Marker
+                key={market.id}
+                position={[market.location.lat, market.location.long]}
+              >
+                <Popup>{market.name}</Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+        </Grid2>
+      </Grid2>
 
       <Grid2 container padding={2} spacing={2}>
-        {/* Left Filters Section */}
-
         <MarketFilters
           fleaMarketCategories={fleaMarketCategories}
           fleaMarketTypesInFinland={fleaMarketTypesInFinland}
         />
 
-        {/* Flea Market Listings Section */}
         <Grid2 item size={{ xs: 12, md: 10 }}>
           {/* Breadcrumb Navigation */}
           <Box mb={2}>
@@ -171,14 +172,14 @@ const MarketListing = () => {
 
           {/* Flea Market Cards */}
           <Grid2 container spacing={4} mt={3}>
-            {fleaMarkets.map((market) => (
-              <MarketCard market={market} />
+            {displayedMarkets.map((market) => (
+              <MarketCard key={market.id} market={market} />
             ))}
           </Grid2>
 
           {/* Pagination */}
           <Pagination
-            count={10} // Assume 10 pages for demonstration
+            count={totalPages}
             page={page}
             onChange={handlePageChange}
             sx={{ marginTop: 4, display: "flex", justifyContent: "center" }}

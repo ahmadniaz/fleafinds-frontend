@@ -72,6 +72,7 @@ const CitiesList = () => {
 
   return (
     <Box
+      id="city-list"
       sx={{
         width: "100%",
         padding: "40px 0",

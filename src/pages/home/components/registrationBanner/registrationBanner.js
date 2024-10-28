@@ -1,45 +1,48 @@
 import React from "react";
 import { Box, Typography, Button, Container } from "@mui/material";
-import { useNavigate } from "react-router-dom"; // Assuming you're using React Router for navigation
+import { useNavigate } from "react-router-dom";
 
 const RegistrationBanner = () => {
-  const navigate = useNavigate(); // Hook to navigate to the registration page
+  const navigate = useNavigate();
 
   const handleRegisterClick = () => {
-    navigate("/auth"); // Navigate to the registration page when the button is clicked
+    navigate("/auth");
   };
 
   return (
     <Box
       sx={{
         width: "100%",
-        height: "150px", // Adjust height as needed
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#f5f5f5", // Light background for contrast
-        padding: "20px 0",
+        backgroundColor: "#f0f0f5",
+        padding: "40px 0",
       }}
     >
       <Container
         maxWidth="md"
         sx={{
           display: "flex",
-          justifyContent: "space-evenly",
+          justifyContent: "space-between",
           alignItems: "center",
-          backgroundColor: "#ffffff", // White background for the content box
-          padding: "20px",
+          backgroundColor: "#fff",
+          padding: "20px 40px",
           borderRadius: "12px",
-          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", // Slight shadow for a lifted effect
+          boxShadow: "0px 6px 18px rgba(0, 0, 0, 0.15)",
         }}
       >
         <Typography variant="h6" sx={{ fontWeight: "bold", color: "#333" }}>
-          Do you want to register your Flea market on this platform?
+          Want to list your flea market on FleaFind?
         </Typography>
         <Button
           variant="contained"
-          color="error" // Red button
-          sx={{ fontWeight: "bold", padding: "10px 20px" }}
+          color="error"
+          sx={{
+            fontWeight: "bold",
+            padding: "12px 24px",
+            boxShadow: "0px 8px 16px rgba(255, 0, 0, 0.3)",
+          }}
           onClick={handleRegisterClick}
         >
           Register Now

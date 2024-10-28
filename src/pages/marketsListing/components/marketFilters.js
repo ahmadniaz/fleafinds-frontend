@@ -12,7 +12,7 @@ import {
 
 const MarketFilters = ({ fleaMarketCategories, fleaMarketTypesInFinland }) => {
   return (
-    <Grid2 item size={{ xs: 12, md: 2 }}>
+    <Grid2 item size={{ xs: 12, md: 2 }} mt={7}>
       <Box
         sx={{
           backgroundColor: "#fff",

@@ -116,7 +116,7 @@ const MarketCard = ({ market }) => {
                 sx={{ color: "text.secondary", marginRight: 1 }}
               />
               <Typography variant="body2" color="text.secondary">
-                {market.location}
+                {market.location.address}
               </Typography>
             </Box>
 

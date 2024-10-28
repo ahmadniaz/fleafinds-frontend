@@ -1,15 +1,16 @@
 import React from "react";
 import Layout from "../../layout/layout";
-import { CitiesList, RegistrationBanner } from "./components";
+import { CitiesList, RegistrationBanner, CircularEconomy } from "./components";
 
-const Header = () => {
+const Home = () => {
   return (
     <div>
       <Layout />
       <RegistrationBanner />
       <CitiesList />
+      <CircularEconomy />
     </div>
   );
 };
 
-export default Header;
+export default Home;
