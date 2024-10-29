@@ -4,13 +4,15 @@ import { TextField, Box } from "@mui/material";
 const SearchBar = ({ handleSearch, citySearch }) => {
   return (
     <Box
-      mt={3}
       sx={{
         display: "flex",
         alignItems: "center",
         width: "100%",
-        maxWidth: "400px", // Adjust width as per your design
-        margin: "24px auto",
+        maxWidth: "400px",
+        margin: "0 auto",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        borderRadius: "50px",
+        overflow: "hidden",
       }}
     >
       <TextField
@@ -21,8 +23,9 @@ const SearchBar = ({ handleSearch, citySearch }) => {
         onChange={handleSearch}
         sx={{
           "& .MuiOutlinedInput-root": {
-            borderRadius: "50px", // Rounded edges for the input field
-            paddingRight: 0, // Remove padding on the right side
+            borderRadius: "50px",
+            padding: "8px 16px",
+            backgroundColor: "#fff",
           },
         }}
       />

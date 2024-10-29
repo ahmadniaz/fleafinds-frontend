@@ -7,4 +7,5 @@ const RegistrationBanner = React.lazy(() =>
 const CircularEconomy = React.lazy(() =>
   import("./circularEconomy/circularEconSection")
 );
-export { CitiesList, RegistrationBanner, CircularEconomy };
+const HeroSection = React.lazy(() => import("./heroSection/heroSection"));
+export { CitiesList, RegistrationBanner, CircularEconomy, HeroSection };

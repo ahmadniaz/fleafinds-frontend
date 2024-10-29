@@ -1,121 +1,94 @@
 import React from "react";
-import { Container, Box, Grid2, Typography, Button } from "@mui/material";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  Typography,
+  Button,
+  Container,
+} from "@mui/material";
+import { Link } from "react-router-dom";
 import Logo from "../../../../../assets/images/logo.png";
-import bgFleaMarket from "../../../../../assets/images/fleaMarketbg.jpg";
 
 const HomeNavbar = () => {
   return (
-    <Container
-      maxWidth={false}
+    <AppBar
+      position="sticky"
       sx={{
-        flexGrow: 1,
-        backgroundImage: `url(${bgFleaMarket})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        position: "relative",
-        padding: 2,
-        "::before": {
-          content: '""',
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.6)", // Dark overlay with opacity
-          zIndex: 1,
-        },
+        backgroundColor: "#ffffff",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
       }}
     >
-      <Grid2
-        container
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ position: "relative", zIndex: 2, height: "auto" }}
-      >
-        {/* Logo */}
-        <Link to={"/"} style={{ textDecoration: "none" }}>
-          <Box alignItems="center">
-            <img
-              src={Logo}
-              alt="Logo"
-              style={{ width: "250px", height: "auto" }}
-            />
-            <Typography
-              variant="h6"
-              sx={{ color: "white", ml: 2, textAlign: "center" }}
-            >
-              FleaMarket Finder
-            </Typography>
-          </Box>
-        </Link>
-
-        {/* Navigation Links */}
-        <Box display="flex" alignItems="center">
+      <Container maxWidth="xl">
+        <Toolbar
+          sx={{ display: "flex", justifyContent: "space-between", paddingY: 1 }}
+        >
+          {/* Logo Section */}
           <Link
             to="/"
             style={{
-              color: "white",
-              marginRight: "16px",
+              // display: "flex",
+              // alignItems: "center",
               textDecoration: "none",
-              fontSize: "1.2rem",
-              fontWeight: "bold",
             }}
-            onMouseEnter={(e) => (e.target.style.color = "#1976d2")}
-            onMouseLeave={(e) => (e.target.style.color = "white")}
           >
-            Home
-          </Link>
-          <Link
-            to="/about"
-            style={{
-              color: "white",
-              marginRight: "16px",
-              textDecoration: "none",
-              fontSize: "1.2rem",
-              fontWeight: "bold",
-            }}
-            onMouseEnter={(e) => (e.target.style.color = "#1976d2")}
-            onMouseLeave={(e) => (e.target.style.color = "white")}
-          >
-            About
-          </Link>
-          <Link
-            to="/contact"
-            style={{
-              color: "white",
-              marginRight: "16px",
-              fontSize: "1.2rem",
-              textDecoration: "none",
-              fontWeight: "bold",
-            }}
-            onMouseEnter={(e) => (e.target.style.color = "#1976d2")}
-            onMouseLeave={(e) => (e.target.style.color = "white")}
-          >
-            Contact
-          </Link>
-
-          {/* Log In and Sign Up Buttons */}
-          <Link to="/auth" style={{ textDecoration: "none" }}>
-            <Button
-              variant="outlined"
+            <img src={Logo} alt="Logo" style={{ width: "200px" }} />
+            <Typography
+              variant="subtitle1"
               sx={{
-                borderColor: "#1976d2",
-                color: "white",
-                fontSize: "1rem",
-                mx: 2,
-                "&:hover": {
-                  borderColor: "#1976d2",
-                  backgroundColor: "#1976d2",
-                },
+                ml: 1,
+                color: "#ff0000",
+                fontWeight: "bold",
+                textAlign: "center",
               }}
             >
-              Log In
-            </Button>
+              Flear Markets Finder
+            </Typography>
           </Link>
-        </Box>
-      </Grid2>
-    </Container>
+
+          {/* Navigation Links */}
+          <Box display="flex" alignItems="center">
+            {["Home", "About", "Contact"].map((text) => (
+              <Link
+                key={text}
+                to={`/${text.toLowerCase()}`}
+                style={{
+                  color: "#15a0db",
+                  marginRight: "16px",
+                  textDecoration: "none",
+                  fontSize: "1rem",
+                  fontWeight: 600,
+                }}
+                onMouseEnter={(e) => (e.target.style.color = "#ff0000")}
+                onMouseLeave={(e) => (e.target.style.color = "#15a0db")}
+              >
+                {text}
+              </Link>
+            ))}
+
+            {/* Log In Button */}
+            <Link to="/auth" style={{ textDecoration: "none" }}>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#15a0db",
+                  color: "#fff",
+                  fontSize: "1rem",
+                  borderRadius: 2,
+                  boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
+                  "&:hover": {
+                    backgroundColor: "#ff0000",
+                    boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
+                  },
+                }}
+              >
+                Owner Register/Login
+              </Button>
+            </Link>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 

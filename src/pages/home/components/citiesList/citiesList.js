@@ -6,7 +6,7 @@ import Turku from "../../../../assets/images/turku.jpeg";
 import Helsinki from "../../../../assets/images/helsinki.jpeg";
 import Vaasa from "../../../../assets/images/vaasa.jpeg";
 
-const CitiesList = () => {
+const CitiesList = ({ citiesRef }) => {
   const [citySearch, setCitySearch] = useState("");
   const cityInfo = [
     {
@@ -65,46 +65,32 @@ const CitiesList = () => {
     setCitySearch(event.target.value);
   };
 
-  // Filtered list based on search query
   const filteredCities = cityInfo.filter((city) =>
     city.name.toLowerCase().includes(citySearch.toLowerCase())
   );
 
   return (
     <Box
-      id="city-list"
+      ref={citiesRef}
+      id="cities-section"
       sx={{
-        width: "100%",
-        padding: "40px 0",
+        padding: "60px 0",
         backgroundColor: "#f9f9f9",
         textAlign: "center",
       }}
     >
-      <Typography
-        variant="h3"
-        fontWeight="bold"
-        color="#d32f2f"
-        sx={{ marginBottom: "20px" }}
-      >
+      <Typography variant="h3" fontWeight="bold" color="#d32f2f" sx={{ mb: 3 }}>
         Find Flea Markets in Your City
       </Typography>
-      <Typography variant="h6" sx={{ marginBottom: "40px", color: "#555" }}>
+      <Typography variant="h6" color="textSecondary" sx={{ mb: 4 }}>
         Select your city below to discover nearby flea markets
       </Typography>
 
-      {/* Search Bar */}
-      <Box sx={{ marginBottom: "40px" }}>
+      <Box sx={{ mb: 5 }}>
         <SearchBar handleSearch={handleSearch} citySearch={citySearch} />
       </Box>
 
-      {/* City Cards */}
-      <Grid2
-        container
-        spacing={3}
-        sx={{
-          justifyContent: "center",
-        }}
-      >
+      <Grid2 container spacing={4} justifyContent="center">
         {filteredCities.length > 0 ? (
           filteredCities.map((city, index) => (
             <Grid2 item xs={12} sm={6} md={4} key={index}>
