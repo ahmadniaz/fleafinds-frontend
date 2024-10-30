@@ -6,7 +6,7 @@ import { Field } from "formik";
 const SocialMediaSection = ({ touched, errors }) => {
   return (
     <Grid2 container spacing={2}>
-      <Grid2 item size={4}>
+      <Grid2 item size={{ xs: 12, sm: 6, md: 4 }}>
         <Field
           as={TextField}
           fullWidth
@@ -26,7 +26,7 @@ const SocialMediaSection = ({ touched, errors }) => {
           }
         />
       </Grid2>
-      <Grid2 item size={4}>
+      <Grid2 item size={{ xs: 12, sm: 6, md: 4 }}>
         <Field
           as={TextField}
           fullWidth
@@ -46,7 +46,7 @@ const SocialMediaSection = ({ touched, errors }) => {
           }
         />
       </Grid2>
-      <Grid2 item size={4}>
+      <Grid2 item size={{ xs: 12, sm: 6, md: 4 }}>
         <Field
           as={TextField}
           fullWidth

@@ -6,7 +6,7 @@ const MarketImagesSection = ({ imagePreviews, handleImageUpload }) => {
   return (
     <Grid2 container spacing={2}>
       {imagePreviews.map((preview, index) => (
-        <Grid2 item size={{ xs: 6, sm: 4, md: 3 }} key={index}>
+        <Grid2 item size={{ xs: 12, sm: 4, md: 3 }} key={index}>
           <Box
             sx={{
               border: "2px dashed #ccc",

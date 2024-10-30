@@ -17,6 +17,7 @@ import {
   Checkbox,
   FormControl,
   Select,
+  useMediaQuery,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -67,17 +68,12 @@ const MarketInfoForm = () => {
   const fleaMarketTypesInFinland = [
     "Indoor Flea Market",
     "Outdoor Flea Market",
-    // "Car Boot Sale",
     "Secondhand Store",
     "Donation Market",
-    // "Antique Market",
-    // "Handicraft Market",
     "Pop-up Market",
   ];
 
-  const handleTypeChange = (event) => {
-    setSelectedType(event.target.value);
-  };
+  const handleTypeChange = (event) => setSelectedType(event.target.value);
 
   const handleChange = (event) => {
     const { value } = event.target;
@@ -87,8 +83,6 @@ const MarketInfoForm = () => {
         : [...prev, value]
     );
   };
-
-  console.log(selectedCategories, "selected categories");
 
   const handleImageUpload = (index, event) => {
     const file = event.target.files[0];
@@ -109,59 +103,61 @@ const MarketInfoForm = () => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setLogoPreview(reader.result);
-      };
+      reader.onloadend = () => setLogoPreview(reader.result);
       reader.readAsDataURL(file);
     }
   };
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleProfileMenuClose = () => {
-    setAnchorEl(null);
-  };
+  const handleProfileMenuOpen = (event) => setAnchorEl(event.currentTarget);
+  const handleProfileMenuClose = () => setAnchorEl(null);
+  // Determine if the screen size is small (mobile view)
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   return (
     <Container
-      maxWidth="lg"
+      maxWidth={isSmallScreen ? "sm" : "lg"}
       sx={{
-        marginLeft: "270px",
+        marginLeft: isSmallScreen ? 0 : "270px",
         backgroundColor: "#f9f9f9",
-        padding: "30px",
-        borderRadius: "15px",
-        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+        padding: { xs: "15px", sm: "30px" },
+        borderRadius: "10px",
+        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+        mt: { xs: 3, sm: 3, md: 3 },
       }}
     >
       <Typography
-        variant="h4"
+        variant="h5"
         fontWeight="bold"
-        sx={{ margin: "20px 0", textAlign: "center" }}
+        sx={{ margin: "15px 0", textAlign: "center" }}
       >
-        Market Information Form
+        Market Information
       </Typography>
 
-      {/* AppBar with Visit Website button and profile toggle */}
-      <AppBar
-        position="static"
-        sx={{ marginBottom: "20px", backgroundColor: "#3f51b5" }}
-      >
-        <Toolbar sx={{ justifyContent: "flex-end" }}>
-          <IconButton onClick={handleProfileMenuOpen} sx={{ padding: "0" }}>
-            <Avatar alt="Profile Picture" />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleProfileMenuClose}
-          >
-            <MenuItem onClick={handleProfileMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleProfileMenuClose}>Logout</MenuItem>
-          </Menu>
-        </Toolbar>
-      </AppBar>
+      {/* AppBar with Profile Menu */}
+      {isSmallScreen ? null : (
+        <AppBar
+          position="static"
+          sx={{
+            marginBottom: "15px",
+            backgroundColor: "#3f51b5",
+            boxShadow: "none",
+          }}
+        >
+          <Toolbar sx={{ justifyContent: "flex-end" }}>
+            <IconButton onClick={handleProfileMenuOpen}>
+              <Avatar alt="Profile" />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleProfileMenuClose}
+            >
+              <MenuItem onClick={handleProfileMenuClose}>Profile</MenuItem>
+              <MenuItem onClick={handleProfileMenuClose}>Logout</MenuItem>
+            </Menu>
+          </Toolbar>
+        </AppBar>
+      )}
 
       <Formik
         initialValues={{
@@ -178,19 +174,15 @@ const MarketInfoForm = () => {
           },
         }}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
-          console.log("Form submitted with values:", values);
-          // Add your submit logic here
-        }}
+        onSubmit={(values) =>
+          console.log("Form submitted with values:", values)
+        }
       >
         {({ errors, touched }) => (
           <Form>
             <Grid2 container spacing={2}>
               {/* Market Name */}
-              <Grid2 item size={12} mt={3}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Market Name
-                </Typography>
+              <Grid2 item size={{ xs: 12 }}>
                 <Field
                   as={TextField}
                   fullWidth
@@ -201,17 +193,18 @@ const MarketInfoForm = () => {
                 />
               </Grid2>
 
-              {/* Market Name */}
-              <Grid2 item size={12} mt={3}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Select your flea market type
-                </Typography>
+              {/* Market Type */}
+              <Grid2 item size={{ xs: 12 }}>
                 <FormControl fullWidth>
                   <Select
                     value={selectedType}
                     onChange={handleTypeChange}
-                    label="Select your flea market type"
+                    displayEmpty
+                    inputProps={{ "aria-label": "Market Type" }}
                   >
+                    <MenuItem value="">
+                      <em>Select Market Type</em>
+                    </MenuItem>
                     {fleaMarketTypesInFinland.map((type) => (
                       <MenuItem key={type} value={type}>
                         {type}
@@ -222,73 +215,58 @@ const MarketInfoForm = () => {
               </Grid2>
 
               {/* Logo Upload */}
-              <Grid2 item size={12} mt={3}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Upload Market Logo / Display Picture
-                </Typography>
-                <Grid2 container spacing={2}>
-                  <Grid2 item size={{ xs: 6, sm: 4, md: 3 }}>
-                    <Box
-                      sx={{
-                        border: "2px dashed #ccc",
+              <Grid2 item size={{ xs: 12, sm: 6, md: 4 }}>
+                <Box
+                  sx={{
+                    border: "2px dashed #ccc",
+                    borderRadius: "8px",
+                    padding: "10px",
+                    position: "relative",
+                    textAlign: "center",
+                    backgroundColor: "#fafafa",
+                  }}
+                >
+                  {logoPreview ? (
+                    <img
+                      src={logoPreview}
+                      alt="Logo"
+                      style={{
+                        width: "100%",
+                        height: "100%",
                         borderRadius: "8px",
-                        padding: "10px",
-                        textAlign: "center",
-                        position: "relative",
-                        backgroundColor: "#fafafa",
+                      }}
+                    />
+                  ) : (
+                    <Typography variant="body2" color="textSecondary">
+                      Upload Market Logo
+                    </Typography>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleLogoUpload}
+                    style={{ display: "none" }}
+                    id="logo-upload"
+                  />
+                  <label htmlFor="logo-upload">
+                    <IconButton
+                      component="span"
+                      sx={{
+                        position: "absolute",
+                        bottom: "0",
+                        left: "10%",
+                        backgroundColor: "#d32f2f",
+                        color: "#fff",
                       }}
                     >
-                      {logoPreview ? (
-                        <img
-                          src={logoPreview}
-                          alt={`Logo`}
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            borderRadius: "8px",
-                          }}
-                        />
-                      ) : (
-                        <Typography variant="body2" color="textSecondary">
-                          No Image Uploaded
-                        </Typography>
-                      )}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(event) => handleLogoUpload(event)}
-                        style={{ display: "none" }}
-                        id={`logo-upload`}
-                      />
-                      <label htmlFor={`logo-upload`}>
-                        <IconButton
-                          component="span"
-                          sx={{
-                            position: "absolute",
-                            bottom: "0",
-                            left: "10%",
-                            padding: "5px",
-                            transform: "translateX(-50%)",
-                            backgroundColor: "#d32f2f",
-                            color: "#fff",
-                            "&:hover": {
-                              backgroundColor: "#b71c1c",
-                            },
-                          }}
-                        >
-                          <CloudUpload />
-                        </IconButton>
-                      </label>
-                    </Box>
-                  </Grid2>
-                </Grid2>
+                      <CloudUpload />
+                    </IconButton>
+                  </label>
+                </Box>
               </Grid2>
 
               {/* Description */}
-              <Grid2 item size={12} mt={3}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Description
-                </Typography>
+              <Grid2 item size={{ xs: 12 }}>
                 <Field
                   as={TextField}
                   fullWidth
@@ -302,10 +280,7 @@ const MarketInfoForm = () => {
               </Grid2>
 
               {/* Location */}
-              <Grid2 item size={12} mt={3}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Location
-                </Typography>
+              <Grid2 item size={{ xs: 12 }}>
                 <Field
                   as={TextField}
                   fullWidth
@@ -317,69 +292,52 @@ const MarketInfoForm = () => {
               </Grid2>
 
               {/* Categories */}
-              <Grid2 item size={12} mt={3}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Categories (Select all that apply)
-                </Typography>
-                <FormGroup>
-                  <Grid2 container spacing={2}>
-                    {fleaMarketCategories.map((category) => (
-                      <FormControlLabel
-                        key={category}
-                        control={
-                          <Checkbox
-                            name="categories"
-                            value={category}
-                            onChange={handleChange}
-                          />
-                        }
-                        label={category}
-                      />
-                    ))}
-                  </Grid2>
+              <Grid2 item size={{ xs: 12 }}>
+                <FormGroup row>
+                  {fleaMarketCategories.map((category) => (
+                    <FormControlLabel
+                      key={category}
+                      control={
+                        <Checkbox
+                          name="categories"
+                          value={category}
+                          onChange={handleChange}
+                        />
+                      }
+                      label={category}
+                    />
+                  ))}
                 </FormGroup>
               </Grid2>
 
-              {/* Image Uploads */}
-              <Grid2 item size={12} mt={3}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Upload Market Images (up to 10)
-                </Typography>
+              {/* Market Images */}
+              <Grid2 item size={{ xs: 12 }}>
                 <MarketImagesSection
                   handleImageUpload={handleImageUpload}
                   imagePreviews={imagePreviews}
                 />
               </Grid2>
 
-              {/* Opening Days and Hours */}
-              <Grid2 item size={12} mt={3}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Opening Days and Hours
-                </Typography>
+              {/* Opening Hours */}
+              <Grid2 item size={{ xs: 12 }}>
                 <Field
                   as={TextField}
                   fullWidth
                   name="openingHours"
                   label="Opening Days and Hours"
                   placeholder="e.g., Mon-Fri: 10-18, Sat-Sun: 10-15"
-                  multiline
-                  rows={2}
                   error={touched.openingHours && Boolean(errors.openingHours)}
                   helperText={touched.openingHours && errors.openingHours}
                 />
               </Grid2>
 
               {/* Price List */}
-              <Grid2 item size={12} mt={3}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Price List
-                </Typography>
+              <Grid2 item size={{ xs: 12 }}>
                 <Field
                   as={TextField}
                   fullWidth
                   name="priceList"
                   label="Price List"
-                  placeholder="e.g., Shelf €29 / 1 week (Additional days €4.20)"
                   multiline
                   rows={4}
                   error={touched.priceList && Boolean(errors.priceList)}
@@ -388,30 +346,23 @@ const MarketInfoForm = () => {
               </Grid2>
 
               {/* Social Media Links */}
-              <Grid2 item size={12} mt={3}>
+              <Grid2 item size={{ xs: 12 }} mt={3}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                   Social Media Links
                 </Typography>
                 <SocialMediaSection errors={errors} touched={touched} />
               </Grid2>
 
-              {/* Submit and Preview Buttons */}
-              <Grid2
-                item
-                size={12}
-                mt={3}
-                sx={{ textAlign: "center", marginTop: "20px" }}
-              >
+              {/* Submit Button */}
+              <Grid2 item size={{ xs: 12 }}>
                 <Button
-                  type="button"
-                  variant="outlined"
+                  type="submit"
+                  fullWidth
+                  variant="contained"
                   color="primary"
-                  sx={{ marginRight: "10px" }}
+                  sx={{ marginTop: "10px" }}
                 >
-                  Preview
-                </Button>
-                <Button type="submit" variant="contained" color="primary">
-                  Save
+                  Submit Market Information
                 </Button>
               </Grid2>
             </Grid2>

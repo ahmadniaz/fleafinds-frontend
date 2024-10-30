@@ -15,17 +15,24 @@ const OwnerInfoForm = () => {
   return (
     <Box
       sx={{
-        marginLeft: "270px", // Adjusting for the left navigation
-        padding: "20px",
+        marginLeft: { xs: 0, sm: 0, md: "270px" }, // Responsive margin
+        padding: { xs: "10px", sm: "20px", md: "30px" }, // Responsive padding
         backgroundColor: "#fff",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         borderRadius: "8px",
+        width: { xs: "100%", sm: "90%" }, // Responsive width
+        // maxWidth: "600px", // Max width for larger screens
+        marginX: "auto", // Center the form
       }}
     >
       <Typography
         variant="h4"
         fontWeight="bold"
-        sx={{ margin: "20px 0", textAlign: "center" }}
+        sx={{
+          margin: "20px 0",
+          textAlign: "center",
+          mt: { xs: 5, sm: 5, md: 5 },
+        }}
       >
         Owner Contact Information Form
       </Typography>
@@ -44,7 +51,7 @@ const OwnerInfoForm = () => {
         {({ errors, touched }) => (
           <Form>
             <Grid2 container spacing={2}>
-              <Grid2 item size={12}>
+              <Grid2 item size={{ xs: 12 }}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                   Owner Name
                 </Typography>
@@ -58,7 +65,7 @@ const OwnerInfoForm = () => {
                 />
               </Grid2>
 
-              <Grid2 item size={12}>
+              <Grid2 item size={{ xs: 12 }}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                   Email Address
                 </Typography>
@@ -72,7 +79,7 @@ const OwnerInfoForm = () => {
                 />
               </Grid2>
 
-              <Grid2 item size={12}>
+              <Grid2 item size={{ xs: 12 }}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                   Mobile Number
                 </Typography>
@@ -86,7 +93,7 @@ const OwnerInfoForm = () => {
                 />
               </Grid2>
 
-              <Grid2 item size={12}>
+              <Grid2 item size={{ xs: 12 }}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                   Contact Address
                 </Typography>
@@ -102,7 +109,12 @@ const OwnerInfoForm = () => {
                 />
               </Grid2>
 
-              <Grid2 item size={12} display="flex" justifyContent="center">
+              <Grid2
+                item
+                size={{ xs: 12 }}
+                display="flex"
+                justifyContent="center"
+              >
                 <Button
                   type="submit"
                   variant="contained"

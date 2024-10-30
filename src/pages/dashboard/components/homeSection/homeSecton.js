@@ -6,11 +6,14 @@ import {
   CardContent,
   CardMedia,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import { Delete, Edit, Visibility } from "@mui/icons-material";
 import fleaMarket from "../../../../assets/images/fleaMarketLogo.jpg";
 
 const HomeSection = ({ setActiveForm }) => {
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+
   const fleaMarkets = [
     {
       id: 1,
@@ -18,21 +21,18 @@ const HomeSection = ({ setActiveForm }) => {
       location: "Turku",
       imageUrl: fleaMarket,
     },
-
     {
       id: 2,
       name: "My Flea Market 2",
       location: "Oulu",
       imageUrl: fleaMarket,
     },
-
     {
       id: 3,
       name: "My Flea Market 3",
       location: "Tampere",
       imageUrl: fleaMarket,
     },
-
     {
       id: 4,
       name: "My Flea Market 4",
@@ -40,10 +40,11 @@ const HomeSection = ({ setActiveForm }) => {
       imageUrl: fleaMarket,
     },
   ];
+
   return (
     <Box
       sx={{
-        marginLeft: "250px", // Adjust to accommodate the LeftNavigation width
+        marginLeft: isSmallScreen ? 0 : "250px", // Removes margin on smaller screens
         padding: "20px",
         width: "100%",
         minHeight: "100vh",
@@ -53,10 +54,23 @@ const HomeSection = ({ setActiveForm }) => {
         gap: "20px",
       }}
     >
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
+      <Typography
+        variant="h4"
+        fontWeight="bold"
+        gutterBottom
+        mt={isSmallScreen ? 5 : 0}
+        textAlign={isSmallScreen ? "center" : ""}
+      >
         Your Flea Markets
       </Typography>
-      <Box sx={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: "20px",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
         {fleaMarkets.map((market) => (
           <Card
             key={market.id}
@@ -75,15 +89,14 @@ const HomeSection = ({ setActiveForm }) => {
               },
             }}
           >
-            {/* Card Media for Flea Market Image */}
             <CardMedia
               component="img"
               height="140"
-              image={market.imageUrl} // Assuming each market has an image URL
+              image={market.imageUrl}
               alt={market.name}
               sx={{
-                objectFit: "contain", // Ensures the image covers the card area
-                objectPosition: "top", // Positions the image from the top
+                objectFit: "contain",
+                objectPosition: "top",
               }}
             />
             <CardContent>
@@ -94,7 +107,6 @@ const HomeSection = ({ setActiveForm }) => {
                 {market.location}
               </Typography>
             </CardContent>
-            {/* Hover Action Buttons */}
             <Box
               className="actionButtons"
               sx={{
@@ -118,7 +130,7 @@ const HomeSection = ({ setActiveForm }) => {
 
               <IconButton
                 sx={{ marginBottom: "5px" }}
-                onClick={() => window.open(market.websiteUrl, "_blank")} // Opens the market's website in a new tab
+                onClick={() => window.open(market.websiteUrl, "_blank")}
               >
                 <Visibility fontSize="small" />
               </IconButton>
