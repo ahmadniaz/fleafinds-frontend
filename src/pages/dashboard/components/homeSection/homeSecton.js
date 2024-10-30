@@ -12,7 +12,7 @@ import { Delete, Edit, Visibility } from "@mui/icons-material";
 import fleaMarket from "../../../../assets/images/fleaMarketLogo.jpg";
 
 const HomeSection = ({ setActiveForm }) => {
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const fleaMarkets = [
     {
