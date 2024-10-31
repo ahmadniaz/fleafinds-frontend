@@ -42,6 +42,8 @@ const modalStyle = {
   borderRadius: "10px",
   boxShadow: 24,
   p: 4,
+  maxHeight: "100vh", // Maximum height for the modal
+  overflowY: "auto", // Enable vertical scrolling
 };
 
 // Setting default icons for markers
@@ -69,7 +71,19 @@ const NearbyMarketsModal = ({ open, handleClose }) => {
   const [radius, setRadius] = useState(5); // Default radius
   const [nearbyMarkets, setNearbyMarkets] = useState([]);
   const [noMarketsFound, setNoMarketsFound] = useState(false);
+  const [error, setError] = useState(""); // State for error message
+
   const navigate = useNavigate();
+
+  // Function to reset the state values
+  const resetValues = () => {
+    setUserLocation(null);
+    setLoadingLocation(false);
+    setUserAddress("");
+    setRadius(5);
+    setNearbyMarkets([]);
+    setNoMarketsFound(false);
+  };
 
   // Function to fetch address from latitude and longitude
   const fetchAddress = async (lat, long) => {
@@ -93,6 +107,7 @@ const NearbyMarketsModal = ({ open, handleClose }) => {
       long: 24.941,
     };
     setUserLocation(location);
+    setError("");
     setLoadingLocation(false);
     // navigator.geolocation.getCurrentPosition(
     //   async (position) => {
@@ -120,7 +135,10 @@ const NearbyMarketsModal = ({ open, handleClose }) => {
   };
 
   const handleSearchNearbyMarkets = () => {
-    if (!userLocation) return;
+    if (!userLocation) {
+      setError("Please retrieve your current location before searching."); // Set error message
+      return; // Exit the function early
+    }
 
     const marketsWithinRadius = fleaMarketsList.filter((market) => {
       const distance = haversineDistance(
@@ -135,13 +153,18 @@ const NearbyMarketsModal = ({ open, handleClose }) => {
     setNoMarketsFound(marketsWithinRadius.length === 0);
   };
 
+  const handleModalClose = () => {
+    handleClose();
+    resetValues();
+  };
+
   const modalSize =
     nearbyMarkets.length > 0
       ? { width: "90%", maxWidth: 800 }
       : { width: "90%", maxWidth: 600 };
 
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal open={open} onClose={handleModalClose}>
       <Box sx={{ ...modalStyle, ...modalSize }}>
         <Typography variant="h6" sx={{ color: "#15a0db", mb: 2 }}>
           Find Nearby Flea Markets
@@ -200,6 +223,13 @@ const NearbyMarketsModal = ({ open, handleClose }) => {
         >
           Search
         </Button>
+
+        {/* Error Message Display */}
+        {error && (
+          <Typography variant="body2" sx={{ color: "red", mt: 1 }}>
+            {error}
+          </Typography>
+        )}
 
         {/* Nearby Markets List and Map */}
         {noMarketsFound && (
