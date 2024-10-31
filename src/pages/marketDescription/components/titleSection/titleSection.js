@@ -8,7 +8,6 @@ import {
   Rating,
   Card,
 } from "@mui/material";
-import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import styled from "@emotion/styled";
 
@@ -88,22 +87,6 @@ const TitleSection = ({ testMarketData, reviewFormRef }) => {
           </Grid2>
 
           <Grid2 item size={{ xs: 12, sm: 4 }} alignSelf="center">
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Button
-                variant="contained"
-                color="error"
-                target="_blank"
-                startIcon={<ReportProblemIcon />}
-              >
-                Report this Flea Market
-              </Button>
-            </Box>
             <Box
               sx={{
                 display: "flex",

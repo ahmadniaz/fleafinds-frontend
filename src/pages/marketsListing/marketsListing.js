@@ -9,6 +9,7 @@ import {
   Box,
   TextField,
   Typography,
+  Button,
 } from "@mui/material";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -16,6 +17,7 @@ import L from "leaflet";
 import MarketCard from "./components/marketCards";
 import MarketFilters from "./components/marketFilters";
 import { Breadcrumb } from "../../components";
+import NearbyMarketsModal from "./components/nearbyMarketSearch";
 import { HomeNav } from "../../layout/components/header/components";
 import { fleaMarketsList } from "../../data/data";
 
@@ -67,35 +69,73 @@ const MarketListing = () => {
   const displayedMarkets = fleaMarketsList.slice(startIndex, endIndex);
 
   // Make sure to set the default icon for Leaflet markers
-  delete L.Icon.Default.prototype._getIconUrl; // Fix for marker icon not displaying
+  delete L.Icon.Default.prototype._getIconUrl;
   L.Icon.Default.mergeOptions({
     iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
     iconUrl: require("leaflet/dist/images/marker-icon.png"),
     shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       <HomeNav />
       <Grid2 container padding={2} spacing={2}>
         <Grid2 item size={{ xs: 12, md: 6 }}>
-          <Typography variant="h4" gutterBottom>
-            Turku Flea Markets List
+          <Typography
+            variant="h3"
+            sx={{ color: "#15a0db", fontWeight: "bold" }}
+            gutterBottom
+          >
+            Turku Flea Markets
           </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            Showing {totalMarkets} flea markets in Turku.
+          <Typography
+            variant="subtitle1"
+            sx={{ color: "#ff0000" }}
+            gutterBottom
+          >
+            Discover and explore {totalMarkets} flea markets in Turku, offering
+            a variety of unique and affordable finds.
           </Typography>
-          <Typography variant="body2">
-            Explore popular flea markets in Turku. You can browse, filter by
-            category, and find their locations on the map.
+          <Typography variant="body2" sx={{ mb: 2 }}>
+            Turku is home to many vibrant flea markets. Find the best spots,
+            explore new ones, and connect with local sellers to make the most of
+            your shopping experience!
           </Typography>
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#15a0db",
+              color: "#fff",
+              mt: 2,
+              "&:hover": {
+                backgroundColor: "#ff0000",
+              },
+            }}
+          >
+            Register Your Market
+          </Button>
         </Grid2>
 
         <Grid2 item size={{ xs: 12, md: 6 }}>
           <MapContainer
             center={[60.4518, 22.2666]} // Coordinates of Turku, Finland
             zoom={12}
-            style={{ height: "300px", width: "100%" }}
+            style={{
+              height: "300px",
+              width: "100%",
+              borderRadius: "10px",
+              boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",
+            }}
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -125,12 +165,12 @@ const MarketListing = () => {
             <Breadcrumb />
           </Box>
 
-          {/* Search Bar and Sorting Dropdown */}
-          <Grid2 container spacing={2} alignItems="center">
-            <Grid2 item size={{ xs: 8 }}>
+          {/* Search Nearby and Sorting Dropdown */}
+          <Grid2 container spacing={1} alignItems="center">
+            <Grid2 item size={{ xs: 6 }}>
               <TextField
                 fullWidth
-                label="Search by name"
+                label="Search Markets by Name"
                 variant="outlined"
                 sx={{
                   backgroundColor: "#fff",
@@ -142,7 +182,28 @@ const MarketListing = () => {
                     },
                   },
                 }}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    // Implement search nearby functionality
+                  }
+                }}
               />
+            </Grid2>
+            {/* Find Nearby Button */}
+            <Grid2 item size={{ xs: 2 }} display="flex">
+              <Button
+                onClick={handleModalOpen}
+                variant="contained"
+                sx={{
+                  backgroundColor: "#15a0db",
+                  color: "#fff",
+                  fontWeight: "bold",
+                  p: 2,
+                  "&:hover": { backgroundColor: "#ff0000" },
+                }}
+              >
+                Find Nearby Markets
+              </Button>
             </Grid2>
             <Grid2 item size={{ xs: 4 }}>
               <FormControl fullWidth>
@@ -185,6 +246,8 @@ const MarketListing = () => {
             sx={{ marginTop: 4, display: "flex", justifyContent: "center" }}
           />
         </Grid2>
+        {/* Nearby Markets Modal */}
+        <NearbyMarketsModal open={isModalOpen} handleClose={handleModalClose} />
       </Grid2>
     </>
   );

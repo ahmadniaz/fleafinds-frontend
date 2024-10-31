@@ -10,13 +10,9 @@ import {
   Box,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { createSlug } from "../../../utils/slug";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-
-// Utility function to create slugs
-const createSlug = (name) => {
-  return name.toLowerCase().replace(/\s+/g, "-");
-};
 
 const MarketCard = ({ market }) => {
   const slug = createSlug(market.name);

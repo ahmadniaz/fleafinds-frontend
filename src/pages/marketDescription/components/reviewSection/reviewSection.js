@@ -18,6 +18,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import LanguageIcon from "@mui/icons-material/Language";
 import { Formik, Form, Field } from "formik";
 import { Link } from "react-router-dom";
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 
 const ReviewAndSocialMediaSection = ({
   reviews,
@@ -362,6 +363,25 @@ const ReviewAndSocialMediaSection = ({
                   </Typography>
                 </Box>
               </Grid2>
+              {/* Divider */}
+              <Divider sx={{ marginY: "20px" }} />
+              {/* Report Button */}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="error"
+                  target="_blank"
+                  startIcon={<ReportProblemIcon />}
+                >
+                  Report this Flea Market
+                </Button>
+              </Box>
             </CardContent>
           </Card>
         </Grid2>
