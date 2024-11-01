@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -11,21 +11,51 @@ import {
   List,
   ListItem,
   ListItemText,
+  Divider,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import Breadcrumb from "../../../../../components/breadcrumbs/breadCrumbs";
 import MenuIcon from "@mui/icons-material/Menu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Logo from "../../../../../assets/images/logo.png";
 
 const HomeNavbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
+  const location = useLocation();
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const menuLinks = ["Home", "About", "Contact"];
+  const menuLinks = ["About", "Contact"];
+
+  useEffect(() => {
+    let lastScroll = window.pageYOffset;
+
+    const handleScroll = () => {
+      const currentScroll = window.pageYOffset;
+      // Check if user is scrolling down or up
+      if (currentScroll > lastScroll) {
+        // Scrolling down - hide navbar
+        setShowNavbar(false);
+      } else {
+        // Scrolling up - show navbar
+        setShowNavbar(true);
+      }
+      lastScroll = currentScroll;
+    };
+
+    // Attach the event listener only in desktop mode
+    if (!isMobile) {
+      window.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isMobile]);
 
   return (
     <AppBar
@@ -33,11 +63,17 @@ const HomeNavbar = () => {
       sx={{
         backgroundColor: "#ffffff",
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+        transition: "top 0.3s",
+        top: showNavbar ? 0 : "-100px", // Adjust hiding position
       }}
     >
       <Container maxWidth="xl">
         <Toolbar
-          sx={{ display: "flex", justifyContent: "space-between", paddingY: 1 }}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            paddingY: 1,
+          }}
         >
           {/* Logo Section */}
           <Link to="/" style={{ textDecoration: "none" }}>
@@ -73,6 +109,17 @@ const HomeNavbar = () => {
                 onClose={handleDrawerToggle}
               >
                 <List sx={{ width: 250 }}>
+                  <ListItem
+                    button
+                    onClick={handleDrawerToggle}
+                    component={Link}
+                    to={"/"}
+                  >
+                    <ListItemText
+                      primary="Home"
+                      sx={{ color: "#15a0db", fontWeight: 600 }}
+                    />
+                  </ListItem>
                   {menuLinks.map((text) => (
                     <ListItem
                       button
@@ -114,6 +161,20 @@ const HomeNavbar = () => {
           ) : (
             /* Desktop Navigation Links */
             <Box display="flex" alignItems="center">
+              <Link
+                to={`/`}
+                style={{
+                  color: "#15a0db",
+                  marginRight: "16px",
+                  textDecoration: "none",
+                  fontSize: "1rem",
+                  fontWeight: 600,
+                }}
+                onMouseEnter={(e) => (e.target.style.color = "#ff0000")}
+                onMouseLeave={(e) => (e.target.style.color = "#15a0db")}
+              >
+                Home
+              </Link>
               {menuLinks.map((text) => (
                 <Link
                   key={text}
@@ -131,8 +192,6 @@ const HomeNavbar = () => {
                   {text}
                 </Link>
               ))}
-
-              {/* Log In Button */}
               <Link to="/auth" style={{ textDecoration: "none" }}>
                 <Button
                   variant="contained"
@@ -154,6 +213,24 @@ const HomeNavbar = () => {
             </Box>
           )}
         </Toolbar>
+
+        {/* Divider and Breadcrumb */}
+        {location.pathname !== "/" && (
+          <>
+            <Divider sx={{ my: 1 }} /> {/* Divider under the logo */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                paddingY: 1,
+                backgroundColor: "#f9f9f9",
+              }}
+            >
+              <Breadcrumb />
+            </Box>
+            <Divider sx={{ my: 1 }} /> {/* Divider under the breadcrumb */}
+          </>
+        )}
       </Container>
     </AppBar>
   );

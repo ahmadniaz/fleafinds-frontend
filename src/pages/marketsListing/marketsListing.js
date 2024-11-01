@@ -6,20 +6,21 @@ import {
   Select,
   MenuItem,
   Pagination,
-  Box,
   TextField,
-  Typography,
   Button,
+  Divider,
 } from "@mui/material";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-import MarketCard from "./components/marketCards";
-import MarketFilters from "./components/marketFilters";
-import { Breadcrumb } from "../../components";
-import NearbyMarketsModal from "./components/nearbyMarketSearch";
+
+import {
+  HeaderSection,
+  FeaturedMarkets,
+  MarketCard,
+  MarketFilters,
+  NearbyMarketsModal,
+  UserReviews,
+} from "./components";
 import { HomeNav } from "../../layout/components/header/components";
-import { fleaMarketsList } from "../../data/data";
+import { fleaMarketsList, featuredMarkets, reviews } from "../../data/data";
 
 // Categories and Types for Filters
 const fleaMarketCategories = [
@@ -68,14 +69,6 @@ const MarketListing = () => {
   const endIndex = startIndex + marketsPerPage;
   const displayedMarkets = fleaMarketsList.slice(startIndex, endIndex);
 
-  // Make sure to set the default icon for Leaflet markers
-  delete L.Icon.Default.prototype._getIconUrl;
-  L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-    iconUrl: require("leaflet/dist/images/marker-icon.png"),
-    shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
-  });
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
@@ -88,83 +81,28 @@ const MarketListing = () => {
 
   return (
     <>
+      {/* Navigation Bar*/}
       <HomeNav />
-      <Grid2 container padding={2} spacing={2}>
-        <Grid2 item size={{ xs: 12, md: 6 }}>
-          <Typography
-            variant="h3"
-            sx={{ color: "#15a0db", fontWeight: "bold" }}
-            gutterBottom
-          >
-            Turku Flea Markets
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            sx={{ color: "#ff0000" }}
-            gutterBottom
-          >
-            Discover and explore {totalMarkets} flea markets in Turku, offering
-            a variety of unique and affordable finds.
-          </Typography>
-          <Typography variant="body2" sx={{ mb: 2 }}>
-            Turku is home to many vibrant flea markets. Find the best spots,
-            explore new ones, and connect with local sellers to make the most of
-            your shopping experience!
-          </Typography>
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#15a0db",
-              color: "#fff",
-              mt: 2,
-              "&:hover": {
-                backgroundColor: "#ff0000",
-              },
-            }}
-          >
-            Register Your Market
-          </Button>
-        </Grid2>
+      {/* Header Section*/}
+      <HeaderSection fleaMarketsList={fleaMarketsList} />
 
-        <Grid2 item size={{ xs: 12, md: 6 }}>
-          <MapContainer
-            center={[60.4518, 22.2666]} // Coordinates of Turku, Finland
-            zoom={12}
-            style={{
-              height: "300px",
-              width: "100%",
-              borderRadius: "10px",
-              boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",
-            }}
-          >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            {fleaMarketsList.map((market) => (
-              <Marker
-                key={market.id}
-                position={[market.location.lat, market.location.long]}
-              >
-                <Popup>{market.name}</Popup>
-              </Marker>
-            ))}
-          </MapContainer>
-        </Grid2>
-      </Grid2>
+      {/* Divider Between Sections */}
+      <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />
 
-      <Grid2 container padding={2} spacing={2}>
+      {/* Featured Markets Slide */}
+      <FeaturedMarkets featuredMarkets={featuredMarkets} />
+
+      {/* Divider Between Sections */}
+      <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />
+
+      {/* Left Side Filters*/}
+      <Grid2 container padding={2} spacing={2} mt={4}>
         <MarketFilters
           fleaMarketCategories={fleaMarketCategories}
           fleaMarketTypesInFinland={fleaMarketTypesInFinland}
         />
 
         <Grid2 item size={{ xs: 12, md: 10 }}>
-          {/* Breadcrumb Navigation */}
-          <Box mb={2}>
-            <Breadcrumb />
-          </Box>
-
           {/* Search Nearby and Sorting Dropdown */}
           <Grid2 container spacing={1} alignItems="center">
             <Grid2 item size={{ xs: 6 }}>
@@ -246,9 +184,19 @@ const MarketListing = () => {
             sx={{ marginTop: 4, display: "flex", justifyContent: "center" }}
           />
         </Grid2>
-        {/* Nearby Markets Modal */}
-        <NearbyMarketsModal open={isModalOpen} handleClose={handleModalClose} />
       </Grid2>
+      {/* Divider Between Sections */}
+      <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />
+
+      {/* User Reviews Slide*/}
+      {/* <Grid2 container>
+        <Grid2 item size={{ xs: 12 }}> */}
+      <UserReviews reviews={reviews} />
+      {/* </Grid2>
+      </Grid2> */}
+
+      {/* Nearby Markets Modal */}
+      <NearbyMarketsModal open={isModalOpen} handleClose={handleModalClose} />
     </>
   );
 };

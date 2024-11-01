@@ -24,11 +24,11 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { fleaMarketsList } from "../../../data/data";
-import { haversineDistance } from "../../../utils/nearbyDistance";
-import { createSlug } from "../../../utils/slug";
+import { fleaMarketsList } from "../../../../data/data";
+import { haversineDistance } from "../../../../utils/nearbyDistance";
+import { createSlug } from "../../../../utils/slug";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import locatMarker from "../../../assets/images/locatMarker.png";
+import locatMarker from "../../../../assets/images/locatMarker.png";
 
 // Custom styles for the modal
 const modalStyle = {

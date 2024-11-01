@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, Typography, Box, Button, Paper } from "@mui/material";
 import { HomeNav } from "../../layout/components/header/components";
-import { Breadcrumb } from "../../components";
 import { styled } from "@mui/system";
 
 const Root = styled("div")({
@@ -76,9 +75,6 @@ const AboutUs = () => {
         </Header>
 
         <Container maxWidth="md">
-          <Box mb={2}>
-            <Breadcrumb />
-          </Box>
           {/* Who We Are Section */}
           <Section>
             <Title variant="h4">Who We Are</Title>

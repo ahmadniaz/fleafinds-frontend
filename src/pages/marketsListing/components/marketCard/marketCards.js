@@ -1,3 +1,4 @@
+// MarketCard.js
 import React from "react";
 import {
   Grid2,
@@ -10,12 +11,21 @@ import {
   Box,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { createSlug } from "../../../utils/slug";
+import { createSlug } from "../../../../utils/slug";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const MarketCard = ({ market }) => {
   const slug = createSlug(market.name);
+
+  // Calculate if the market is less than one month old
+  const isNewMarket = (createdAt) => {
+    const marketDate = new Date(createdAt);
+    const now = new Date();
+    const oneMonthAgo = new Date(now.setMonth(now.getMonth() - 1));
+    return marketDate >= oneMonthAgo;
+  };
+
   return (
     <Grid2 item size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={market.id}>
       <Link to={`/markets/${slug}`} style={{ textDecoration: "none" }}>
@@ -31,8 +41,29 @@ const MarketCard = ({ market }) => {
             borderRadius: "10px",
             display: "flex",
             flexDirection: "column",
+            position: "relative", // Add this to position the "New" tag
           }}
         >
+          {/* "New" Tag */}
+          {isNewMarket(market.createdAt) && (
+            <Box
+              sx={{
+                position: "absolute",
+                top: 10, // Change top to bottom for testing
+                right: 10,
+                backgroundColor: "#ff0000",
+                color: "#fff",
+                padding: "4px 8px",
+                borderRadius: "4px",
+                fontSize: "0.75rem",
+                fontWeight: "bold",
+                zIndex: 10,
+              }}
+            >
+              New
+            </Box>
+          )}
+
           {/* Market Image */}
           <Box sx={{ position: "relative" }}>
             <CardMedia

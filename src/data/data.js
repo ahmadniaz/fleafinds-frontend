@@ -1,4 +1,11 @@
 import FleaMarket from "../assets/images/fleaMarketLogo.jpg";
+// Function to generate a random date within the last 30 or 60 days
+function generateRandomDate() {
+  const days = Math.random() < 0.5 ? 30 : 60; // 50% chance for 30 or 60 days
+  return new Date(
+    Date.now() - Math.random() * days * 24 * 60 * 60 * 1000
+  ).toISOString();
+}
 
 export const fleaMarketsList = [
   {
@@ -7,6 +14,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.6,
     reviewCount: 45,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Porthaninkatu 6, 00530, Kallio, Helsinki",
@@ -20,6 +28,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.4,
     reviewCount: 32,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Tammelantori, 33100, Tampere",
@@ -33,6 +42,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.3,
     reviewCount: 28,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Eerikinkatu 9, 20100, Turku",
@@ -46,6 +56,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.2,
     reviewCount: 22,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Leppävaarankatu 8, 02600, Espoo",
@@ -59,6 +70,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.1,
     reviewCount: 27,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Asemakatu 10, 40100, Jyväskylä",
@@ -72,6 +84,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.3,
     reviewCount: 19,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Aleksanterinkatu 12, 15110, Lahti",
@@ -85,6 +98,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.6,
     reviewCount: 34,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Kauppurienkatu 7, 90100, Oulu",
@@ -98,6 +112,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.5,
     reviewCount: 20,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Tikkurilantie 2, 01300, Vantaa",
@@ -111,6 +126,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.4,
     reviewCount: 15,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Haapaniemenkatu 5, 70100, Kuopio",
@@ -124,6 +140,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.7,
     reviewCount: 50,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Välikatu 1, 06100, Porvoo",
@@ -137,6 +154,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.5,
     reviewCount: 18,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Kauppapuistikko 10, 65100, Vaasa",
@@ -150,6 +168,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.3,
     reviewCount: 14,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Kauppakatu 4, 60100, Seinäjoki",
@@ -163,6 +182,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.2,
     reviewCount: 13,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Raatihuoneenkatu 11, 13100, Hämeenlinna",
@@ -176,6 +196,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.6,
     reviewCount: 21,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Rantakatu 6, 67100, Kokkola",
@@ -189,6 +210,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.5,
     reviewCount: 17,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Kauppakatu 16, 53100, Lappeenranta",
@@ -202,6 +224,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.4,
     reviewCount: 24,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Kirkkokatu 2, 48100, Kotka",
@@ -215,6 +238,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.3,
     reviewCount: 20,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Siltakatu 10, 80100, Joensuu",
@@ -228,6 +252,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.7,
     reviewCount: 26,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Maakuntakatu 6, 96200, Rovaniemi",
@@ -241,6 +266,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.3,
     reviewCount: 22,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Yrjönkatu 13, 28100, Pori",
@@ -254,6 +280,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.6,
     reviewCount: 19,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Laurinkatu 38, 08100, Lohja",
@@ -267,6 +294,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.4,
     reviewCount: 19,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Tehtaankatu 9, 67100, Kokkola",
@@ -280,6 +308,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.5,
     reviewCount: 23,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Kauppakatu 17, 80100, Joensuu",
@@ -293,6 +322,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.7,
     reviewCount: 28,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Mannerheiminkatu 10, 06100, Porvoo",
@@ -306,6 +336,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.3,
     reviewCount: 20,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Satamakatu 8, 26100, Rauma",
@@ -319,6 +350,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.2,
     reviewCount: 15,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Voimalankatu 6, 11130, Riihimäki",
@@ -333,6 +365,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.4,
     reviewCount: 21,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Esplanaadi 10, 10900, Hanko",
@@ -346,6 +379,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.3,
     reviewCount: 16,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Kauppalankatu 6, 45100, Kouvola",
@@ -359,6 +393,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.5,
     reviewCount: 20,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Porokylänkatu 4, 75500, Nurmes",
@@ -372,6 +407,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.2,
     reviewCount: 13,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Pääkslahdentie 1, 03100, Vihti",
@@ -385,6 +421,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.6,
     reviewCount: 25,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Karjaantie 5, 10300, Karjaa",
@@ -398,6 +435,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.4,
     reviewCount: 17,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Lampolahdenkatu 2, 76100, Pieksämäki",
@@ -411,6 +449,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.5,
     reviewCount: 18,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Opistontie 10, 61800, Kauhajoki",
@@ -424,6 +463,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.3,
     reviewCount: 14,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Seppolantie 6, 42100, Jämsä",
@@ -437,6 +477,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.1,
     reviewCount: 12,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Isokatu 10, 98100, Kemijärvi",
@@ -450,6 +491,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.3,
     reviewCount: 19,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Siuntio Rantatie 9, 02500, Siuntio",
@@ -463,6 +505,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.4,
     reviewCount: 20,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Kitkantie 5, 93600, Kuusamo",
@@ -476,6 +519,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.2,
     reviewCount: 16,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Rantatie 3, 42700, Keuruu",
@@ -489,6 +533,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.5,
     reviewCount: 22,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Pankalantie 1, 44100, Äänekoski",
@@ -502,6 +547,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.1,
     reviewCount: 18,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Keskuskatu 12, 95400, Tornio",
@@ -515,6 +561,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.3,
     reviewCount: 23,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Jäämerentie 3, 99600, Sodankylä",
@@ -528,6 +575,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.6,
     reviewCount: 26,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Luostarinkatu 7, 21100, Naantali",
@@ -541,6 +589,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.4,
     reviewCount: 21,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Littoistentie 10, 20780, Kaarina",
@@ -554,6 +603,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.5,
     reviewCount: 19,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Levintie 15, 99100, Kittilä",
@@ -567,6 +617,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.3,
     reviewCount: 20,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Savonkatu 9, 74100, Iisalmi",
@@ -580,6 +631,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.2,
     reviewCount: 15,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Pirkkalaistori 5, 37100, Nokia",
@@ -593,6 +645,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.4,
     reviewCount: 24,
+    createdAt: generateRandomDate(),
     type: "Thrift Store",
     location: {
       address: "Porrassalmenkatu 8, 50100, Mikkeli",
@@ -606,6 +659,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.1,
     reviewCount: 17,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Hämeentie 10, 30100, Forssa",
@@ -619,6 +673,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.5,
     reviewCount: 18,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Rantakatu 4, 92100, Raahe",
@@ -632,6 +687,7 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.3,
     reviewCount: 22,
+    createdAt: generateRandomDate(),
     type: "Indoor Flea Market",
     location: {
       address: "Ahlströminkatu 2, 78200, Varkaus",
@@ -645,11 +701,288 @@ export const fleaMarketsList = [
     image: FleaMarket,
     rating: 4.7,
     reviewCount: 26,
+    createdAt: generateRandomDate(),
     type: "Outdoor Flea Market",
     location: {
       address: "Olavinkatu 8, 57130, Savonlinna",
       lat: 61.8687,
       long: 28.8871,
     },
+  },
+];
+
+export const featuredMarkets = [
+  {
+    id: 1,
+    name: "Turku Indoor Market",
+    description:
+      "A popular indoor market offering a variety of antiques and collectibles.",
+    image: FleaMarket,
+  },
+  {
+    id: 2,
+    name: "Helsinki Vintage Expo",
+    description: "Find the best vintage clothing and accessories in Helsinki.",
+    image: FleaMarket,
+  },
+  {
+    id: 3,
+    name: "Tampere Treasure Market",
+    description: "A treasure trove of unique finds and hidden gems in Tampere.",
+    image: FleaMarket,
+  },
+  {
+    id: 4,
+    name: "Espoo Flea Fest",
+    description: "An open-air festival for flea market enthusiasts in Espoo.",
+    image: FleaMarket,
+  },
+  {
+    id: 5,
+    name: "Porvoo Antique Fair",
+    description: "Specializes in antique furniture, decor, and collectibles.",
+    image: FleaMarket,
+  },
+  {
+    id: 6,
+    name: "Lahti Book Bazaar",
+    description: "A book lover’s paradise with rare and vintage books.",
+    image: FleaMarket,
+  },
+  {
+    id: 7,
+    name: "Jyväskylä Craft Market",
+    description: "Featuring handmade crafts, jewelry, and artisan goods.",
+    image: FleaMarket,
+  },
+  {
+    id: 8,
+    name: "Oulu Outdoor Market",
+    description: "Open-air market with unique finds from local sellers.",
+    image: FleaMarket,
+  },
+  {
+    id: 9,
+    name: "Rovaniemi Retro Hub",
+    description: "The go-to place for retro and vintage items in Rovaniemi.",
+    image: FleaMarket,
+  },
+  {
+    id: 10,
+    name: "Vaasa Farmers & Flea",
+    description: "Combines local farm produce with flea market finds.",
+    image: FleaMarket,
+  },
+];
+
+export const highlights = [
+  {
+    id: 1,
+    title: "Best Bargains in Helsinki",
+    description: "Top spots for finding great deals on vintage clothing.",
+  },
+  {
+    id: 2,
+    title: "Unique Finds in Tampere",
+    description: "Discover rare antiques and collectibles.",
+  },
+  {
+    id: 3,
+    title: "Espoo Artisans",
+    description: "Support local artisans and find one-of-a-kind pieces.",
+  },
+  {
+    id: 4,
+    title: "Must-Visit Markets in Turku",
+    description: "Our top picks for flea markets in Turku.",
+  },
+  {
+    id: 5,
+    title: "Green Shopping in Lahti",
+    description: "Eco-friendly markets with sustainable products.",
+  },
+  {
+    id: 6,
+    title: "Budget Shopping in Oulu",
+    description: "Great deals and hidden gems at affordable prices.",
+  },
+  {
+    id: 7,
+    title: "Antiques in Porvoo",
+    description: "The best places to find historical items and antiques.",
+  },
+  {
+    id: 8,
+    title: "Pop-Up Markets in Jyväskylä",
+    description: "Unique pop-up markets with changing themes.",
+  },
+  {
+    id: 9,
+    title: "Collector's Paradise in Rovaniemi",
+    description: "A haven for collectors of retro and rare items.",
+  },
+  {
+    id: 10,
+    title: "Outdoor Markets in Vaasa",
+    description: "Enjoy the best outdoor markets with local flair.",
+  },
+];
+
+export const tips = [
+  { id: 1, tip: "Arrive early to get the best selection of items." },
+  { id: 2, tip: "Bring cash as some vendors may not accept cards." },
+  { id: 3, tip: "Don't be afraid to negotiate on prices." },
+  { id: 4, tip: "Bring a reusable bag for your purchases." },
+  { id: 5, tip: "Dress in layers, especially for outdoor markets." },
+  { id: 6, tip: "Do some research on market schedules in advance." },
+  { id: 7, tip: "Keep an eye out for seasonal events with unique finds." },
+  { id: 8, tip: "Check social media for exclusive deals and updates." },
+  { id: 9, tip: "Ask vendors about the stories behind their items." },
+  { id: 10, tip: "Visit with a friend for a fun and social experience." },
+];
+
+export const events = [
+  {
+    id: 1,
+    name: "Spring Flea Fair",
+    date: "2024-03-21",
+    location: "Helsinki",
+    description: "Celebrate spring with this annual flea market event.",
+  },
+  {
+    id: 2,
+    name: "Antique Expo",
+    date: "2024-05-05",
+    location: "Turku",
+    description: "Discover beautiful antiques from all over Finland.",
+  },
+  {
+    id: 3,
+    name: "Vintage Clothing Fest",
+    date: "2024-06-15",
+    location: "Tampere",
+    description: "The go-to event for vintage fashion lovers.",
+  },
+  {
+    id: 4,
+    name: "Handmade Crafts Fair",
+    date: "2024-07-10",
+    location: "Jyväskylä",
+    description: "Support local artisans and find unique items.",
+  },
+  {
+    id: 5,
+    name: "Summer Market Festival",
+    date: "2024-07-22",
+    location: "Oulu",
+    description: "An outdoor festival with food, music, and markets.",
+  },
+  {
+    id: 6,
+    name: "Porvoo Art & Antique Fair",
+    date: "2024-08-18",
+    location: "Porvoo",
+    description: "Find art, antiques, and much more.",
+  },
+  {
+    id: 7,
+    name: "Back-to-School Bazaar",
+    date: "2024-09-02",
+    location: "Espoo",
+    description: "Perfect for finding affordable school supplies.",
+  },
+  {
+    id: 8,
+    name: "Autumn Harvest Market",
+    date: "2024-10-12",
+    location: "Vaasa",
+    description: "Celebrate autumn with seasonal produce and goods.",
+  },
+  {
+    id: 9,
+    name: "Winter Wonderland Market",
+    date: "2024-12-01",
+    location: "Rovaniemi",
+    description: "A festive market experience in the heart of winter.",
+  },
+  {
+    id: 10,
+    name: "Year-End Clearance Sale",
+    date: "2024-12-29",
+    location: "Lahti",
+    description: "Last chance to shop amazing deals for the year.",
+  },
+];
+
+export const reviews = [
+  {
+    user: "Alice",
+    marketName: "Vintage Bazaar",
+    comment: "Great variety and friendly vendors!",
+    rating: 5,
+    date: "2024-10-01",
+  },
+  {
+    user: "John",
+    marketName: "Treasure Trove",
+    comment: "Found some real treasures here.",
+    rating: 4,
+    date: "2024-10-05",
+  },
+  {
+    user: "Emma",
+    marketName: "Retro Market",
+    comment: "Perfect place for vintage finds.",
+    rating: 5,
+    date: "2024-10-10",
+  },
+  {
+    user: "Lucas",
+    marketName: "Local Crafts Fair",
+    comment: "Loved the atmosphere, will come again!",
+    rating: 4,
+    date: "2024-10-15",
+  },
+  {
+    user: "Sophia",
+    marketName: "Unique Treasures",
+    comment: "Affordable and unique items!",
+    rating: 5,
+    date: "2024-10-20",
+  },
+  {
+    user: "Mikko",
+    marketName: "Flea Market Mania",
+    comment: "Best flea market experience I've had.",
+    rating: 5,
+    date: "2024-10-22",
+  },
+  {
+    user: "Sari",
+    marketName: "Collector's Haven",
+    comment: "A must-visit for collectors!",
+    rating: 4,
+    date: "2024-10-25",
+  },
+  {
+    user: "Olivia",
+    marketName: "Interesting Finds",
+    comment: "So many interesting finds here!",
+    rating: 5,
+    date: "2024-10-30",
+  },
+  {
+    user: "Leo",
+    marketName: "Bargain Basement",
+    comment: "Friendly people and great prices.",
+    rating: 4,
+    date: "2024-11-01",
+  },
+  {
+    user: "Liam",
+    marketName: "Handmade Fair",
+    comment: "Loved the local and handmade items.",
+    rating: 5,
+    date: "2024-11-02",
   },
 ];

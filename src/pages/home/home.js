@@ -3,9 +3,11 @@ import Layout from "../../layout/layout";
 import {
   CitiesList,
   RegistrationBanner,
-  CircularEconomy,
+  SustainabilityInfoSection,
   HeroSection,
+  LocalTipsAndEvents,
 } from "./components";
+import { tips, events } from "../../data/data";
 
 const Home = () => {
   const citiesRef = useRef(null);
@@ -15,7 +17,8 @@ const Home = () => {
       <HeroSection citiesRef={citiesRef} />
       <RegistrationBanner />
       <CitiesList citiesRef={citiesRef} />
-      <CircularEconomy />
+      <LocalTipsAndEvents tips={tips} events={events} />
+      <SustainabilityInfoSection />
     </div>
   );
 };
