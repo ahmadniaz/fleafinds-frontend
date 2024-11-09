@@ -1,8 +1,55 @@
 // FeaturedMarketSlider.js
-import React from "react";
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import React, { useEffect, useRef } from "react";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 
-const FeaturedMarketSlider = ({ items, slidesToShow = 3, speed = 30 }) => {
+const FeaturedMarketSlider = ({ items, speed = 5 }) => {
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
+  const isMediumScreen = useMediaQuery("(max-width:960px)");
+
+  // Define slidesToShow based on screen size for responsive behavior
+  const slidesToShow = isSmallScreen ? 1 : isMediumScreen ? 2 : 4;
+
+  // Adjust speed based on screen size
+  const adjustedSpeed = isSmallScreen
+    ? speed / 3
+    : isMediumScreen
+    ? speed * 0.75
+    : speed;
+
+  // Reference to the scroll container
+  const scrollContainerRef = useRef(null);
+
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+
+    // Scroll reset to create an infinite loop
+    const handleScroll = () => {
+      if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
+        scrollContainer.scrollLeft = 0; // Reset to start
+      }
+    };
+
+    // Set an interval to scroll at a fixed speed
+    const scrollInterval = setInterval(() => {
+      scrollContainer.scrollLeft += 1;
+    }, adjustedSpeed);
+
+    // Add scroll event listener to handle reset
+    scrollContainer.addEventListener("scroll", handleScroll);
+
+    return () => {
+      clearInterval(scrollInterval); // Clean up on component unmount
+      scrollContainer.removeEventListener("scroll", handleScroll);
+    };
+  }, [adjustedSpeed]);
+
   return (
     <Box
       sx={{
@@ -11,31 +58,29 @@ const FeaturedMarketSlider = ({ items, slidesToShow = 3, speed = 30 }) => {
         position: "relative",
         width: "100%",
         p: 3,
+        whiteSpace: "nowrap",
       }}
+      ref={scrollContainerRef}
     >
       <Box
         sx={{
           display: "flex",
-          animation: `scroll ${speed}s linear infinite`,
           "&:hover": {
             animationPlayState: "paused",
           },
-          "@keyframes scroll": {
-            "0%": { transform: "translateX(0)" },
-            "100%": { transform: `translateX(-${100 / slidesToShow}%)` },
-          },
         }}
       >
-        {/* Duplicate items to create infinite loop */}
+        {/* Original and cloned items for seamless loop */}
         {[...items, ...items].map((item, index) => (
           <Card
             key={`${item.id}-${index}`}
             sx={{
-              flex: "0 0 calc(100% / slidesToShow)",
+              flex: `0 0 calc(100% / ${slidesToShow})`, // Adjusts based on slidesToShow for responsiveness
+              minWidth: `calc(100% / ${slidesToShow})`, // Minimum width for each slide
+              maxWidth: 400, // Limits max width for better readability on larger screens
               mx: 1,
               boxShadow: 3,
               borderRadius: 2,
-              minWidth: 300, // Ensures cards have a minimum width for better visuals
             }}
           >
             <CardMedia
@@ -43,12 +88,33 @@ const FeaturedMarketSlider = ({ items, slidesToShow = 3, speed = 30 }) => {
               image={item.image}
               alt={item.name}
               height="200"
+              sx={{
+                objectFit: "cover",
+                width: "100%",
+                borderTopLeftRadius: 8,
+                borderTopRightRadius: 8,
+              }}
             />
             <CardContent>
-              <Typography variant="h6" sx={{ color: "#ff0000" }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  color: "#ff0000",
+                  fontSize: isSmallScreen ? "1rem" : "1.25rem",
+                  fontWeight: "bold",
+                }}
+              >
                 {item.name}
               </Typography>
-              <Typography variant="body2">{item.description}</Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontSize: isSmallScreen ? "0.8rem" : "1rem",
+                  color: "#555",
+                }}
+              >
+                {item.description}
+              </Typography>
             </CardContent>
           </Card>
         ))}

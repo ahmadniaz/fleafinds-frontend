@@ -1,8 +1,54 @@
 // CustomSlider.js
-import React from "react";
-import { Box, Card, CardContent, Typography, Divider } from "@mui/material";
+import React, { useEffect, useRef } from "react";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Divider,
+  useMediaQuery,
+} from "@mui/material";
 
-const ReviewsSlider = ({ items, slidesToShow, speed = 20 }) => {
+const ReviewsSlider = ({ items, speed = 5 }) => {
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
+  const isMediumScreen = useMediaQuery("(max-width:960px)");
+
+  // Define slidesToShow based on screen size
+  const slidesToShow = isSmallScreen ? 1 : isMediumScreen ? 3 : 4;
+
+  // Adjust speed based on screen size
+  const adjustedSpeed = isSmallScreen
+    ? speed / 3
+    : isMediumScreen
+    ? speed * 0.75
+    : speed;
+
+  // Reference to the scroll container
+  const scrollContainerRef = useRef(null);
+
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+
+    // Reset scroll position for infinite loop
+    const handleScroll = () => {
+      if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
+        scrollContainer.scrollLeft = 0;
+      }
+    };
+
+    // Auto-scroll at a fixed speed
+    const scrollInterval = setInterval(() => {
+      scrollContainer.scrollLeft += 1;
+    }, adjustedSpeed);
+
+    scrollContainer.addEventListener("scroll", handleScroll);
+
+    return () => {
+      clearInterval(scrollInterval);
+      scrollContainer.removeEventListener("scroll", handleScroll);
+    };
+  }, [adjustedSpeed]);
+
   return (
     <Box
       sx={{
@@ -12,35 +58,32 @@ const ReviewsSlider = ({ items, slidesToShow, speed = 20 }) => {
         width: "100%",
         p: 3,
       }}
+      ref={scrollContainerRef}
     >
       <Box
         sx={{
           display: "flex",
-          animation: `scroll ${speed}s linear infinite`,
           "&:hover": {
             animationPlayState: "paused",
             cursor: "pointer",
           },
-          "@keyframes scroll": {
-            "0%": { transform: "translateX(0)" },
-            "100%": { transform: `translateX(-${100 / slidesToShow}%)` },
-          },
         }}
       >
+        {/* Original and cloned items for seamless scrolling */}
         {[...items, ...items].map((item, index) => (
           <Card
             key={`${item.id}-${index}`}
             sx={{
-              flex: "0 0 calc(100% / slidesToShow)",
+              flex: `0 0 calc(100% / ${slidesToShow})`, // Responsive width
+              minWidth: `calc(100% / ${slidesToShow})`, // Minimum width for each card
+              maxWidth: 400, // Optional max-width for large screens
               mx: 1,
               boxShadow: 3,
               borderRadius: 2,
-              minWidth: 300,
             }}
           >
             <CardContent>
               {/* Market Name */}
-
               <Typography
                 variant="h6"
                 sx={{
@@ -70,9 +113,10 @@ const ReviewsSlider = ({ items, slidesToShow, speed = 20 }) => {
                     color: "#fff",
                     fontWeight: "bold",
                     marginRight: 2,
+                    fontSize: isSmallScreen ? "0.8rem" : "1rem", // Responsive font size
                   }}
                 >
-                  {item.name.charAt(0)} {/* First letter of username */}
+                  {item.name.charAt(0)}
                 </Box>
                 <Typography variant="body1" sx={{ fontWeight: "bold" }}>
                   {item.name}
@@ -86,8 +130,8 @@ const ReviewsSlider = ({ items, slidesToShow, speed = 20 }) => {
 
               {/* Star Rating */}
               <Box display="flex" alignItems="center" marginBottom={1}>
-                {Array.from({ length: item.rating }, (_, index) => (
-                  <span key={index} role="img" aria-label="star">
+                {Array.from({ length: item.rating }, (_, idx) => (
+                  <span key={idx} role="img" aria-label="star">
                     ⭐
                   </span>
                 ))}

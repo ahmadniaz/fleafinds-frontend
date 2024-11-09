@@ -23,7 +23,7 @@ const UserReviews = ({ reviews }) => {
       >
         User Reviews
       </Typography>
-      <ReviewsSlider items={reviewItems} slidesToShow={2} />
+      <ReviewsSlider items={reviewItems} />
     </Box>
   );
 };

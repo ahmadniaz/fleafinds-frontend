@@ -95,17 +95,18 @@ const MarketListing = () => {
       {/* Divider Between Sections */}
       <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />
 
-      {/* Left Side Filters*/}
+      {/* Filters and Listing Data Section*/}
       <Grid2 container padding={2} spacing={2} mt={4}>
+        {/* Left Side Filters*/}
         <MarketFilters
           fleaMarketCategories={fleaMarketCategories}
           fleaMarketTypesInFinland={fleaMarketTypesInFinland}
         />
-
-        <Grid2 item size={{ xs: 12, md: 10 }}>
+        {/* Listing component*/}
+        <Grid2 item size={{ xs: 12, lg: 10, md: 9 }}>
           {/* Search Nearby and Sorting Dropdown */}
           <Grid2 container spacing={1} alignItems="center">
-            <Grid2 item size={{ xs: 6 }}>
+            <Grid2 item size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
               <TextField
                 fullWidth
                 label="Search Markets by Name"
@@ -120,30 +121,10 @@ const MarketListing = () => {
                     },
                   },
                 }}
-                onKeyPress={(event) => {
-                  if (event.key === "Enter") {
-                    // Implement search nearby functionality
-                  }
-                }}
               />
             </Grid2>
-            {/* Find Nearby Button */}
-            <Grid2 item size={{ xs: 2 }} display="flex">
-              <Button
-                onClick={handleModalOpen}
-                variant="contained"
-                sx={{
-                  backgroundColor: "#15a0db",
-                  color: "#fff",
-                  fontWeight: "bold",
-                  p: 2,
-                  "&:hover": { backgroundColor: "#ff0000" },
-                }}
-              >
-                Find Nearby Markets
-              </Button>
-            </Grid2>
-            <Grid2 item size={{ xs: 4 }}>
+
+            <Grid2 item size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <FormControl fullWidth>
                 <InputLabel>Sort By</InputLabel>
                 <Select
@@ -167,6 +148,28 @@ const MarketListing = () => {
                 </Select>
               </FormControl>
             </Grid2>
+
+            {/* Find Nearby Button */}
+            <Grid2
+              item
+              size={{ xs: 12, sm: 4, md: 4, lg: 3 }}
+              display="flex"
+              justifyContent={{ xs: "center", sm: "flex-start" }}
+            >
+              <Button
+                onClick={handleModalOpen}
+                variant="contained"
+                sx={{
+                  backgroundColor: "#15a0db",
+                  color: "#fff",
+                  fontWeight: "bold",
+                  p: 2,
+                  "&:hover": { backgroundColor: "#ff0000" },
+                }}
+              >
+                Find Nearby Markets
+              </Button>
+            </Grid2>
           </Grid2>
 
           {/* Flea Market Cards */}
@@ -185,15 +188,12 @@ const MarketListing = () => {
           />
         </Grid2>
       </Grid2>
+
       {/* Divider Between Sections */}
       <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />
 
       {/* User Reviews Slide*/}
-      {/* <Grid2 container>
-        <Grid2 item size={{ xs: 12 }}> */}
       <UserReviews reviews={reviews} />
-      {/* </Grid2>
-      </Grid2> */}
 
       {/* Nearby Markets Modal */}
       <NearbyMarketsModal open={isModalOpen} handleClose={handleModalClose} />

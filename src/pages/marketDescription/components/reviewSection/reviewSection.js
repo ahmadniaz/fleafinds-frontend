@@ -30,7 +30,7 @@ const ReviewAndSocialMediaSection = ({
   return (
     <Box
       sx={{
-        padding: "40px",
+        padding: { xs: "10px", sm: "20px", md: "40px" },
         backgroundColor: "#f9f9f9",
         borderRadius: "10px",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
@@ -253,116 +253,166 @@ const ReviewAndSocialMediaSection = ({
           >
             <CardContent>
               {/* Follow Us Section */}
-              <Typography
-                variant="h5"
-                sx={{
-                  color: "#ff0000",
-                  fontWeight: "bold",
-                  marginBottom: "20px",
-                  textAlign: "left",
-                }}
-              >
-                Follow Us
-              </Typography>
-              <Grid2
-                container
-                direction="column"
-                alignItems="baseline"
-                spacing={2}
-              >
-                {testMarketData.socialMedia.facebook && (
-                  <Button
-                    variant="outlined"
+              <Grid2 container spacing={2}>
+                <Grid2 item size={{ xs: 12, md: 12, sm: 6, lg: 12 }}>
+                  <Typography
+                    variant="h5"
                     sx={{
-                      borderColor: "#3b5998",
-                      color: "#3b5998",
-                      borderRadius: "8px",
-                      "&:hover": { backgroundColor: "#3b5998", color: "#fff" },
+                      color: "#ff0000",
+                      fontWeight: "bold",
+                      marginBottom: "20px",
+                      textAlign: {
+                        xs: "center",
+                        sm: "left",
+                        md: "left",
+                        lg: "left",
+                      },
                     }}
-                    href={testMarketData.socialMedia.facebook}
-                    target="_blank"
-                    startIcon={<FacebookIcon />}
                   >
-                    Facebook
-                  </Button>
-                )}
-                {testMarketData.socialMedia.instagram && (
-                  <Button
-                    variant="outlined"
+                    Follow Us
+                  </Typography>
+                  <Grid2
+                    container
+                    direction={{ xs: "row", sm: "column", md: "column" }}
+                    justifyContent={"center"}
+                    alignItems="baseline"
+                    spacing={2}
+                  >
+                    {testMarketData.socialMedia.facebook && (
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          borderColor: "#3b5998",
+                          color: "#3b5998",
+                          borderRadius: "8px",
+                          "&:hover": {
+                            backgroundColor: "#3b5998",
+                            color: "#fff",
+                          },
+                        }}
+                        href={testMarketData.socialMedia.facebook}
+                        target="_blank"
+                        startIcon={<FacebookIcon />}
+                      >
+                        Facebook
+                      </Button>
+                    )}
+                    {testMarketData.socialMedia.instagram && (
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          borderColor: "#E4405F",
+                          color: "#E4405F",
+                          borderRadius: "8px",
+                          "&:hover": {
+                            backgroundColor: "#E4405F",
+                            color: "#fff",
+                          },
+                        }}
+                        href={testMarketData.socialMedia.instagram}
+                        target="_blank"
+                        startIcon={<InstagramIcon />}
+                      >
+                        Instagram
+                      </Button>
+                    )}
+                    {testMarketData.socialMedia.twitter && (
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          borderColor: "#1DA1F2",
+                          color: "#1DA1F2",
+                          borderRadius: "8px",
+                          "&:hover": {
+                            backgroundColor: "#1DA1F2",
+                            color: "#fff",
+                          },
+                        }}
+                        href={testMarketData.socialMedia.twitter}
+                        target="_blank"
+                        startIcon={<TwitterIcon />}
+                      >
+                        Twitter
+                      </Button>
+                    )}
+                  </Grid2>
+                </Grid2>
+
+                {/* Contact Us Section */}
+                <Grid2
+                  item
+                  size={{ xs: 12, md: 12, sm: 6, lg: 12 }}
+                  mt={{ md: 4 }}
+                >
+                  <Typography
+                    variant="h5"
                     sx={{
-                      borderColor: "#E4405F",
-                      color: "#E4405F",
-                      borderRadius: "8px",
-                      "&:hover": { backgroundColor: "#E4405F", color: "#fff" },
+                      color: "#ff0000",
+                      fontWeight: "bold",
+                      marginBottom: "20px",
+                      textAlign: {
+                        xs: "center",
+                        sm: "left",
+                        md: "left",
+                        lg: "left",
+                      },
+                      fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.75rem" }, // Responsive font size
                     }}
-                    href={testMarketData.socialMedia.instagram}
-                    target="_blank"
-                    startIcon={<InstagramIcon />}
                   >
-                    Instagram
-                  </Button>
-                )}
-                {testMarketData.socialMedia.twitter && (
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      borderColor: "#1DA1F2",
-                      color: "#1DA1F2",
-                      borderRadius: "8px",
-                      "&:hover": { backgroundColor: "#1DA1F2", color: "#fff" },
-                    }}
-                    href={testMarketData.socialMedia.twitter}
-                    target="_blank"
-                    startIcon={<TwitterIcon />}
+                    Contact Us
+                  </Typography>
+
+                  <Grid2
+                    container
+                    direction="column"
+                    alignItems="baseline"
+                    spacing={2}
+                    sx={{ paddingX: { xs: 1, sm: 2, md: 0 } }} // Responsive padding for smaller screens
                   >
-                    Twitter
-                  </Button>
-                )}
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <PhoneIcon
+                        sx={{ color: "#15a0db", marginRight: "8px" }}
+                      />
+                      <Typography
+                        variant="body1"
+                        sx={{ wordWrap: "break-word" }}
+                      >
+                        +358 123 4567
+                      </Typography>
+                    </Box>
+
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <EmailIcon
+                        sx={{ color: "#15a0db", marginRight: "8px" }}
+                      />
+                      <Typography
+                        variant="body1"
+                        sx={{ wordWrap: "break-word" }}
+                      >
+                        info@finnishfleamarket.com
+                      </Typography>
+                    </Box>
+
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <LanguageIcon
+                        sx={{ color: "#15a0db", marginRight: "8px" }}
+                      />
+                      <Typography
+                        variant="body1"
+                        sx={{ wordWrap: "break-word" }}
+                      >
+                        <Link
+                          href="https://finnishfleamarket.com"
+                          target="_blank"
+                        >
+                          finnishfleamarket.com
+                        </Link>
+                      </Typography>
+                    </Box>
+                  </Grid2>
+                </Grid2>
               </Grid2>
 
-              {/* Divider */}
-              <Divider sx={{ marginY: "20px" }} />
-
-              {/* Contact Us Section */}
-              <Typography
-                variant="h5"
-                sx={{
-                  color: "#ff0000",
-                  fontWeight: "bold",
-                  marginBottom: "20px",
-                  textAlign: "left",
-                }}
-              >
-                Contact Us
-              </Typography>
-
-              <Grid2
-                container
-                direction="column"
-                alignItems="baseline"
-                spacing={2}
-              >
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <PhoneIcon sx={{ color: "#15a0db", marginRight: "8px" }} />
-                  <Typography variant="body1">+358 123 4567</Typography>
-                </Box>
-
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <EmailIcon sx={{ color: "#15a0db", marginRight: "8px" }} />
-                  <Typography variant="body1">
-                    info@finnishfleamarket.com
-                  </Typography>
-                </Box>
-
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <LanguageIcon sx={{ color: "#15a0db", marginRight: "8px" }} />
-                  <Typography variant="body1">
-                    <Link href="https://finnishfleamarket.com" target="_blank">
-                      finnishfleamarket.com
-                    </Link>
-                  </Typography>
-                </Box>
-              </Grid2>
               {/* Divider */}
               <Divider sx={{ marginY: "20px" }} />
               {/* Report Button */}

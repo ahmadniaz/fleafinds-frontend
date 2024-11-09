@@ -17,7 +17,7 @@ import Image5 from "../../assets/images/fleaMarketLogo.jpg";
 // Styled components for elegance
 const Container = styled(Box)({
   backgroundColor: "#f4f6f8",
-  padding: "40px",
+  padding: { xs: "0px", sm: "0px", md: "40px" },
   minHeight: "100vh",
 });
 

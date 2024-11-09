@@ -115,7 +115,6 @@ const MarketInfoForm = () => {
 
   return (
     <Container
-      maxWidth={isSmallScreen ? "sm" : "lg"}
       sx={{
         marginLeft: isSmallScreen ? 0 : "270px",
         backgroundColor: "#f9f9f9",
@@ -183,6 +182,9 @@ const MarketInfoForm = () => {
             <Grid2 container spacing={2}>
               {/* Market Name */}
               <Grid2 item size={{ xs: 12 }}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  Market Name
+                </Typography>
                 <Field
                   as={TextField}
                   fullWidth
@@ -195,6 +197,9 @@ const MarketInfoForm = () => {
 
               {/* Market Type */}
               <Grid2 item size={{ xs: 12 }}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  Market Type
+                </Typography>
                 <FormControl fullWidth>
                   <Select
                     value={selectedType}
@@ -216,6 +221,9 @@ const MarketInfoForm = () => {
 
               {/* Logo Upload */}
               <Grid2 item size={{ xs: 12, sm: 6, md: 4 }}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  Market Logo/Display Picture
+                </Typography>
                 <Box
                   sx={{
                     border: "2px dashed #ccc",
@@ -267,6 +275,9 @@ const MarketInfoForm = () => {
 
               {/* Description */}
               <Grid2 item size={{ xs: 12 }}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  Market Description
+                </Typography>
                 <Field
                   as={TextField}
                   fullWidth
@@ -281,6 +292,9 @@ const MarketInfoForm = () => {
 
               {/* Location */}
               <Grid2 item size={{ xs: 12 }}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  Market Location
+                </Typography>
                 <Field
                   as={TextField}
                   fullWidth
@@ -293,6 +307,9 @@ const MarketInfoForm = () => {
 
               {/* Categories */}
               <Grid2 item size={{ xs: 12 }}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  Categories
+                </Typography>
                 <FormGroup row>
                   {fleaMarketCategories.map((category) => (
                     <FormControlLabel
@@ -312,6 +329,9 @@ const MarketInfoForm = () => {
 
               {/* Market Images */}
               <Grid2 item size={{ xs: 12 }}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  Market Images
+                </Typography>
                 <MarketImagesSection
                   handleImageUpload={handleImageUpload}
                   imagePreviews={imagePreviews}
@@ -320,6 +340,9 @@ const MarketInfoForm = () => {
 
               {/* Opening Hours */}
               <Grid2 item size={{ xs: 12 }}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  Opening Hours
+                </Typography>
                 <Field
                   as={TextField}
                   fullWidth
@@ -333,6 +356,9 @@ const MarketInfoForm = () => {
 
               {/* Price List */}
               <Grid2 item size={{ xs: 12 }}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  Pricing List
+                </Typography>
                 <Field
                   as={TextField}
                   fullWidth

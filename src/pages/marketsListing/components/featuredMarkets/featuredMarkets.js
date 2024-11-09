@@ -12,7 +12,7 @@ const FeaturedMarkets = ({ featuredMarkets }) => {
       >
         Featured Markets in Turku
       </Typography>
-      <FeaturedMarketSlider items={featuredMarkets} slidesToShow={4} />
+      <FeaturedMarketSlider items={featuredMarkets} />
     </Box>
   );
 };

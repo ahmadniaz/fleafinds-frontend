@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import {
-  AppBar,
   Box,
-  Button,
-  Drawer,
-  IconButton,
   List,
   ListItem,
   ListItemText,
-  Toolbar,
   Typography,
+  Drawer,
+  IconButton,
+  AppBar,
+  Toolbar,
+  Button,
   Menu,
   MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from "@mui/icons-material/Person";
-import { useNavigate } from "react-router-dom";
 import Logo from "../../../../assets/images/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const LeftNavigation = ({ activeForm, setActiveForm }) => {
   const navigate = useNavigate();
@@ -38,26 +38,21 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
   const drawerContent = (
     <Box
       sx={{
-        width: { xs: 250, sm: 250 },
+        width: 250,
         height: "100vh",
         backgroundColor: "#f5f5f5",
-        boxShadow: "2px 0 5px rgba(0,0,0,0.1)",
         padding: "20px",
+        mt: 6,
       }}
-      role="presentation"
-      onClick={handleDrawerToggle}
-      onKeyDown={handleDrawerToggle}
     >
       <Box sx={{ textAlign: "center", marginBottom: "20px" }}>
-        <Box display="flex" justifyContent="center">
-          <img
-            src={Logo}
-            alt="Logo"
-            width="200px"
-            style={{ cursor: "pointer" }}
-            onClick={() => navigate("/")}
-          />
-        </Box>
+        <img
+          src={Logo}
+          alt="Logo"
+          width="200px"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        />
       </Box>
       <Typography
         variant="h4"
@@ -71,7 +66,6 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
         Dashboard
       </Typography>
 
-      {/* Navigation List */}
       <List>
         <ListItem
           button
@@ -110,7 +104,13 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
   return (
     <Box component="nav">
       {/* AppBar for Mobile View */}
-      <AppBar position="fixed" sx={{ display: { md: "none" } }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          display: { md: "none" },
+          zIndex: 1201, // Ensure the AppBar is above other content
+        }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -120,11 +120,7 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            sx={{ flexGrow: 1, fontSize: { xs: "1rem", sm: "1.25rem" } }}
-          >
+          <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
             FleaFind Dashboard
           </Typography>
           {/* Profile Icon for Small Screens */}
@@ -137,18 +133,8 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
           >
             <PersonIcon />
           </IconButton>
-          {/* Profile and Visit Website Buttons for Larger Screens */}
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => navigate("/")}
-            sx={{
-              display: { xs: "none", sm: "none", md: "inline-flex" },
-              fontSize: { xs: "0.8rem", sm: "0.8rem", md: "1rem" },
-            }}
-          >
-            Visit Website
-          </Button>
+          {/* Profile Button for Larger Screens */}
+
           <Button
             color="inherit"
             startIcon={<PersonIcon />}
@@ -183,7 +169,7 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
         }}
         sx={{
           display: { xs: "block", sm: "block", md: "none" },
-          "& .MuiDrawer-paper": { boxSizing: "border-box", width: 250 },
+          "& .MuiDrawer-paper": { width: 250 },
         }}
       >
         {drawerContent}
@@ -193,11 +179,13 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
       <Box
         sx={{
           display: { xs: "none", sm: "none", md: "block" },
-          width: "250px",
+          width: 250,
           height: "100vh",
           position: "fixed",
           top: 0,
           left: 0,
+          backgroundColor: "#f5f5f5",
+          boxShadow: "2px 0 5px rgba(0,0,0,0.1)",
         }}
       >
         {drawerContent}
