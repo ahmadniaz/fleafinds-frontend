@@ -152,7 +152,7 @@ const HomeNavbar = () => {
                       component={Link}
                       to="/auth"
                     >
-                      Owner Register/Login
+                      Owner Dashboard
                     </Button>
                   </ListItem>
                 </List>
@@ -207,7 +207,7 @@ const HomeNavbar = () => {
                     },
                   }}
                 >
-                  Owner Register/Login
+                  Owner Dashboard
                 </Button>
               </Link>
             </Box>

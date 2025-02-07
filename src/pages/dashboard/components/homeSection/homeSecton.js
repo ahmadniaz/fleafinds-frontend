@@ -7,11 +7,15 @@ import {
   CardMedia,
   IconButton,
   useMediaQuery,
+  Divider,
 } from "@mui/material";
 import { Delete, Edit, Visibility } from "@mui/icons-material";
 import fleaMarket from "../../../../assets/images/fleaMarketLogo.jpg";
+import { useLocation } from "react-router-dom";
+import Breadcrumb from "../../../../components/breadcrumbs/breadCrumbs";
 
 const HomeSection = ({ setActiveForm }) => {
+  const location = useLocation();
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const fleaMarkets = [
@@ -54,6 +58,24 @@ const HomeSection = ({ setActiveForm }) => {
         gap: "20px",
       }}
     >
+      {/* Breadcrumb */}
+      {location.pathname !== "/" && (
+        <>
+          <Divider sx={{ my: 1 }} /> {/* Divider under the logo */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              paddingY: 1,
+              backgroundColor: "#f9f9f9",
+            }}
+          >
+            <Breadcrumb />
+          </Box>
+          <Divider sx={{ my: 1 }} /> {/* Divider under the breadcrumb */}
+        </>
+      )}
+
       <Typography
         variant="h4"
         fontWeight="bold"

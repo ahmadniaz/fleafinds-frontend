@@ -13,7 +13,7 @@ import "./App.css";
 
 function App() {
   return (
-    <Router>
+    <Router future={{ scrollRestoration: "manual" }}>
       <div>
         {/* Define your routes */}
         <Suspense fallback={<LoadingFallback />}>

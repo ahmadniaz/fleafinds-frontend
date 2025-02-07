@@ -18,12 +18,15 @@ import {
   FormControl,
   Select,
   useMediaQuery,
+  Divider,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { CloudUpload } from "@mui/icons-material";
 import MarketImagesSection from "./components/marketImagesSection";
 import SocialMediaSection from "./components/socialMediaSection";
+import { useLocation } from "react-router-dom";
+import Breadcrumb from "../../../../components/breadcrumbs/breadCrumbs";
 
 // Validation schema for the dashboard form
 const validationSchema = Yup.object({
@@ -41,6 +44,7 @@ const validationSchema = Yup.object({
 });
 
 const MarketInfoForm = () => {
+  const location = useLocation();
   const [imagePreviews, setImagePreviews] = useState(Array(10).fill(null));
   const [logoPreview, setLogoPreview] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -131,6 +135,24 @@ const MarketInfoForm = () => {
       >
         Market Information
       </Typography>
+
+      {/* Breadcrumb */}
+      {location.pathname !== "/" && (
+        <>
+          <Divider sx={{ my: 1 }} /> {/* Divider under the logo */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              paddingY: 1,
+              backgroundColor: "#f9f9f9",
+            }}
+          >
+            <Breadcrumb />
+          </Box>
+          <Divider sx={{ my: 1 }} /> {/* Divider under the breadcrumb */}
+        </>
+      )}
 
       {/* AppBar with Profile Menu */}
       {isSmallScreen ? null : (
