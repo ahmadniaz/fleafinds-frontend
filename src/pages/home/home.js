@@ -10,12 +10,13 @@ import {
 import { tips, events } from "../../data/data";
 
 const Home = () => {
+  const isAuthenticated = localStorage.getItem("token"); // Check if token exists
   const citiesRef = useRef(null);
   return (
     <div>
       <Layout />
       <HeroSection citiesRef={citiesRef} />
-      <RegistrationBanner />
+      {!isAuthenticated && <RegistrationBanner />}
       <CitiesList citiesRef={citiesRef} />
       <LocalTipsAndEvents tips={tips} events={events} />
       <SustainabilityInfoSection />

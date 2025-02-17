@@ -7,10 +7,13 @@ import {
   Container,
   Tabs,
   Tab,
+  Alert,
+  Snackbar,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // Validation schemas for Signup and Login
 const signupValidationSchema = Yup.object({
@@ -31,19 +34,46 @@ const loginValidationSchema = Yup.object({
 const AuthForm = () => {
   const navigate = useNavigate();
   const [tabIndex, setTabIndex] = useState(0); // 0 for Login, 1 for Signup
+  const [errorMessage, setErrorMessage] = useState(""); // State to hold error message
+  const [openSnackbar, setOpenSnackbar] = useState(false); // Snackbar visibility
 
   const handleTabChange = (event, newIndex) => {
     setTabIndex(newIndex);
   };
 
-  const handleSignupSubmit = (values) => {
-    console.log("Signup values:", values);
-    navigate("/dashboard"); // Uncomment to redirect to the dashboard after signup
+  const handleSignupSubmit = async (values) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/owner/register",
+        values
+      );
+      console.log(response.data);
+      navigate("/dashboard"); // Navigate to dashboard after successful registration
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || "An error occurred");
+      setOpenSnackbar(true); // Show error message in Snackbar
+    }
   };
 
-  const handleLoginSubmit = (values) => {
-    console.log("Login values:", values);
-    navigate("/dashboard"); // Uncomment to redirect to the dashboard after login
+  const handleLoginSubmit = async (values) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/owner/login",
+        values
+      );
+      console.log(response.data);
+      localStorage.setItem("token", response.data.token); // Store JWT token
+      localStorage.setItem("ownerId", response.data.ownerId); // Store ownerId
+      localStorage.setItem("name", response.data.name); // Store owner name
+      navigate("/dashboard"); // Navigate to dashboard after successful login
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || "Invalid credentials");
+      setOpenSnackbar(true); // Show error message in Snackbar
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false); // Close the snackbar
   };
 
   return (
@@ -249,6 +279,20 @@ const AuthForm = () => {
             </Formik>
           </Box>
         )}
+        {/* Snackbar for error messages */}
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+        >
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity="error"
+            sx={{ width: "100%" }}
+          >
+            {errorMessage}
+          </Alert>
+        </Snackbar>
       </Box>
     </Container>
   );

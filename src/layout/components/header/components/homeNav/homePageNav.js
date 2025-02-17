@@ -24,6 +24,7 @@ const HomeNavbar = () => {
   const [showNavbar, setShowNavbar] = useState(true);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
+  const isAuthenticated = localStorage.getItem("token"); // Check if token exists
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
@@ -56,6 +57,13 @@ const HomeNavbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isMobile]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("ownerId");
+    localStorage.removeItem("name");
+    window.location.href = "/"; // Redirect to home
+  };
 
   return (
     <AppBar
@@ -135,25 +143,90 @@ const HomeNavbar = () => {
                     </ListItem>
                   ))}
                   <ListItem button onClick={handleDrawerToggle}>
-                    <Button
-                      variant="contained"
-                      sx={{
-                        backgroundColor: "#15a0db",
-                        color: "#fff",
-                        fontSize: "1rem",
-                        borderRadius: 2,
-                        width: "100%",
-                        boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
-                        "&:hover": {
-                          backgroundColor: "#ff0000",
-                          boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
-                        },
-                      }}
-                      component={Link}
-                      to="/auth"
-                    >
-                      Owner Dashboard
-                    </Button>
+                    {isAuthenticated ? (
+                      <Box>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            backgroundColor: "#15a0db",
+                            color: "#fff",
+                            fontSize: "1rem",
+                            borderRadius: 2,
+                            width: "100%",
+                            boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
+                            "&:hover": {
+                              backgroundColor: "#ff0000",
+                              boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
+                            },
+                          }}
+                          component={Link}
+                          to="/dashboard"
+                        >
+                          Owner Dashboard
+                        </Button>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            backgroundColor: "#15a0db",
+                            color: "#fff",
+                            fontSize: "1rem",
+                            borderRadius: 2,
+                            width: "100%",
+                            boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
+                            "&:hover": {
+                              backgroundColor: "#ff0000",
+                              boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
+                            },
+                          }}
+                          component={Link}
+                          to="/auth"
+                        >
+                          Logout
+                        </Button>
+                      </Box>
+                    ) : (
+                      <Box>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            backgroundColor: "#15a0db",
+                            color: "#fff",
+                            fontSize: "1rem",
+                            borderRadius: 2,
+                            width: "100%",
+                            boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
+                            "&:hover": {
+                              backgroundColor: "#ff0000",
+                              boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
+                            },
+                          }}
+                          component={Link}
+                          to="/auth"
+                        >
+                          Login
+                        </Button>
+
+                        <Button
+                          variant="contained"
+                          sx={{
+                            backgroundColor: "#15a0db",
+                            color: "#fff",
+                            fontSize: "1rem",
+                            borderRadius: 2,
+                            width: "100%",
+                            boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
+                            "&:hover": {
+                              backgroundColor: "#ff0000",
+                              boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
+                            },
+                          }}
+                          component={Link}
+                          to="/auth"
+                        >
+                          Register
+                        </Button>
+                      </Box>
+                    )}
                   </ListItem>
                 </List>
               </Drawer>
@@ -192,24 +265,96 @@ const HomeNavbar = () => {
                   {text}
                 </Link>
               ))}
-              <Link to="/auth" style={{ textDecoration: "none" }}>
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: "#15a0db",
-                    color: "#fff",
-                    fontSize: "1rem",
-                    borderRadius: 2,
-                    boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
-                    "&:hover": {
-                      backgroundColor: "#ff0000",
-                      boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
-                    },
-                  }}
-                >
-                  Owner Dashboard
-                </Button>
-              </Link>
+              {isAuthenticated ? (
+                <Box display="flex">
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#15a0db",
+                      color: "#fff",
+                      padding: "8px 20px",
+                      fontSize: "1rem",
+                      borderRadius: 2,
+                      width: "100%",
+                      boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
+                      "&:hover": {
+                        backgroundColor: "#15a0db",
+                        boxShadow: "0 4px 8px rgba(21, 160, 219, 0.4)",
+                      },
+                    }}
+                    component={Link}
+                    to="/dashboard"
+                  >
+                    Owner Dashboard
+                  </Button>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#d32f2f",
+                      padding: "8px 20px",
+                      color: "#fff",
+                      marginLeft: "10px",
+                      fontSize: "1rem",
+                      borderRadius: 2,
+                      // width: "100%",
+                      boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
+                      "&:hover": {
+                        backgroundColor: "#ff0000",
+                        boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
+                      },
+                    }}
+                    component={Link}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                </Box>
+              ) : (
+                <Box display="flex">
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#15a0db",
+                      color: "#fff",
+                      padding: "8px 20px",
+                      fontSize: "1rem",
+                      borderRadius: 2,
+                      width: "100%",
+                      boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
+                      "&:hover": {
+                        backgroundColor: "#15a0db",
+                        boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
+                      },
+                    }}
+                    component={Link}
+                    to="/auth"
+                  >
+                    Login
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#15a0db",
+                      color: "#fff",
+                      padding: "8px 20px",
+                      marginLeft: "10px",
+                      fontSize: "1rem",
+                      borderRadius: 2,
+                      width: "100%",
+                      boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
+                      "&:hover": {
+                        backgroundColor: "#15a0db",
+                        boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
+                      },
+                    }}
+                    component={Link}
+                    to="/auth"
+                  >
+                    Register
+                  </Button>
+                </Box>
+              )}
             </Box>
           )}
         </Toolbar>

@@ -1,17 +1,10 @@
 import React from "react";
-import { HomeNav, MainNav } from "./components";
-import { useLocation } from "react-router-dom";
+import { HomeNav } from "./components";
 
 const Navbar = () => {
-  const location = useLocation();
-
   return (
     <div>
-      {location.pathname === "/" || location.pathname === "/auth" ? (
-        <HomeNav />
-      ) : (
-        <MainNav />
-      )}
+      <HomeNav />
     </div>
   );
 };

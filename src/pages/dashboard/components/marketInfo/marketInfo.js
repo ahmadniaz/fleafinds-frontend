@@ -1,7 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
-  AppBar,
-  Toolbar,
   Box,
   TextField,
   Typography,
@@ -9,9 +8,7 @@ import {
   Container,
   Grid2,
   IconButton,
-  Menu,
   MenuItem,
-  Avatar,
   FormGroup,
   FormControlLabel,
   Checkbox,
@@ -19,21 +16,21 @@ import {
   Select,
   useMediaQuery,
   Divider,
+  FormHelperText,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { CloudUpload } from "@mui/icons-material";
 import MarketImagesSection from "./components/marketImagesSection";
 import SocialMediaSection from "./components/socialMediaSection";
-import { useLocation } from "react-router-dom";
-import Breadcrumb from "../../../../components/breadcrumbs/breadCrumbs";
 
 // Validation schema for the dashboard form
 const validationSchema = Yup.object({
   marketName: Yup.string().required("Market name is required"),
   description: Yup.string().required("Description is required"),
+  city: Yup.string().required("City is required"),
   location: Yup.string().required("Location is required"),
-  categories: Yup.string().required("Categories are required"),
+  categories: Yup.array().min(1, "At least one category is required"), // Update to handle array
   socialMedia: Yup.object({
     facebook: Yup.string().url("Invalid URL"),
     instagram: Yup.string().url("Invalid URL"),
@@ -44,12 +41,11 @@ const validationSchema = Yup.object({
 });
 
 const MarketInfoForm = () => {
-  const location = useLocation();
   const [imagePreviews, setImagePreviews] = useState(Array(10).fill(null));
   const [logoPreview, setLogoPreview] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
   const [selectedType, setSelectedType] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const fleaMarketCategories = [
     "Clothes",
@@ -75,6 +71,19 @@ const MarketInfoForm = () => {
     "Secondhand Store",
     "Donation Market",
     "Pop-up Market",
+  ];
+
+  const fleaMarketCitiesInFinland = [
+    "Helsinki",
+    "Espoo",
+    "Tampere",
+    "Vantaa",
+    "Oulu",
+    "Turku",
+    "Jyväskylä",
+    "Lahti",
+    "Kuopio",
+    "Pori",
   ];
 
   const handleTypeChange = (event) => setSelectedType(event.target.value);
@@ -112,10 +121,35 @@ const MarketInfoForm = () => {
     }
   };
 
-  const handleProfileMenuOpen = (event) => setAnchorEl(event.currentTarget);
-  const handleProfileMenuClose = () => setAnchorEl(null);
+  const handleFormSubmit = async (values) => {
+    try {
+      const response = await axios.post("http://localhost:8000/api/markets", {
+        name: values.marketName,
+        description: values.description,
+        city: values.city,
+        location: values.location,
+        categories: selectedCategories,
+        openingHours: values.openingHours,
+        priceList: values.priceList,
+        socialMedia: values.socialMedia,
+        logo: logoPreview,
+        images: imagePreviews,
+      });
+
+      console.log(values, logoPreview, imagePreviews, "CREATE API");
+
+      console.log("Market created successfully:", response.data);
+      // handle success (e.g., navigate, show notification, etc.)
+    } catch (error) {
+      console.error(
+        "Error creating market:",
+        error.response ? error.response.data : error.message
+      );
+      // handle error (e.g., show error notification)
+    }
+  };
+
   // Determine if the screen size is small (mobile view)
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   return (
     <Container
@@ -135,57 +169,14 @@ const MarketInfoForm = () => {
       >
         Market Information
       </Typography>
-
-      {/* Breadcrumb */}
-      {location.pathname !== "/" && (
-        <>
-          <Divider sx={{ my: 1 }} /> {/* Divider under the logo */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              paddingY: 1,
-              backgroundColor: "#f9f9f9",
-            }}
-          >
-            <Breadcrumb />
-          </Box>
-          <Divider sx={{ my: 1 }} /> {/* Divider under the breadcrumb */}
-        </>
-      )}
-
-      {/* AppBar with Profile Menu */}
-      {isSmallScreen ? null : (
-        <AppBar
-          position="static"
-          sx={{
-            marginBottom: "15px",
-            backgroundColor: "#3f51b5",
-            boxShadow: "none",
-          }}
-        >
-          <Toolbar sx={{ justifyContent: "flex-end" }}>
-            <IconButton onClick={handleProfileMenuOpen}>
-              <Avatar alt="Profile" />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleProfileMenuClose}
-            >
-              <MenuItem onClick={handleProfileMenuClose}>Profile</MenuItem>
-              <MenuItem onClick={handleProfileMenuClose}>Logout</MenuItem>
-            </Menu>
-          </Toolbar>
-        </AppBar>
-      )}
-
+      <Divider sx={{ mt: 1, mb: 2 }} /> {/* Divider under the breadcrumb */}
       <Formik
         initialValues={{
           marketName: "",
           description: "",
+          city: "",
           location: "",
-          categories: "",
+          categories: [], // Use an array for categories
           openingHours: "",
           priceList: "",
           socialMedia: {
@@ -195,11 +186,16 @@ const MarketInfoForm = () => {
           },
         }}
         validationSchema={validationSchema}
-        onSubmit={(values) =>
-          console.log("Form submitted with values:", values)
-        }
+        onSubmit={(data) => console.log(data)}
       >
-        {({ errors, touched }) => (
+        {({
+          errors,
+          touched,
+          values,
+          handleChange,
+          handleBlur,
+          setFieldValue,
+        }) => (
           <Form>
             <Grid2 container spacing={2}>
               {/* Market Name */}
@@ -224,8 +220,9 @@ const MarketInfoForm = () => {
                 </Typography>
                 <FormControl fullWidth>
                   <Select
-                    value={selectedType}
-                    onChange={handleTypeChange}
+                    name="marketType"
+                    value={values.marketType}
+                    onChange={handleChange}
                     displayEmpty
                     inputProps={{ "aria-label": "Market Type" }}
                   >
@@ -312,6 +309,31 @@ const MarketInfoForm = () => {
                 />
               </Grid2>
 
+              {/* City */}
+              <Grid2 item size={{ xs: 12 }}>
+                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                  City
+                </Typography>
+                <FormControl fullWidth>
+                  <Select
+                    name="city"
+                    value={values.city}
+                    onChange={handleChange}
+                    displayEmpty
+                    inputProps={{ "aria-label": "City" }}
+                  >
+                    <MenuItem value="">
+                      <em>Select the City</em>
+                    </MenuItem>
+                    {fleaMarketCitiesInFinland.map((city) => (
+                      <MenuItem key={city} value={city}>
+                        {city}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid2>
+
               {/* Location */}
               <Grid2 item size={{ xs: 12 }}>
                 <Typography variant="h6" sx={{ marginBottom: "10px" }}>
@@ -340,13 +362,25 @@ const MarketInfoForm = () => {
                         <Checkbox
                           name="categories"
                           value={category}
-                          onChange={handleChange}
+                          checked={values.categories.includes(category)}
+                          onChange={(e) => {
+                            const { value, checked } = e.target;
+                            const updatedCategories = checked
+                              ? [...values.categories, value]
+                              : values.categories.filter(
+                                  (item) => item !== value
+                                );
+                            setFieldValue("categories", updatedCategories);
+                          }}
                         />
                       }
                       label={category}
                     />
                   ))}
                 </FormGroup>
+                {touched.categories && errors.categories && (
+                  <FormHelperText error>{errors.categories}</FormHelperText>
+                )}
               </Grid2>
 
               {/* Market Images */}
