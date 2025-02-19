@@ -13,7 +13,9 @@ const Dashboard = () => {
   return (
     <div style={{ display: "flex" }}>
       <LeftNavigation setActiveForm={setActiveForm} activeForm={activeForm} />
-      {activeForm === "marketInfo" && <MarketInfoForm />}
+      {activeForm === "marketInfo" && (
+        <MarketInfoForm setActiveForm={setActiveForm} />
+      )}
       {activeForm === "ownerInfo" && <OwnerInfoForm />}
       {activeForm === "home" && <HomeSection setActiveForm={setActiveForm} />}
     </div>

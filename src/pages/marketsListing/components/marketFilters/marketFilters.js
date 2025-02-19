@@ -12,12 +12,18 @@ import {
 } from "@mui/material";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
 
-const MarketFilters = ({ fleaMarketCategories, fleaMarketTypesInFinland }) => {
+const MarketFilters = ({
+  fleaMarketCategories,
+  fleaMarketTypesInFinland,
+  fleaMarketCities,
+}) => {
   const [openRating, setOpenRating] = useState(false);
   const [openMarketTypes, setOpenMarketTypes] = useState(false);
   const [openCategories, setOpenCategories] = useState(false);
+  const [openCities, setOpenCities] = useState(false);
   const [marketTypeFilter, setMarketTypeFilter] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState([]);
+  const [citiesFilter, setCitiesFilter] = useState([]);
 
   const handleToggle = (filter) => {
     switch (filter) {
@@ -29,6 +35,9 @@ const MarketFilters = ({ fleaMarketCategories, fleaMarketTypesInFinland }) => {
         break;
       case "categories":
         setOpenCategories((prev) => !prev);
+        break;
+      case "cities":
+        setOpenCities((prev) => !prev);
         break;
       default:
         break;
@@ -201,6 +210,63 @@ const MarketFilters = ({ fleaMarketCategories, fleaMarketTypesInFinland }) => {
                     />
                   }
                   label={category}
+                />
+              ))}
+            </FormGroup>
+          </Collapse>
+        </Box>
+
+        {/* Divider Line */}
+        <Box
+          sx={{
+            height: "1px",
+            width: "100%",
+            backgroundColor: "#e0e0e0",
+            marginBottom: 2,
+          }}
+        />
+
+        {/* Cities Filter */}
+        <Box marginBottom={2}>
+          <Typography
+            variant="subtitle1"
+            fontWeight="bold"
+            color="#ff0000"
+            sx={{ cursor: "pointer", display: "flex" }}
+            onClick={() => handleToggle("cities")}
+          >
+            Cities
+            {openCities ? (
+              <ExpandLess sx={{ fontSize: "1.5rem", marginLeft: 1 }} />
+            ) : (
+              <ExpandMore sx={{ fontSize: "1.5rem", marginLeft: 1 }} />
+            )}
+          </Typography>
+          <Collapse in={openCities}>
+            <FormGroup>
+              {fleaMarketCities.map((city) => (
+                <FormControlLabel
+                  key={city}
+                  control={
+                    <Checkbox
+                      checked={citiesFilter.includes(city)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setCitiesFilter([...citiesFilter, city]);
+                        } else {
+                          setCitiesFilter(
+                            citiesFilter.filter((item) => item !== city)
+                          );
+                        }
+                      }}
+                      name="cities"
+                      sx={{
+                        color: "#15a0db",
+                        "&.Mui-checked": { color: "#15a0db" },
+                      }}
+                    />
+                  }
+                  label={city}
                 />
               ))}
             </FormGroup>

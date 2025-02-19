@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import TopMarkets from "./component/topMarkets";
 
-const HeaderSection = ({ fleaMarketsList }) => {
+const HeaderSection = ({ allMarkets }) => {
   delete L.Icon.Default.prototype._getIconUrl;
   L.Icon.Default.mergeOptions({
     iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -13,7 +13,7 @@ const HeaderSection = ({ fleaMarketsList }) => {
     shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
   });
 
-  const totalMarkets = fleaMarketsList.length;
+  const totalMarkets = allMarkets?.length;
 
   return (
     <Box
@@ -51,7 +51,7 @@ const HeaderSection = ({ fleaMarketsList }) => {
               </Typography>
 
               {/* Display Top Markets */}
-              <TopMarkets fleaMarketsList={fleaMarketsList} />
+              <TopMarkets allMarkets={allMarkets} />
             </CardContent>
           </Card>
         </Grid2>
@@ -77,12 +77,15 @@ const HeaderSection = ({ fleaMarketsList }) => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               />
-              {fleaMarketsList.map((market) => (
+              {allMarkets?.map((market) => (
                 <Marker
-                  key={market.id}
-                  position={[market.location.lat, market.location.long]}
+                  key={market?._id}
+                  position={[
+                    market?.location?.coordinates[1],
+                    market?.location?.coordinates[0],
+                  ]}
                 >
-                  <Popup>{market.name}</Popup>
+                  <Popup>{market?.name}</Popup>
                 </Marker>
               ))}
             </MapContainer>

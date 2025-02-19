@@ -19,6 +19,7 @@ import {
   FormHelperText,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
+import { useSnackbar } from "../../../../components/snackbar/customSnackBar";
 import * as Yup from "yup";
 import { CloudUpload } from "@mui/icons-material";
 import MarketImagesSection from "./components/marketImagesSection";
@@ -30,7 +31,7 @@ const validationSchema = Yup.object({
   description: Yup.string().required("Description is required"),
   city: Yup.string().required("City is required"),
   location: Yup.string().required("Location is required"),
-  categories: Yup.array().min(1, "At least one category is required"), // Update to handle array
+  // categories: Yup.array().min(1, "At least one category is required"), // Update to handle array
   socialMedia: Yup.object({
     facebook: Yup.string().url("Invalid URL"),
     instagram: Yup.string().url("Invalid URL"),
@@ -40,12 +41,15 @@ const validationSchema = Yup.object({
   priceList: Yup.string().required("Price information is required"),
 });
 
-const MarketInfoForm = () => {
+const MarketInfoForm = ({ setActiveForm }) => {
   const [imagePreviews, setImagePreviews] = useState(Array(10).fill(null));
   const [logoPreview, setLogoPreview] = useState(null);
-  const [selectedType, setSelectedType] = useState("");
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
+  const token = localStorage.getItem("token");
+  const showSnackbar = useSnackbar();
 
   const fleaMarketCategories = [
     "Clothes",
@@ -86,9 +90,7 @@ const MarketInfoForm = () => {
     "Pori",
   ];
 
-  const handleTypeChange = (event) => setSelectedType(event.target.value);
-
-  const handleChange = (event) => {
+  const handleCategoryChange = (event) => {
     const { value } = event.target;
     setSelectedCategories((prev) =>
       prev.includes(value)
@@ -97,55 +99,129 @@ const MarketInfoForm = () => {
     );
   };
 
-  const handleImageUpload = (index, event) => {
+  const handleImageUpload = async (event, index) => {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreviews((prev) => {
-          const newPreviews = [...prev];
-          newPreviews[index] = reader.result;
-          return newPreviews;
-        });
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "fleafind_preset"); // Set in Cloudinary settings
+
+    try {
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/ddnhd2ue9/image/upload",
+        formData
+      );
+
+      const imageUrl = response.data.secure_url; // Get URL from Cloudinary response
+
+      setImagePreviews((prev) => {
+        const newPreviews = [...prev];
+        newPreviews[index] = imageUrl; // Store Cloudinary URL instead of Blob
+        return newPreviews;
+      });
+    } catch (error) {
+      console.error("Upload failed", error);
     }
   };
 
-  const handleLogoUpload = (event) => {
+  const handleLocationChange = async (event) => {
+    const location = event.target.value;
+
+    // Make a request to Nominatim geocoding API to get latitude and longitude for the location
+    if (location) {
+      try {
+        const response = await axios.get(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+            location
+          )}`
+        );
+        const result = response.data[0];
+        if (result) {
+          setLatitude(result.lat);
+          setLongitude(result.lon);
+        } else {
+          setLatitude(null);
+          setLongitude(null);
+          alert("Location not found");
+        }
+      } catch (error) {
+        console.error("Error geocoding location:", error);
+        setLatitude(null);
+        setLongitude(null);
+      }
+    }
+  };
+
+  console.log(imagePreviews, selectedCategories, "IPP");
+
+  const handleLogoUpload = async (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setLogoPreview(reader.result);
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "fleafind_preset"); // Set in Cloudinary settings
+
+    try {
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/ddnhd2ue9/image/upload",
+        formData
+      );
+
+      const imageUrl = response.data.secure_url; // Get URL from Cloudinary response
+
+      setLogoPreview(imageUrl);
+    } catch (error) {
+      console.error("Upload failed", error);
     }
   };
 
   const handleFormSubmit = async (values) => {
     try {
-      const response = await axios.post("http://localhost:8000/api/markets", {
-        name: values.marketName,
-        description: values.description,
-        city: values.city,
-        location: values.location,
-        categories: selectedCategories,
-        openingHours: values.openingHours,
-        priceList: values.priceList,
-        socialMedia: values.socialMedia,
-        logo: logoPreview,
-        images: imagePreviews,
+      const formData = new FormData();
+      formData.append("name", values.marketName);
+      formData.append("marketType", values.marketType);
+      formData.append("description", values.description);
+      formData.append("city", values.city);
+      formData.append("location", values.location);
+      formData.append("latitude", latitude); // Add latitude to form data
+      formData.append("longitude", longitude); // Add longitude to form data
+      formData.append("categories", JSON.stringify(selectedCategories));
+      formData.append("openingHours", values.openingHours);
+      formData.append("priceList", values.priceList);
+      formData.append("socialMedia", JSON.stringify(values.socialMedia));
+
+      if (logoPreview) {
+        formData.append("logo", logoPreview);
+      }
+
+      imagePreviews.forEach((image, index) => {
+        if (image) {
+          formData.append(`images`, image);
+        }
       });
 
-      console.log(values, logoPreview, imagePreviews, "CREATE API");
+      console.log(values, token, logoPreview, imagePreviews, "FORM DATA");
 
+      const response = await axios.post(
+        "http://localhost:8000/api/market",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      showSnackbar("Market Created Successfully", "success");
+      setActiveForm("home");
       console.log("Market created successfully:", response.data);
-      // handle success (e.g., navigate, show notification, etc.)
     } catch (error) {
       console.error(
         "Error creating market:",
         error.response ? error.response.data : error.message
       );
-      // handle error (e.g., show error notification)
     }
   };
 
@@ -186,7 +262,7 @@ const MarketInfoForm = () => {
           },
         }}
         validationSchema={validationSchema}
-        onSubmit={(data) => console.log(data)}
+        onSubmit={(data) => handleFormSubmit(data)}
       >
         {({
           errors,
@@ -343,8 +419,14 @@ const MarketInfoForm = () => {
                   as={TextField}
                   fullWidth
                   name="location"
-                  label="Location"
-                  error={touched.location && Boolean(errors.location)}
+                  label="Enter Location"
+                  value={values.location}
+                  onChange={(e) => {
+                    handleChange(e);
+                    handleLocationChange(e); // Trigger Nominatim API on change
+                  }}
+                  onBlur={handleBlur}
+                  error={Boolean(touched.location && errors.location)}
                   helperText={touched.location && errors.location}
                 />
               </Grid2>
@@ -362,16 +444,8 @@ const MarketInfoForm = () => {
                         <Checkbox
                           name="categories"
                           value={category}
-                          checked={values.categories.includes(category)}
-                          onChange={(e) => {
-                            const { value, checked } = e.target;
-                            const updatedCategories = checked
-                              ? [...values.categories, value]
-                              : values.categories.filter(
-                                  (item) => item !== value
-                                );
-                            setFieldValue("categories", updatedCategories);
-                          }}
+                          checked={selectedCategories.includes(category)}
+                          onChange={(e) => handleCategoryChange(e)}
                         />
                       }
                       label={category}

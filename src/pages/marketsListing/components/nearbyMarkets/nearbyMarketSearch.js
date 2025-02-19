@@ -100,34 +100,24 @@ const NearbyMarketsModal = ({ open, handleClose }) => {
 
   const handleGetLocation = () => {
     setLoadingLocation(true);
-    const location = {
-      //   lat: position.coords.latitude,
-      lat: 60.1735,
-      //   long: position.coords.longitude,
-      long: 24.941,
-    };
-    setUserLocation(location);
-    setError("");
-    setLoadingLocation(false);
-    // navigator.geolocation.getCurrentPosition(
-    //   async (position) => {
-    //     console.log(position, "POSITION");
-    //     const location = {
-    //       //   lat: position.coords.latitude,
-    //       lat: "60.1735",
-    //       //   long: position.coords.longitude,
-    //       long: "24.9410",
-    //     };
-    //     setUserLocation(location);
-    //     await fetchAddress(location.lat, location.long);
-    //     setLoadingLocation(false);
-    //   },
-    //   (error) => {
-    //     console.error("Error fetching location:", error);
-    //     setLoadingLocation(false);
-    //   },
-    //   { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 } // Settings to improve accuracy
-    // );
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const location = {
+          lat: position.coords.latitude,
+          // lat: "60.1735",
+          long: position.coords.longitude,
+          // long: "24.9410",
+        };
+        setUserLocation(location);
+        await fetchAddress(location.lat, location.long);
+        setLoadingLocation(false);
+      },
+      (error) => {
+        console.error("Error fetching location:", error);
+        setLoadingLocation(false);
+      }
+      // { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 } // Settings to improve accuracy
+    );
   };
 
   const handleRadiusChange = (event) => {

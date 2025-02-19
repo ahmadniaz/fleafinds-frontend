@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid2,
   FormControl,
@@ -10,17 +10,17 @@ import {
   Button,
   Divider,
 } from "@mui/material";
-
 import {
   HeaderSection,
   FeaturedMarkets,
-  MarketCard,
   MarketFilters,
   NearbyMarketsModal,
   UserReviews,
 } from "./components";
 import { HomeNav } from "../../layout/components/header/components";
-import { fleaMarketsList, featuredMarkets, reviews } from "../../data/data";
+import { featuredMarkets, reviews } from "../../data/data";
+import { MarketCard } from "../../components";
+import axios from "axios";
 
 // Categories and Types for Filters
 const fleaMarketCategories = [
@@ -49,12 +49,39 @@ const fleaMarketTypesInFinland = [
   "Pop-up Market",
 ];
 
+const fleaMarketCities = [
+  "Helsinki",
+  "Espoo",
+  "Tampere",
+  "Vantaa",
+  "Oulu",
+  "Turku",
+  "Jyväskylä",
+  "Lahti",
+  "Kuopio",
+  "Pori",
+];
+
 const MarketListing = () => {
   const [page, setPage] = useState(1);
   const [sortOption, setSortOption] = useState("");
+  const [allMarkets, setAllMarkets] = useState([]);
+
+  useEffect(() => {
+    getOwnerMarkets();
+  }, []);
+
+  const getOwnerMarkets = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/market");
+      setAllMarkets(response?.data?.markets);
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  };
 
   const marketsPerPage = 12;
-  const totalMarkets = fleaMarketsList.length;
+  const totalMarkets = allMarkets?.length;
   const totalPages = Math.ceil(totalMarkets / marketsPerPage);
 
   const handleSortChange = (event) => {
@@ -67,7 +94,7 @@ const MarketListing = () => {
 
   const startIndex = (page - 1) * marketsPerPage;
   const endIndex = startIndex + marketsPerPage;
-  const displayedMarkets = fleaMarketsList.slice(startIndex, endIndex);
+  const displayedMarkets = allMarkets?.slice(startIndex, endIndex);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -84,7 +111,7 @@ const MarketListing = () => {
       {/* Navigation Bar*/}
       <HomeNav />
       {/* Header Section*/}
-      <HeaderSection fleaMarketsList={fleaMarketsList} />
+      <HeaderSection allMarkets={allMarkets} />
 
       {/* Divider Between Sections */}
       <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />
@@ -101,6 +128,7 @@ const MarketListing = () => {
         <MarketFilters
           fleaMarketCategories={fleaMarketCategories}
           fleaMarketTypesInFinland={fleaMarketTypesInFinland}
+          fleaMarketCities={fleaMarketCities}
         />
         {/* Listing component*/}
         <Grid2 item size={{ xs: 12, lg: 10, md: 9 }}>
@@ -158,6 +186,7 @@ const MarketListing = () => {
             >
               <Button
                 onClick={handleModalOpen}
+                fullWidth
                 variant="contained"
                 sx={{
                   backgroundColor: "#15a0db",
@@ -175,7 +204,7 @@ const MarketListing = () => {
           {/* Flea Market Cards */}
           <Grid2 container spacing={4} mt={3}>
             {displayedMarkets.map((market) => (
-              <MarketCard key={market.id} market={market} />
+              <MarketCard key={market?._id} market={market} />
             ))}
           </Grid2>
 

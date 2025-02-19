@@ -30,7 +30,7 @@ const HomeNavbar = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const menuLinks = ["About", "Contact"];
+  const menuLinks = ["Markets", "About", "Contact"];
 
   useEffect(() => {
     let lastScroll = window.pageYOffset;
@@ -171,6 +171,7 @@ const HomeNavbar = () => {
                             color: "#fff",
                             fontSize: "1rem",
                             borderRadius: 2,
+                            marginTop: "10px",
                             width: "100%",
                             boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
                             "&:hover": {
@@ -210,6 +211,7 @@ const HomeNavbar = () => {
                           variant="contained"
                           sx={{
                             backgroundColor: "#15a0db",
+                            marginTop: "10px",
                             color: "#fff",
                             fontSize: "1rem",
                             borderRadius: 2,
