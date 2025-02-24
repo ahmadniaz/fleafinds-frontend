@@ -32,7 +32,7 @@ const TopMarkets = ({ allMarkets }) => {
               component="span"
               sx={{ color: "#ff0000", fontWeight: "medium", ml: 1 }}
             >
-              {/* ({market.reviews} reviews, {market.rating} ⭐) */}
+              ({market.reviewCount} reviews, {market.averageRating} ⭐)
             </Typography>
           </Box>
         ))}

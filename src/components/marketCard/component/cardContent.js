@@ -100,7 +100,7 @@ const CustomCardContent = ({ isNewMarket, isOwner, market, hovered }) => {
           {/* Ratings */}
           <Box display="flex" alignItems="center" marginBottom={1}>
             <Rating
-              value={market.rating}
+              value={market?.averageRating}
               precision={0.1}
               readOnly
               sx={{

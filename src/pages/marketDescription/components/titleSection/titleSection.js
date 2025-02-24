@@ -20,7 +20,7 @@ const SectionCard = styled(Card)({
   overflow: "hidden",
 });
 
-const TitleSection = ({ testMarketData, reviewFormRef }) => {
+const TitleSection = ({ marketData, reviewFormRef }) => {
   // Function to scroll to the review form
   const scrollToReviewForm = () => {
     reviewFormRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -39,7 +39,7 @@ const TitleSection = ({ testMarketData, reviewFormRef }) => {
             >
               <img
                 alt="Market Logo"
-                src={testMarketData.logo}
+                src={marketData?.logo}
                 style={{
                   width: "200px",
                   border: "2px solid #15a0db",
@@ -54,7 +54,7 @@ const TitleSection = ({ testMarketData, reviewFormRef }) => {
                 variant="h4"
                 sx={{ color: "#ff0000", fontWeight: "bold" }}
               >
-                {testMarketData.marketName}
+                {marketData?.name}
               </Typography>
               <Box
                 sx={{
@@ -64,7 +64,8 @@ const TitleSection = ({ testMarketData, reviewFormRef }) => {
                 }}
               >
                 <Rating
-                  value={testMarketData.rating}
+                  value={marketData?.averageRating}
+                  // value={"4.7"}
                   precision={0.1}
                   readOnly
                   sx={{ color: "#ff0000" }}
@@ -74,14 +75,14 @@ const TitleSection = ({ testMarketData, reviewFormRef }) => {
                   color="text.secondary"
                   sx={{ marginLeft: 1 }}
                 >
-                  ({testMarketData.reviewCount} reviews)
+                  ({marketData?.reviewCount} reviews)
                 </Typography>
               </Box>
               <Typography
                 variant="subtitle1"
                 sx={{ color: "#15a0db", marginTop: 1 }}
               >
-                {testMarketData.marketType}
+                {marketData?.marketType}
               </Typography>
             </Box>
           </Grid2>

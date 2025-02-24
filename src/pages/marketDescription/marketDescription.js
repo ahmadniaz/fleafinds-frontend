@@ -1,18 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/material";
 import { styled } from "@mui/system";
 import { HomeNav } from "../../layout/components/header/components";
+import { useSnackbar } from "../../components/snackbar/customSnackBar";
+import { useLocation } from "react-router-dom";
 import {
   TitleSection,
   InfoSection,
   GallerySection,
   ReviewSection,
 } from "./components";
-import Image1 from "../../assets/images/helsinki.jpeg";
-import Image2 from "../../assets/images/fleaMarketbg.jpg";
-import Image3 from "../../assets/images/turku.jpeg";
-import Image4 from "../../assets/images/vaasa.jpeg";
-import Image5 from "../../assets/images/fleaMarketLogo.jpg";
+import { LoadingFallback } from "../../components";
+import axios from "axios";
 
 // Styled components for elegance
 const Container = styled(Box)({
@@ -22,108 +21,84 @@ const Container = styled(Box)({
 });
 
 const MarketDescriptionPage = () => {
-  const testMarketData = {
-    marketName: "Finnish Flea Market",
-    description:
-      "A vibrant marketplace featuring a wide variety of second-hand goods, handmade crafts, and local delicacies. A vibrant marketplace featuring a wide variety of second-hand goods, handmade crafts, and local delicacies.A vibrant marketplace featuring a wide variety of second-hand goods, handmade crafts, and local delicacies.",
-    logo: Image2,
-    location: {
-      latitude: 60.1695,
-      longitude: 24.9354,
-      address: "123 Market Street, Helsinki, Finland",
-    },
-    rating: 4.1,
-    reviewCount: 19,
-    categories: ["Antiques", "Clothing", "Handmade Goods", "Art", "Furniture"],
-    openingHours: "Saturdays and Sundays, 9 AM - 4 PM",
-    priceList: "Spaces starting from €20 per day.",
-    socialMedia: {
-      facebook: "https://facebook.com/example",
-      instagram: "https://instagram.com/example",
-      twitter: "https://twitter.com/example",
-    },
-    images: [
-      Image1,
-      Image2,
-      Image3,
-      Image4,
-      Image5,
-      Image1,
-      Image3,
-      Image2,
-      Image4,
-      Image5,
-    ],
-    marketType: "Outdoor Flea Market",
-    contact: {
-      phone: "+358 123 4567",
-      email: "info@finnishfleamarket.com",
-      website: "https://finnishfleamarket.com",
-    },
-    faqs: [
-      {
-        question: "What are the opening hours?",
-        answer: "Saturdays and Sundays, 9 AM - 4 PM.",
-      },
-      {
-        question: "Is there parking available?",
-        answer: "Yes, there is ample parking nearby.",
-      },
-    ],
-    events: [
-      {
-        title: "Summer Festival",
-        date: "August 5, 2024",
-        description: "Join us for our annual summer festival!",
-      },
-    ],
-    reviews: [
-      {
-        comment:
-          "A wonderful flea market where products move quickly! Professional and cordial staff.",
-        rating: 5,
-        name: "Pirkko Salo",
-        date: "24/09/2024",
-      },
+  const showSnackbar = useSnackbar();
+  const location = useLocation();
+  const [marketData, setMarketData] = useState(null);
+  const [allReviews, setAllReviews] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-      {
-        comment: "A wonderful experience! Professional staff.",
-        rating: 4,
-        name: "Hello Salo",
-        date: "21/09/2024",
-      },
-    ],
+  const getAllReviews = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/review/${location?.state?.marketData?._id}`
+      );
+      setAllReviews(response?.data?.reviews);
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
   };
-  const [reviews] = useState(testMarketData.reviews);
+
+  useEffect(() => {
+    if (location.state && location.state.marketData) {
+      setMarketData(location.state.marketData);
+    }
+    getAllReviews();
+  }, []);
+
+  const submitReview = async (values) => {
+    setLoading(true);
+    try {
+      const marketId = marketData?._id;
+      const response = await axios.post("http://localhost:8000/api/review", {
+        marketId,
+        ...values,
+      });
+
+      if (response?.statusText === "Created" || response?.status === 201) {
+        showSnackbar("Review Submitted Successfully", "success");
+        getAllReviews();
+      }
+      console.log("Review submitted:", response);
+      setLoading(false);
+    } catch (error) {
+      console.error(
+        "Error submitting review:",
+        error.response?.data || error.message
+      );
+      setLoading(false);
+      showSnackbar("Error Submitting Review", "success");
+      showSnackbar(error.message, "error");
+    }
+  };
+
+  console.log();
   const reviewFormRef = useRef(null);
-
-  const ratingsBreakdown = {
-    5: 100,
-    4: 0,
-    3: 0,
-    2: 0,
-    1: 0,
-  };
 
   return (
     <>
-      <HomeNav />
-      <Container>
-        {/* Title Section */}
-        <TitleSection testMarketData={testMarketData} />
-        {/* Information Sections */}
-        <InfoSection testMarketData={testMarketData} />
-        {/* Image Gallery Section */}
-        <GallerySection testMarketData={testMarketData} />
-        {/* Reviews Section */}
-        <ReviewSection
-          secRef={reviewFormRef}
-          reviews={reviews}
-          totalReviews={44}
-          ratingsBreakdown={ratingsBreakdown}
-          testMarketData={testMarketData}
-        />
-      </Container>
+      {!marketData ? (
+        <LoadingFallback />
+      ) : (
+        <>
+          <HomeNav />
+          <Container>
+            {/* Title Section */}
+            <TitleSection marketData={marketData} />
+            {/* Information Sections */}
+            <InfoSection marketData={marketData} />
+            {/* Image Gallery Section */}
+            <GallerySection marketData={marketData} />
+            {/* Reviews Section */}
+            <ReviewSection
+              secRef={reviewFormRef}
+              reviews={allReviews}
+              marketData={marketData}
+              submitReview={submitReview}
+              loading={loading}
+            />
+          </Container>
+        </>
+      )}
     </>
   );
 };

@@ -1,20 +1,26 @@
 import React from "react";
-import { CircularProgress, Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
-const LoadingFallback = () => {
+const LoadingFallback = ({ text = "Loading..." }) => {
   return (
     <Box
       sx={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
         justifyContent: "center",
-        minHeight: "100vh",
+        alignItems: "center",
+        backgroundColor: "rgba(255, 255, 255, 0.8)", // Light overlay
+        zIndex: 9999,
       }}
     >
-      <CircularProgress size={60} />
-      <Typography variant="h6" sx={{ marginTop: "20px" }}>
-        Loading...
+      <CircularProgress size={50} />
+      <Typography variant="h6" mt={2}>
+        {text}
       </Typography>
     </Box>
   );

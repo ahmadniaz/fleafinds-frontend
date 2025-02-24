@@ -2,14 +2,14 @@ import React from "react";
 import { Description, MapSection } from "./components";
 import { Grid2 } from "@mui/material";
 
-const InformationSection = ({ testMarketData }) => {
+const InformationSection = ({ marketData }) => {
   return (
     <Grid2 container spacing={3}>
       {/*Market Informaton Description */}
-      <Description testMarketData={testMarketData} />
+      <Description marketData={marketData} />
 
       {/*Market Address */}
-      <MapSection testMarketData={testMarketData} />
+      <MapSection marketData={marketData} />
     </Grid2>
   );
 };

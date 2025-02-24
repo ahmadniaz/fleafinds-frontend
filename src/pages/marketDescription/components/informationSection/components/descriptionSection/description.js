@@ -24,7 +24,7 @@ const FieldLabel = styled(Typography)({
   color: "#555",
 });
 
-const Description = ({ testMarketData }) => {
+const Description = ({ marketData }) => {
   return (
     <Grid2 item size={{ xs: 12, md: 6 }}>
       <SectionCard>
@@ -44,14 +44,14 @@ const Description = ({ testMarketData }) => {
             <Typography
               sx={{ lineHeight: "1.6", fontSize: "1rem", color: "#555" }}
             >
-              {testMarketData.description}
+              {marketData?.description}
             </Typography>
           </Box>
 
           <Box mb={2}>
             <FieldLabel>Categories</FieldLabel>
             <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", mt: 2 }}>
-              {testMarketData.categories.map((category, index) => (
+              {marketData?.categories?.map((category, index) => (
                 <Chip
                   key={index}
                   label={category}
@@ -72,19 +72,19 @@ const Description = ({ testMarketData }) => {
             <FieldLabel display="flex">
               <AccessTimeIcon /> Opening Hours
             </FieldLabel>
-            <Typography mt={1}>{testMarketData.openingHours}</Typography>
+            <Typography mt={1}>{marketData?.openingHours}</Typography>
           </Box>
 
           <Box mt={2}>
             <FieldLabel>Price List</FieldLabel>
-            <Typography>{testMarketData.priceList}</Typography>
+            <Typography>{marketData?.priceList}</Typography>
           </Box>
 
-          <Box mt={2}>
+          {/* <Box mt={2}>
             <FieldLabel display="flex">
               <EventIcon /> Events
             </FieldLabel>
-            {testMarketData.events.map((event, index) => (
+            {marketData?.events?.map((event, index) => (
               <Box
                 key={index}
                 sx={{
@@ -100,7 +100,7 @@ const Description = ({ testMarketData }) => {
                 <Typography>{event.description}</Typography>
               </Box>
             ))}
-          </Box>
+          </Box> */}
         </CardContent>
       </SectionCard>
     </Grid2>

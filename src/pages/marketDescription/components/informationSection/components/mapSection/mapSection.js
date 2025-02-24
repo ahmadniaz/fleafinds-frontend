@@ -42,7 +42,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
-const MapSection = ({ testMarketData }) => {
+const MapSection = ({ marketData }) => {
   return (
     <Grid2 item size={{ xs: 12, md: 6 }}>
       <SectionCard>
@@ -52,8 +52,8 @@ const MapSection = ({ testMarketData }) => {
           {/* Map Container */}
           <MapContainer
             center={[
-              testMarketData.location.latitude,
-              testMarketData.location.longitude,
+              marketData?.location?.coordinates[1],
+              marketData?.location?.coordinates[0],
             ]}
             zoom={15}
             style={{
@@ -69,11 +69,11 @@ const MapSection = ({ testMarketData }) => {
             />
             <Marker
               position={[
-                testMarketData.location.latitude,
-                testMarketData.location.longitude,
+                marketData?.location?.coordinates[1],
+                marketData?.location?.coordinates[0],
               ]}
             >
-              <Popup>{testMarketData.location.address}</Popup>
+              <Popup>{marketData?.location?.address}</Popup>
             </Marker>
           </MapContainer>
 
@@ -82,7 +82,7 @@ const MapSection = ({ testMarketData }) => {
             <LocationOnIcon sx={{ color: "primary.main", marginRight: 1 }} />
             <Box>
               <FieldLabel>Address</FieldLabel>
-              <Typography>{testMarketData.location.address}</Typography>
+              <Typography>{marketData?.location?.address}</Typography>
             </Box>
           </Box>
 
@@ -91,7 +91,7 @@ const MapSection = ({ testMarketData }) => {
             <Button
               variant="contained"
               color="primary"
-              href={`https://www.openstreetmap.org/directions?mlat=${testMarketData.location.latitude}&mlon=${testMarketData.location.longitude}#map=15/${testMarketData.location.latitude}/${testMarketData.location.longitude}`}
+              href={`https://www.openstreetmap.org/directions?mlat=${marketData?.location?.coordinates[1]}&mlon=${marketData?.location?.coordinates[0]}#map=15/${marketData?.location?.coordinates[1]}/${marketData?.location?.coordinates[0]}`}
               target="_blank"
               startIcon={<DirectionsIcon />}
               sx={{

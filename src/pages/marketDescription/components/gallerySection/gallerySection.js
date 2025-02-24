@@ -12,7 +12,7 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import styled from "@emotion/styled";
 
-const GallerySection = ({ testMarketData }) => {
+const GallerySection = ({ marketData }) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedImg, setSelectedImg] = useState(null);
 
@@ -40,7 +40,7 @@ const GallerySection = ({ testMarketData }) => {
         <CardContent>
           <HeaderTypography variant="h5">Gallery</HeaderTypography>
           <Grid2 container spacing={2} p={2} justifyContent="center">
-            {testMarketData.images.map((img, index) => (
+            {marketData?.images?.map((img, index) => (
               <Grid2 item xs={12} sm={6} md={4} key={index}>
                 <Box position="relative">
                   <Box
