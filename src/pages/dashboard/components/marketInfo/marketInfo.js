@@ -30,14 +30,12 @@ import { LoadingFallback } from "../../../../components";
 const validationSchema = Yup.object({
   marketName: Yup.string().required("Market name is required"),
   description: Yup.string().required("Description is required"),
+  marketType: Yup.string().required("Market Type is required"),
   city: Yup.string().required("City is required"),
   location: Yup.string().required("Location is required"),
-  // categories: Yup.array().min(1, "At least one category is required"), // Update to handle array
-  socialMedia: Yup.object({
-    facebook: Yup.string().url("Invalid URL"),
-    instagram: Yup.string().url("Invalid URL"),
-    twitter: Yup.string().url("Invalid URL"),
-  }),
+  categories: Yup.array()
+    .min(1, "At least one category is required")
+    .required("Categories are required"),
   openingHours: Yup.string().required("Opening hours are required"),
   priceList: Yup.string().required("Price information is required"),
 });
@@ -101,13 +99,13 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
     }
   }, [marketData]);
 
-  const handleCategoryChange = (event) => {
+  const handleCategoryChange = (event, setFieldValue, values) => {
     const { value } = event.target;
-    setSelectedCategories((prev) =>
-      prev.includes(value)
-        ? prev.filter((category) => category !== value)
-        : [...prev, value]
-    );
+    const updatedCategories = values.categories.includes(value)
+      ? values.categories.filter((category) => category !== value)
+      : [...values.categories, value];
+
+    setFieldValue("categories", updatedCategories);
   };
 
   const handleImageUpload = async (event, index) => {
@@ -309,7 +307,14 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
               handleFormSubmit(data, { resetForm })
             }
           >
-            {({ errors, touched, values, handleChange, handleBlur }) => (
+            {({
+              errors,
+              touched,
+              values,
+              handleChange,
+              handleBlur,
+              setFieldValue,
+            }) => (
               <Form>
                 <Grid2 container spacing={2}>
                   {/* Market Name */}
@@ -332,7 +337,10 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                       Market Type
                     </Typography>
-                    <FormControl fullWidth>
+                    <FormControl
+                      fullWidth
+                      error={touched.marketType && Boolean(errors.marketType)}
+                    >
                       <Select
                         name="marketType"
                         value={values.marketType}
@@ -349,6 +357,9 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                           </MenuItem>
                         ))}
                       </Select>
+                      {touched.marketType && errors.marketType && (
+                        <FormHelperText>{errors.marketType}</FormHelperText>
+                      )}
                     </FormControl>
                   </Grid2>
 
@@ -428,7 +439,10 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
                       City
                     </Typography>
-                    <FormControl fullWidth>
+                    <FormControl
+                      fullWidth
+                      error={touched.city && Boolean(errors.city)}
+                    >
                       <Select
                         name="city"
                         value={values.city}
@@ -445,6 +459,9 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                           </MenuItem>
                         ))}
                       </Select>
+                      {touched.city && errors.city && (
+                        <FormHelperText>{errors.city}</FormHelperText>
+                      )}
                     </FormControl>
                   </Grid2>
 
@@ -482,8 +499,10 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                             <Checkbox
                               name="categories"
                               value={category}
-                              checked={selectedCategories.includes(category)}
-                              onChange={(e) => handleCategoryChange(e)}
+                              checked={values.categories.includes(category)}
+                              onChange={(e) =>
+                                handleCategoryChange(e, setFieldValue, values)
+                              }
                             />
                           }
                           label={category}

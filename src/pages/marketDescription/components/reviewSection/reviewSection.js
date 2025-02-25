@@ -19,16 +19,17 @@ const ReviewAndSocialMediaSection = ({
   submitReview,
   loading,
 }) => {
-  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+  const totalRating =
+    reviews && reviews?.reduce((sum, review) => sum + review?.rating, 0);
 
   // Calculate average rating
-  const averageRating = (totalRating / reviews.length).toFixed(1);
+  const averageRating = (totalRating / reviews?.length).toFixed(1);
 
   // Initialize rating breakdown object (default 0)
   const ratingsBreakdown = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
 
   // Count occurrences of each rating
-  reviews.forEach((review) => {
+  reviews?.forEach((review) => {
     ratingsBreakdown[review.rating] += 1;
   });
 
@@ -169,8 +170,16 @@ const ReviewAndSocialMediaSection = ({
           )}
 
           <Divider sx={{ p: 2 }} />
-
-          <UserReviewsSection reviews={reviews} averageRating={averageRating} />
+          {reviews && reviews?.length > 0 ? (
+            <UserReviewsSection
+              reviews={reviews}
+              averageRating={averageRating}
+            />
+          ) : (
+            <Box sx={{ p: 3 }}>
+              <Typography>No Reviews Yet</Typography>
+            </Box>
+          )}
         </Grid2>
 
         {/* Right Section: Social Media Links */}
