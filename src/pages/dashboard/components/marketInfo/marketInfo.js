@@ -222,7 +222,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
 
       if (marketData) {
         await axios.put(
-          `http://localhost:8000/api/market/update/${marketData?._id}`,
+          `${process.env.REACT_APP_API_URL}api/market/update/${marketData?._id}`,
           formData,
           {
             headers: {
@@ -235,12 +235,16 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
         setLoading(false);
         showSnackbar("Market Updated Successfully", "success");
       } else {
-        await axios.post("http://localhost:8000/api/market", formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        await axios.post(
+          `${process.env.REACT_APP_API_URL}api/market`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
         setLoading(false);
         showSnackbar("Market Created Successfully", "success");
       }

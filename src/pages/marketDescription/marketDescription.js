@@ -30,7 +30,7 @@ const MarketDescriptionPage = () => {
   const getAllReviews = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/review/${location?.state?.marketData?._id}`
+        `${process.env.REACT_APP_API_URL}api/review/${location?.state?.marketData?._id}`
       );
       setAllReviews(response?.data?.reviews);
     } catch (error) {
@@ -49,10 +49,13 @@ const MarketDescriptionPage = () => {
     setLoading(true);
     try {
       const marketId = marketData?._id;
-      const response = await axios.post("http://localhost:8000/api/review", {
-        marketId,
-        ...values,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}api/review`,
+        {
+          marketId,
+          ...values,
+        }
+      );
 
       if (response?.statusText === "Created" || response?.status === 201) {
         showSnackbar("Review Submitted Successfully", "success");

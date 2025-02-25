@@ -44,7 +44,7 @@ const AuthForm = () => {
   const handleSignupSubmit = async (values) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/owner/register",
+        `${process.env.REACT_APP_API_URL}api/owner/register`,
         values
       );
       console.log(response.data);
@@ -58,7 +58,7 @@ const AuthForm = () => {
   const handleLoginSubmit = async (values) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/owner/login",
+        `${process.env.REACT_APP_API_URL}api/owner/login`,
         values
       );
       console.log(response.data);

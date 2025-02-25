@@ -27,7 +27,7 @@ const HomeSection = ({ setActiveForm, setUpdateMarket }) => {
   const getOwnerMarkets = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/market/owner",
+        `${process.env.REACT_APP_API_URL}api/market/owner`,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Ensure token is passed correctly
