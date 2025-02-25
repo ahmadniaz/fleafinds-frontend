@@ -13,7 +13,7 @@ import Breadcrumb from "../../../../components/breadcrumbs/breadCrumbs";
 import { MarketCard } from "../../../../components";
 import axios from "axios";
 
-const HomeSection = ({ setActiveForm }) => {
+const HomeSection = ({ setActiveForm, setUpdateMarket }) => {
   const location = useLocation();
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const token = localStorage.getItem("token"); // Get token from storage
@@ -21,6 +21,7 @@ const HomeSection = ({ setActiveForm }) => {
 
   useEffect(() => {
     getOwnerMarkets();
+    setUpdateMarket(null);
   }, []);
 
   const getOwnerMarkets = async () => {
@@ -37,6 +38,12 @@ const HomeSection = ({ setActiveForm }) => {
     } catch (error) {
       console.log(error, "ERROR");
     }
+  };
+
+  const handleUpdateIconClick = (market) => {
+    console.log(market, "MARKET");
+    setUpdateMarket(market);
+    setActiveForm("marketInfo");
   };
 
   return (
@@ -112,7 +119,11 @@ const HomeSection = ({ setActiveForm }) => {
         <Grid2 container spacing={4} mt={3}>
           {ownerMarkets?.length > 0 &&
             ownerMarkets?.map((market) => (
-              <MarketCard key={market?._id} market={market} />
+              <MarketCard
+                key={market?._id}
+                market={market}
+                handleUpdateIconClick={handleUpdateIconClick}
+              />
             ))}
         </Grid2>
       </Box>

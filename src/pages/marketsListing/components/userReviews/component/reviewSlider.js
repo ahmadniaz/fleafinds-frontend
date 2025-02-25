@@ -1,5 +1,4 @@
-// CustomSlider.js
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Card,
@@ -8,38 +7,57 @@ import {
   Divider,
   useMediaQuery,
 } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { createSlug } from "../../../../../utils/slug";
 
-const ReviewsSlider = ({ items, speed = 5 }) => {
+const ReviewsSlider = ({ items, markets, speed = 5 }) => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const isMediumScreen = useMediaQuery("(max-width:960px)");
-
-  // Define slidesToShow based on screen size
   const slidesToShow = isSmallScreen ? 1 : isMediumScreen ? 3 : 4;
-
-  // Adjust speed based on screen size
   const adjustedSpeed = isSmallScreen
     ? speed / 3
     : isMediumScreen
     ? speed * 0.75
     : speed;
 
-  // Reference to the scroll container
   const scrollContainerRef = useRef(null);
+  const [expanded, setExpanded] = useState({});
+  const [isHovered, setIsHovered] = useState(false);
+
+  const getInitials = (name) => {
+    if (!name) return "?"; // Fallback for undefined names
+    const words = name.trim().split(" ");
+    return words.length > 1
+      ? words[0][0] + words[1][0] // First letters of first & second word
+      : words[0][0]; // Only the first letter for single-word names
+  };
+
+  const navigate = useNavigate(); // Initialize navigate function
+
+  const handleMarketClick = (item) => {
+    const slug = createSlug(item?.marketName);
+    const marketDesc = markets.filter(
+      (market) => market?._id === item?.marketId
+    );
+
+    navigate(`/markets/${slug}`, { state: { marketData: marketDesc[0] } });
+  };
 
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
 
-    // Reset scroll position for infinite loop
     const handleScroll = () => {
       if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
         scrollContainer.scrollLeft = 0;
       }
     };
 
-    // Auto-scroll at a fixed speed
-    const scrollInterval = setInterval(() => {
-      scrollContainer.scrollLeft += 1;
-    }, adjustedSpeed);
+    let scrollInterval;
+    if (!isHovered) {
+      scrollInterval = setInterval(() => {
+        scrollContainer.scrollLeft += 1;
+      }, adjustedSpeed);
+    }
 
     scrollContainer.addEventListener("scroll", handleScroll);
 
@@ -47,7 +65,7 @@ const ReviewsSlider = ({ items, speed = 5 }) => {
       clearInterval(scrollInterval);
       scrollContainer.removeEventListener("scroll", handleScroll);
     };
-  }, [adjustedSpeed]);
+  }, [adjustedSpeed, isHovered]);
 
   return (
     <Box
@@ -60,90 +78,166 @@ const ReviewsSlider = ({ items, speed = 5 }) => {
       }}
       ref={scrollContainerRef}
     >
-      <Box
-        sx={{
-          display: "flex",
-          "&:hover": {
-            animationPlayState: "paused",
-            cursor: "pointer",
-          },
-        }}
-      >
-        {/* Original and cloned items for seamless scrolling */}
-        {[...items, ...items].map((item, index) => (
+      <Box sx={{ display: "flex", cursor: "pointer" }}>
+        {items.map((item, index) => (
           <Card
-            key={`${item.id}-${index}`}
+            key={`${item?.id}-${index}`}
             sx={{
-              flex: `0 0 calc(100% / ${slidesToShow})`, // Responsive width
-              minWidth: `calc(100% / ${slidesToShow})`, // Minimum width for each card
-              maxWidth: 400, // Optional max-width for large screens
+              flex: `0 0 calc(100% / ${slidesToShow})`,
+              minWidth: `calc(100% / ${slidesToShow})`,
+              maxWidth: 400,
               mx: 1,
               boxShadow: 3,
               borderRadius: 2,
+              transition: "transform 0.3s",
+              "&:hover": { transform: "scale(1.02)" },
             }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
             <CardContent>
-              {/* Market Name */}
-              <Typography
-                variant="h6"
+              {/* Market Logo and Name */}
+              <Box
                 sx={{
-                  fontWeight: "bold",
-                  color: "#15a0db",
-                  marginBottom: 1,
-                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mb: 1,
                 }}
+                onClick={() => handleMarketClick(item)}
               >
-                {item.marketName}
-              </Typography>
-
-              {/* Divider */}
-              <Divider sx={{ marginBottom: 1 }} />
-
-              {/* User Avatar and Name */}
-              <Box display="flex" alignItems="center" marginBottom={1}>
+                {/* Market Logo */}
                 <Box
                   sx={{
                     width: 40,
                     height: 40,
                     borderRadius: "50%",
-                    backgroundColor: "#15a0db",
+                    overflow: "hidden",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "#fff",
-                    fontWeight: "bold",
-                    marginRight: 2,
-                    fontSize: isSmallScreen ? "0.8rem" : "1rem", // Responsive font size
+                    backgroundColor: "#f0f0f0",
+                    boxShadow: 2,
+                    mr: 1,
                   }}
                 >
-                  {item.name.charAt(0)}
+                  <img
+                    src={item?.marketLogo || "/default-logo.png"} // Ensure you have a default image
+                    alt="Market Logo"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
                 </Box>
-                <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                  {item.name}
+
+                {/* Market Name */}
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: "bold",
+                    color: "#15a0db",
+                    textAlign: "center",
+                    "&:hover": { textDecoration: "underline" },
+                  }}
+                >
+                  {item?.marketName}
                 </Typography>
               </Box>
 
-              {/* Review Description */}
-              <Typography variant="body2" sx={{ marginBottom: 1 }}>
-                {item.description}
-              </Typography>
+              <Divider sx={{ marginBottom: 2 }} />
 
-              {/* Star Rating */}
-              <Box display="flex" alignItems="center" marginBottom={1}>
-                {Array.from({ length: item.rating }, (_, idx) => (
-                  <span key={idx} role="img" aria-label="star">
-                    ⭐
-                  </span>
-                ))}
-                <Typography variant="body2" sx={{ marginLeft: 1 }}>
-                  {item.rating} out of 5
+              {/* User Info, Review, Rating, and Date */}
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                {/* User Info */}
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Box
+                    sx={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                      backgroundColor: "#15a0db",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#fff",
+                      fontWeight: "bold",
+                      mr: 2,
+                      fontSize: "1rem",
+                    }}
+                  >
+                    {getInitials(item?.name).toUpperCase()}
+                  </Box>
+                  <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                    {item?.name}
+                  </Typography>
+                </Box>
+
+                {/* Review Text */}
+                <Typography
+                  variant="body2"
+                  sx={{
+                    mb: 1,
+                    textAlign: "justify",
+                    fontSize: "0.9rem",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {expanded[item.id]
+                    ? item?.description
+                    : `${item?.description?.substring(0, 200)}...`}
+                  {item?.description?.length > 200 && (
+                    <span
+                      style={{
+                        color: "#15a0db",
+                        cursor: "pointer",
+                        fontSize: "0.8rem",
+                        fontWeight: "bold",
+                      }}
+                      onClick={() =>
+                        setExpanded((prev) => ({
+                          ...prev,
+                          [item.id]: !prev[item.id],
+                        }))
+                      }
+                    >
+                      {expanded[item.id] ? " Show Less" : " Read More"}
+                    </span>
+                  )}
+                </Typography>
+
+                {/* Star Rating with Number */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                    {item.rating.toFixed(1)}
+                  </Typography>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    {Array.from(
+                      { length: Math.floor(item.rating) },
+                      (_, idx) => (
+                        <span key={idx} role="img" aria-label="star">
+                          ⭐
+                        </span>
+                      )
+                    )}
+                    {item.rating % 1 !== 0 && (
+                      <span role="img" aria-label="half-star">
+                        ⭐
+                      </span>
+                    )}
+                  </Box>
+                </Box>
+
+                {/* Review Date */}
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ textAlign: "right", display: "block" }}
+                >
+                  {item?.date}
                 </Typography>
               </Box>
-
-              {/* Review Date */}
-              <Typography variant="caption" color="text.secondary">
-                {item.date}
-              </Typography>
             </CardContent>
           </Card>
         ))}

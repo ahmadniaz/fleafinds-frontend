@@ -13,7 +13,13 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import React from "react";
 
-const CustomCardContent = ({ isNewMarket, isOwner, market, hovered }) => {
+const CustomCardContent = ({
+  isNewMarket,
+  isOwner,
+  market,
+  hovered,
+  handleUpdateIconClick,
+}) => {
   const slicedCategories = market?.categories?.slice(0, 3);
 
   return (
@@ -162,7 +168,7 @@ const CustomCardContent = ({ isNewMarket, isOwner, market, hovered }) => {
           >
             <IconButton
               sx={{ marginBottom: "5px" }}
-              onClick={() => console.log("Edit", market.id)}
+              onClick={() => handleUpdateIconClick(market)}
             >
               <Edit fontSize="small" />
             </IconButton>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Box,
@@ -24,6 +24,7 @@ import * as Yup from "yup";
 import { CloudUpload } from "@mui/icons-material";
 import MarketImagesSection from "./components/marketImagesSection";
 import SocialMediaSection from "./components/socialMediaSection";
+import { LoadingFallback } from "../../../../components";
 
 // Validation schema for the dashboard form
 const validationSchema = Yup.object({
@@ -41,11 +42,12 @@ const validationSchema = Yup.object({
   priceList: Yup.string().required("Price information is required"),
 });
 
-const MarketInfoForm = ({ setActiveForm }) => {
+const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
   const [imagePreviews, setImagePreviews] = useState(Array(10).fill(null));
   const [logoPreview, setLogoPreview] = useState(null);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const token = localStorage.getItem("token");
@@ -89,6 +91,15 @@ const MarketInfoForm = ({ setActiveForm }) => {
     "Kuopio",
     "Pori",
   ];
+  useEffect(() => {
+    if (marketData) {
+      setLogoPreview(marketData?.logo || null);
+      setImagePreviews(marketData?.images || Array(10).fill(null));
+      setSelectedCategories(marketData?.categories || []);
+      setLatitude(marketData?.location?.coordinates[1] || null);
+      setLongitude(marketData?.location?.coordinates[0] || null);
+    }
+  }, [marketData]);
 
   const handleCategoryChange = (event) => {
     const { value } = event.target;
@@ -125,6 +136,14 @@ const MarketInfoForm = ({ setActiveForm }) => {
     }
   };
 
+  const handleImageRemove = (index) => {
+    setImagePreviews((prev) => {
+      const newPreviews = [...prev];
+      newPreviews[index] = null; // Remove the image from the array
+      return newPreviews;
+    });
+  };
+
   const handleLocationChange = async (event) => {
     const location = event.target.value;
 
@@ -153,8 +172,6 @@ const MarketInfoForm = ({ setActiveForm }) => {
     }
   };
 
-  console.log(imagePreviews, selectedCategories, "IPP");
-
   const handleLogoUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -177,7 +194,8 @@ const MarketInfoForm = ({ setActiveForm }) => {
     }
   };
 
-  const handleFormSubmit = async (values) => {
+  const handleFormSubmit = async (values, { resetForm }) => {
+    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("name", values.marketName);
@@ -202,22 +220,38 @@ const MarketInfoForm = ({ setActiveForm }) => {
         }
       });
 
-      console.log(values, token, logoPreview, imagePreviews, "FORM DATA");
+      if (marketData) {
+        await axios.put(
+          `http://localhost:8000/api/market/update/${marketData?._id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
-      const response = await axios.post(
-        "http://localhost:8000/api/market",
-        formData,
-        {
+        setLoading(false);
+        showSnackbar("Market Updated Successfully", "success");
+      } else {
+        await axios.post("http://localhost:8000/api/market", formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
-        }
-      );
-      showSnackbar("Market Created Successfully", "success");
+        });
+        setLoading(false);
+        showSnackbar("Market Created Successfully", "success");
+      }
+      resetForm();
+      setUpdateMarket(null);
+      // Optionally, you can reset the preview state as well
+      setLogoPreview(null);
+      setImagePreviews([]);
       setActiveForm("home");
-      console.log("Market created successfully:", response.data);
     } catch (error) {
+      setLoading(false);
       console.error(
         "Error creating market:",
         error.response ? error.response.data : error.message
@@ -228,304 +262,309 @@ const MarketInfoForm = ({ setActiveForm }) => {
   // Determine if the screen size is small (mobile view)
 
   return (
-    <Container
-      sx={{
-        marginLeft: isSmallScreen ? 0 : "270px",
-        backgroundColor: "#f9f9f9",
-        padding: { xs: "15px", sm: "30px" },
-        borderRadius: "10px",
-        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-        mt: { xs: 3, sm: 3, md: 3 },
-      }}
-    >
-      <Typography
-        variant="h5"
-        fontWeight="bold"
-        sx={{ margin: "15px 0", textAlign: "center" }}
-      >
-        Market Information
-      </Typography>
-      <Divider sx={{ mt: 1, mb: 2 }} /> {/* Divider under the breadcrumb */}
-      <Formik
-        initialValues={{
-          marketName: "",
-          description: "",
-          city: "",
-          location: "",
-          categories: [], // Use an array for categories
-          openingHours: "",
-          priceList: "",
-          socialMedia: {
-            facebook: "",
-            instagram: "",
-            twitter: "",
-          },
-        }}
-        validationSchema={validationSchema}
-        onSubmit={(data) => handleFormSubmit(data)}
-      >
-        {({
-          errors,
-          touched,
-          values,
-          handleChange,
-          handleBlur,
-          setFieldValue,
-        }) => (
-          <Form>
-            <Grid2 container spacing={2}>
-              {/* Market Name */}
-              <Grid2 item size={{ xs: 12 }}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Market Name
-                </Typography>
-                <Field
-                  as={TextField}
-                  fullWidth
-                  name="marketName"
-                  label="Market Name"
-                  error={touched.marketName && Boolean(errors.marketName)}
-                  helperText={touched.marketName && errors.marketName}
-                />
-              </Grid2>
-
-              {/* Market Type */}
-              <Grid2 item size={{ xs: 12 }}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Market Type
-                </Typography>
-                <FormControl fullWidth>
-                  <Select
-                    name="marketType"
-                    value={values.marketType}
-                    onChange={handleChange}
-                    displayEmpty
-                    inputProps={{ "aria-label": "Market Type" }}
-                  >
-                    <MenuItem value="">
-                      <em>Select Market Type</em>
-                    </MenuItem>
-                    {fleaMarketTypesInFinland.map((type) => (
-                      <MenuItem key={type} value={type}>
-                        {type}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid2>
-
-              {/* Logo Upload */}
-              <Grid2 item size={{ xs: 12, sm: 6, md: 4 }}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Market Logo/Display Picture
-                </Typography>
-                <Box
-                  sx={{
-                    border: "2px dashed #ccc",
-                    borderRadius: "8px",
-                    padding: "10px",
-                    position: "relative",
-                    textAlign: "center",
-                    backgroundColor: "#fafafa",
-                  }}
-                >
-                  {logoPreview ? (
-                    <img
-                      src={logoPreview}
-                      alt="Logo"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        borderRadius: "8px",
-                      }}
-                    />
-                  ) : (
-                    <Typography variant="body2" color="textSecondary">
-                      Upload Market Logo
+    <>
+      {loading ? (
+        <LoadingFallback />
+      ) : (
+        <Container
+          sx={{
+            marginLeft: isSmallScreen ? 0 : "270px",
+            backgroundColor: "#f9f9f9",
+            padding: { xs: "15px", sm: "30px" },
+            borderRadius: "10px",
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+            mt: { xs: 3, sm: 3, md: 3 },
+          }}
+        >
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            sx={{ margin: "15px 0", textAlign: "center" }}
+          >
+            {marketData ? "Update Market Information" : "Create New Market"}
+          </Typography>
+          <Divider sx={{ mt: 1, mb: 2 }} /> {/* Divider under the breadcrumb */}
+          <Formik
+            initialValues={{
+              marketName: marketData?.name || "",
+              marketType: marketData?.marketType || "",
+              description: marketData?.description || "",
+              city: marketData?.city || "",
+              location: marketData?.location?.address || "",
+              categories: marketData?.categories || [], // Use an array for categories
+              openingHours: marketData?.openingHours || "",
+              priceList: marketData?.priceList || "",
+              socialMedia: {
+                facebook: marketData?.socialMedia?.facebook || "",
+                instagram: marketData?.socialMedia?.instagram || "",
+                twitter: marketData?.socialMedia?.twitter || "",
+              },
+            }}
+            validationSchema={validationSchema}
+            onSubmit={(data, { resetForm }) =>
+              handleFormSubmit(data, { resetForm })
+            }
+          >
+            {({ errors, touched, values, handleChange, handleBlur }) => (
+              <Form>
+                <Grid2 container spacing={2}>
+                  {/* Market Name */}
+                  <Grid2 item size={{ xs: 12 }}>
+                    <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                      Market Name
                     </Typography>
-                  )}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleLogoUpload}
-                    style={{ display: "none" }}
-                    id="logo-upload"
-                  />
-                  <label htmlFor="logo-upload">
-                    <IconButton
-                      component="span"
+                    <Field
+                      as={TextField}
+                      fullWidth
+                      name="marketName"
+                      label="Market Name"
+                      error={touched.marketName && Boolean(errors.marketName)}
+                      helperText={touched.marketName && errors.marketName}
+                    />
+                  </Grid2>
+
+                  {/* Market Type */}
+                  <Grid2 item size={{ xs: 12 }}>
+                    <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                      Market Type
+                    </Typography>
+                    <FormControl fullWidth>
+                      <Select
+                        name="marketType"
+                        value={values.marketType}
+                        onChange={handleChange}
+                        displayEmpty
+                        inputProps={{ "aria-label": "Market Type" }}
+                      >
+                        <MenuItem value="">
+                          <em>Select Market Type</em>
+                        </MenuItem>
+                        {fleaMarketTypesInFinland.map((type) => (
+                          <MenuItem key={type} value={type}>
+                            {type}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid2>
+
+                  {/* Logo Upload */}
+                  <Grid2 item size={{ xs: 12, sm: 6, md: 4 }}>
+                    <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                      Market Logo/Display Picture
+                    </Typography>
+                    <Box
                       sx={{
-                        position: "absolute",
-                        bottom: "0",
-                        left: "10%",
-                        backgroundColor: "#d32f2f",
-                        color: "#fff",
+                        border: "2px dashed #ccc",
+                        borderRadius: "8px",
+                        padding: "10px",
+                        position: "relative",
+                        textAlign: "center",
+                        backgroundColor: "#fafafa",
                       }}
                     >
-                      <CloudUpload />
-                    </IconButton>
-                  </label>
-                </Box>
-              </Grid2>
-
-              {/* Description */}
-              <Grid2 item size={{ xs: 12 }}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Market Description
-                </Typography>
-                <Field
-                  as={TextField}
-                  fullWidth
-                  name="description"
-                  label="Description"
-                  multiline
-                  rows={4}
-                  error={touched.description && Boolean(errors.description)}
-                  helperText={touched.description && errors.description}
-                />
-              </Grid2>
-
-              {/* City */}
-              <Grid2 item size={{ xs: 12 }}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  City
-                </Typography>
-                <FormControl fullWidth>
-                  <Select
-                    name="city"
-                    value={values.city}
-                    onChange={handleChange}
-                    displayEmpty
-                    inputProps={{ "aria-label": "City" }}
-                  >
-                    <MenuItem value="">
-                      <em>Select the City</em>
-                    </MenuItem>
-                    {fleaMarketCitiesInFinland.map((city) => (
-                      <MenuItem key={city} value={city}>
-                        {city}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid2>
-
-              {/* Location */}
-              <Grid2 item size={{ xs: 12 }}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Market Location
-                </Typography>
-                <Field
-                  as={TextField}
-                  fullWidth
-                  name="location"
-                  label="Enter Location"
-                  value={values.location}
-                  onChange={(e) => {
-                    handleChange(e);
-                    handleLocationChange(e); // Trigger Nominatim API on change
-                  }}
-                  onBlur={handleBlur}
-                  error={Boolean(touched.location && errors.location)}
-                  helperText={touched.location && errors.location}
-                />
-              </Grid2>
-
-              {/* Categories */}
-              <Grid2 item size={{ xs: 12 }}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Categories
-                </Typography>
-                <FormGroup row>
-                  {fleaMarketCategories.map((category) => (
-                    <FormControlLabel
-                      key={category}
-                      control={
-                        <Checkbox
-                          name="categories"
-                          value={category}
-                          checked={selectedCategories.includes(category)}
-                          onChange={(e) => handleCategoryChange(e)}
+                      {logoPreview ? (
+                        <img
+                          src={logoPreview}
+                          alt="Logo"
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: "8px",
+                          }}
                         />
-                      }
-                      label={category}
+                      ) : (
+                        <Typography variant="body2" color="textSecondary">
+                          Upload Market Logo
+                        </Typography>
+                      )}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleLogoUpload}
+                        style={{ display: "none" }}
+                        id="logo-upload"
+                      />
+                      <label htmlFor="logo-upload">
+                        <IconButton
+                          component="span"
+                          sx={{
+                            position: "absolute",
+                            bottom: "0",
+                            left: "10%",
+                            backgroundColor: "#d32f2f",
+                            color: "#fff",
+                          }}
+                        >
+                          <CloudUpload />
+                        </IconButton>
+                      </label>
+                    </Box>
+                  </Grid2>
+
+                  {/* Description */}
+                  <Grid2 item size={{ xs: 12 }}>
+                    <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                      Market Description
+                    </Typography>
+                    <Field
+                      as={TextField}
+                      fullWidth
+                      name="description"
+                      label="Description"
+                      multiline
+                      rows={4}
+                      error={touched.description && Boolean(errors.description)}
+                      helperText={touched.description && errors.description}
                     />
-                  ))}
-                </FormGroup>
-                {touched.categories && errors.categories && (
-                  <FormHelperText error>{errors.categories}</FormHelperText>
-                )}
-              </Grid2>
+                  </Grid2>
 
-              {/* Market Images */}
-              <Grid2 item size={{ xs: 12 }}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Market Images
-                </Typography>
-                <MarketImagesSection
-                  handleImageUpload={handleImageUpload}
-                  imagePreviews={imagePreviews}
-                />
-              </Grid2>
+                  {/* City */}
+                  <Grid2 item size={{ xs: 12 }}>
+                    <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                      City
+                    </Typography>
+                    <FormControl fullWidth>
+                      <Select
+                        name="city"
+                        value={values.city}
+                        onChange={handleChange}
+                        displayEmpty
+                        inputProps={{ "aria-label": "City" }}
+                      >
+                        <MenuItem value="">
+                          <em>Select the City</em>
+                        </MenuItem>
+                        {fleaMarketCitiesInFinland.map((city) => (
+                          <MenuItem key={city} value={city}>
+                            {city}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid2>
 
-              {/* Opening Hours */}
-              <Grid2 item size={{ xs: 12 }}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Opening Hours
-                </Typography>
-                <Field
-                  as={TextField}
-                  fullWidth
-                  name="openingHours"
-                  label="Opening Days and Hours"
-                  placeholder="e.g., Mon-Fri: 10-18, Sat-Sun: 10-15"
-                  error={touched.openingHours && Boolean(errors.openingHours)}
-                  helperText={touched.openingHours && errors.openingHours}
-                />
-              </Grid2>
+                  {/* Location */}
+                  <Grid2 item size={{ xs: 12 }}>
+                    <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                      Market Location
+                    </Typography>
+                    <Field
+                      as={TextField}
+                      fullWidth
+                      name="location"
+                      label="Enter Location"
+                      value={values.location}
+                      onChange={(e) => {
+                        handleChange(e);
+                        handleLocationChange(e); // Trigger Nominatim API on change
+                      }}
+                      onBlur={handleBlur}
+                      error={Boolean(touched.location && errors.location)}
+                      helperText={touched.location && errors.location}
+                    />
+                  </Grid2>
 
-              {/* Price List */}
-              <Grid2 item size={{ xs: 12 }}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Pricing List
-                </Typography>
-                <Field
-                  as={TextField}
-                  fullWidth
-                  name="priceList"
-                  label="Price List"
-                  multiline
-                  rows={4}
-                  error={touched.priceList && Boolean(errors.priceList)}
-                  helperText={touched.priceList && errors.priceList}
-                />
-              </Grid2>
+                  {/* Categories */}
+                  <Grid2 item size={{ xs: 12 }}>
+                    <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                      Categories
+                    </Typography>
+                    <FormGroup row>
+                      {fleaMarketCategories.map((category) => (
+                        <FormControlLabel
+                          key={category}
+                          control={
+                            <Checkbox
+                              name="categories"
+                              value={category}
+                              checked={selectedCategories.includes(category)}
+                              onChange={(e) => handleCategoryChange(e)}
+                            />
+                          }
+                          label={category}
+                        />
+                      ))}
+                    </FormGroup>
+                    {touched.categories && errors.categories && (
+                      <FormHelperText error>{errors.categories}</FormHelperText>
+                    )}
+                  </Grid2>
 
-              {/* Social Media Links */}
-              <Grid2 item size={{ xs: 12 }} mt={3}>
-                <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                  Social Media Links
-                </Typography>
-                <SocialMediaSection errors={errors} touched={touched} />
-              </Grid2>
+                  {/* Market Images */}
+                  <Grid2 item size={{ xs: 12 }}>
+                    <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                      Market Images
+                    </Typography>
+                    <MarketImagesSection
+                      handleImageUpload={handleImageUpload}
+                      imagePreviews={imagePreviews}
+                      handleImageRemove={handleImageRemove}
+                    />
+                  </Grid2>
 
-              {/* Submit Button */}
-              <Grid2 item size={{ xs: 12 }}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  sx={{ marginTop: "10px" }}
-                >
-                  Submit Market Information
-                </Button>
-              </Grid2>
-            </Grid2>
-          </Form>
-        )}
-      </Formik>
-    </Container>
+                  {/* Opening Hours */}
+                  <Grid2 item size={{ xs: 12 }}>
+                    <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                      Opening Hours
+                    </Typography>
+                    <Field
+                      as={TextField}
+                      fullWidth
+                      name="openingHours"
+                      label="Opening Days and Hours"
+                      placeholder="e.g., Mon-Fri: 10-18, Sat-Sun: 10-15"
+                      error={
+                        touched.openingHours && Boolean(errors.openingHours)
+                      }
+                      helperText={touched.openingHours && errors.openingHours}
+                    />
+                  </Grid2>
+
+                  {/* Price List */}
+                  <Grid2 item size={{ xs: 12 }}>
+                    <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                      Pricing List
+                    </Typography>
+                    <Field
+                      as={TextField}
+                      fullWidth
+                      name="priceList"
+                      label="Price List"
+                      multiline
+                      rows={4}
+                      error={touched.priceList && Boolean(errors.priceList)}
+                      helperText={touched.priceList && errors.priceList}
+                    />
+                  </Grid2>
+
+                  {/* Social Media Links */}
+                  <Grid2 item size={{ xs: 12 }} mt={3}>
+                    <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                      Social Media Links
+                    </Typography>
+                    <SocialMediaSection errors={errors} touched={touched} />
+                  </Grid2>
+
+                  {/* Submit Button */}
+                  <Grid2 item size={{ xs: 12 }}>
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      sx={{ marginTop: "10px" }}
+                    >
+                      {marketData ? "Update" : "Submit Market Information"}
+                    </Button>
+                  </Grid2>
+                </Grid2>
+              </Form>
+            )}
+          </Formik>
+        </Container>
+      )}
+    </>
   );
 };
 

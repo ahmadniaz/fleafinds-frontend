@@ -64,7 +64,7 @@ const customIcon = new L.Icon({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
-const NearbyMarketsModal = ({ open, handleClose }) => {
+const NearbyMarketsModal = ({ open, handleClose, markets }) => {
   const [userLocation, setUserLocation] = useState(null);
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [userAddress, setUserAddress] = useState(""); // New state for address
@@ -115,8 +115,8 @@ const NearbyMarketsModal = ({ open, handleClose }) => {
       (error) => {
         console.error("Error fetching location:", error);
         setLoadingLocation(false);
-      }
-      // { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 } // Settings to improve accuracy
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 } // Settings to improve accuracy
     );
   };
 
@@ -130,12 +130,12 @@ const NearbyMarketsModal = ({ open, handleClose }) => {
       return; // Exit the function early
     }
 
-    const marketsWithinRadius = fleaMarketsList.filter((market) => {
+    const marketsWithinRadius = markets.filter((market) => {
       const distance = haversineDistance(
         userLocation.lat,
         userLocation.long,
-        market.location.lat,
-        market.location.long
+        market?.location?.coordinates[1],
+        market?.location?.coordinates[0]
       );
       return distance <= radius;
     });
@@ -149,7 +149,7 @@ const NearbyMarketsModal = ({ open, handleClose }) => {
   };
 
   const modalSize =
-    nearbyMarkets.length > 0
+    nearbyMarkets?.length > 0
       ? { width: "90%", maxWidth: 800 }
       : { width: "90%", maxWidth: 600 };
 
@@ -238,15 +238,17 @@ const NearbyMarketsModal = ({ open, handleClose }) => {
           </Typography>
         )}
 
-        {nearbyMarkets.length > 0 && (
+        {nearbyMarkets?.length > 0 && (
           <>
             <List sx={{ mt: 2 }}>
               {nearbyMarkets.map((market) => (
-                <ListItem key={market.id} disablePadding>
+                <ListItem key={market?._id} disablePadding>
                   <ListItemButton
                     onClick={() => {
-                      const slug = createSlug(market.name);
-                      navigate(`/markets/${slug}`);
+                      const slug = createSlug(market?.name);
+                      navigate(`/markets/${slug}`, {
+                        state: { marketData: market },
+                      });
                     }}
                     sx={{ cursor: "pointer" }} // Change cursor to pointer
                   >
@@ -254,7 +256,7 @@ const NearbyMarketsModal = ({ open, handleClose }) => {
                       sx={{ marginRight: 1, color: "#15a0db" }}
                     />
                     <Typography sx={{ color: "#15a0db" }}>
-                      {market.name}
+                      {market?.name}
                     </Typography>
                   </ListItemButton>
                 </ListItem>
@@ -287,10 +289,13 @@ const NearbyMarketsModal = ({ open, handleClose }) => {
                 }}
               />
               {/* Flea Market Markers */}
-              {nearbyMarkets.map((market) => (
+              {nearbyMarkets?.map((market) => (
                 <Marker
-                  key={market.id}
-                  position={[market.location.lat, market.location.long]}
+                  key={market?._id}
+                  position={[
+                    market?.location?.coordinates[1],
+                    market?.location?.coordinates[0],
+                  ]}
                 >
                   <Popup>{market.name}</Popup>
                 </Marker>

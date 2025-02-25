@@ -1,8 +1,12 @@
 import React from "react";
-import { CloudUpload } from "@mui/icons-material";
+import { CloudUpload, Cancel } from "@mui/icons-material";
 import { Box, Grid2, IconButton, Typography } from "@mui/material";
 
-const MarketImagesSection = ({ imagePreviews, handleImageUpload }) => {
+const MarketImagesSection = ({
+  imagePreviews,
+  handleImageUpload,
+  handleImageRemove,
+}) => {
   return (
     <Grid2 container spacing={2}>
       {imagePreviews.map((preview, index) => (
@@ -32,6 +36,26 @@ const MarketImagesSection = ({ imagePreviews, handleImageUpload }) => {
                 No Image Uploaded
               </Typography>
             )}
+
+            {/* Close (remove) button */}
+            {preview && (
+              <IconButton
+                onClick={() => handleImageRemove(index)} // Handle image removal
+                sx={{
+                  position: "absolute",
+                  top: "5px",
+                  right: "5px",
+                  backgroundColor: "#d32f2f",
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#b71c1c",
+                  },
+                }}
+              >
+                <Cancel />
+              </IconButton>
+            )}
+
             <input
               type="file"
               accept="image/*"

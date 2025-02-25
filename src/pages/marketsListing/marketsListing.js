@@ -66,15 +66,31 @@ const MarketListing = () => {
   const [page, setPage] = useState(1);
   const [sortOption, setSortOption] = useState("");
   const [allMarkets, setAllMarkets] = useState([]);
+  const [allReviews, setAllReviews] = useState([]);
 
   useEffect(() => {
     getOwnerMarkets();
+    getAllReviews();
   }, []);
 
   const getOwnerMarkets = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/market");
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}api/market`
+      );
       setAllMarkets(response?.data?.markets);
+    } catch (error) {
+      console.log(error, "ERROR");
+    }
+  };
+
+  const getAllReviews = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}api/review`
+      );
+      console.log("Response", response);
+      setAllReviews(response?.data?.reviews);
     } catch (error) {
       console.log(error, "ERROR");
     }
@@ -222,10 +238,14 @@ const MarketListing = () => {
       <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />
 
       {/* User Reviews Slide*/}
-      <UserReviews reviews={reviews} />
+      <UserReviews reviews={allReviews} markets={displayedMarkets} />
 
       {/* Nearby Markets Modal */}
-      <NearbyMarketsModal open={isModalOpen} handleClose={handleModalClose} />
+      <NearbyMarketsModal
+        open={isModalOpen}
+        handleClose={handleModalClose}
+        markets={displayedMarkets}
+      />
     </>
   );
 };

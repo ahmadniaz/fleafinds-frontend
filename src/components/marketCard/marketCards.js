@@ -6,7 +6,7 @@ import { createSlug } from "../../utils/slug";
 import CustomCardContent from "./component/cardContent";
 import { useLocation } from "react-router-dom";
 
-const MarketCard = ({ market }) => {
+const MarketCard = ({ market, handleUpdateIconClick }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const slug = createSlug(market?.name);
@@ -36,6 +36,7 @@ const MarketCard = ({ market }) => {
         {isOwner ? (
           <CustomCardContent
             isNewMarket={isNewMarket}
+            handleUpdateIconClick={handleUpdateIconClick}
             isOwner={isOwner}
             hovered={hovered}
             market={market}
