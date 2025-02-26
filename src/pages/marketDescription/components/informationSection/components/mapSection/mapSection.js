@@ -91,7 +91,7 @@ const MapSection = ({ marketData }) => {
             <Button
               variant="contained"
               color="primary"
-              href={`https://www.openstreetmap.org/directions?mlat=${marketData?.location?.coordinates[1]}&mlon=${marketData?.location?.coordinates[0]}#map=15/${marketData?.location?.coordinates[1]}/${marketData?.location?.coordinates[0]}`}
+              href={`https://www.google.com/maps/dir/?api=1&destination=${marketData?.location?.coordinates[1]},${marketData?.location?.coordinates[0]}`}
               target="_blank"
               startIcon={<DirectionsIcon />}
               sx={{

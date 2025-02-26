@@ -36,7 +36,8 @@ const CustomCardContent = ({
           borderRadius: "10px",
           display: "flex",
           flexDirection: "column",
-          position: "relative", // Add this to position the "New" tag
+          position: "relative",
+          height: "100%", // Ensure uniform height
         }}
       >
         {/* "New" Tag */}
@@ -44,7 +45,7 @@ const CustomCardContent = ({
           <Box
             sx={{
               position: "absolute",
-              top: 10, // Change top to bottom for testing
+              top: 10,
               right: 10,
               backgroundColor: "#ff0000",
               color: "#fff",
@@ -60,24 +61,41 @@ const CustomCardContent = ({
         )}
 
         {/* Market Image */}
-        <Box sx={{ position: "relative" }}>
+        <Box sx={{ position: "relative", height: "180px", overflow: "hidden" }}>
           <CardMedia
             component="img"
-            height="140"
             image={market?.logo}
             alt={market?.name}
             sx={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
               borderTopLeftRadius: "10px",
               borderTopRightRadius: "10px",
-              objectFit: "cover",
             }}
           />
         </Box>
 
         {/* Card Content */}
-        <CardContent sx={{ padding: "16px", flex: "1" }}>
+        <CardContent
+          sx={{
+            padding: "16px",
+            flex: "1",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           {/* Name */}
-          <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{
+              fontWeight: 600,
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+            }}
+          >
             {market?.name}
           </Typography>
 
@@ -93,39 +111,22 @@ const CustomCardContent = ({
             }}
           />
 
-          {/* Divider Line */}
-          <Box
-            sx={{
-              height: "1px",
-              width: "100%",
-              backgroundColor: "#e0e0e0",
-              marginBottom: 2,
-            }}
-          />
-
           {/* Ratings */}
           <Box display="flex" alignItems="center" marginBottom={1}>
-            <Rating
-              value={market?.averageRating}
-              precision={0.1}
-              readOnly
-              sx={{
-                color: "#ff0000",
-              }}
-            />
+            <Rating value={market?.averageRating} precision={0.1} readOnly />
             <Typography
               variant="body2"
               color="text.secondary"
               sx={{ marginLeft: 1 }}
             >
-              ({market?.reviewCount}reviews)
+              ({market?.reviewCount} reviews)
             </Typography>
           </Box>
 
           {/* Opening Hours */}
           <Box display="flex" alignItems="center" marginBottom={1}>
             <AccessTimeIcon sx={{ color: "text.secondary", marginRight: 1 }} />
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" noWrap>
               {market?.openingHours}
             </Typography>
           </Box>
@@ -133,25 +134,24 @@ const CustomCardContent = ({
           {/* Location */}
           <Box display="flex" alignItems="center" marginBottom={1}>
             <LocationOnIcon sx={{ color: "text.secondary", marginRight: 1 }} />
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" noWrap>
               {market.location.address}
             </Typography>
           </Box>
 
           {/* Popular Categories */}
-          <Box display="flex" gap={1} flexWrap="wrap">
-            {slicedCategories &&
-              slicedCategories?.map((category) => (
-                <Chip
-                  key={category}
-                  label={category}
-                  size="small"
-                  sx={{ backgroundColor: "#ff0000", color: "#fff" }}
-                />
-              ))}
-            ....
+          <Box display="flex" gap={1} flexWrap="wrap" mt={1}>
+            {slicedCategories?.map((category) => (
+              <Chip
+                key={category}
+                label={category}
+                size="small"
+                sx={{ backgroundColor: "#ff0000", color: "#fff" }}
+              />
+            ))}
           </Box>
         </CardContent>
+
         {isOwner && (
           <Box
             sx={{

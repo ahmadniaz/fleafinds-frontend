@@ -93,25 +93,25 @@ const CompanyContactInfo = ({ marketData }) => {
                   Instagram
                 </Button>
               )}
-              {/* {marketData.socialMedia.twitter && (
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          borderColor: "#1DA1F2",
-                          color: "#1DA1F2",
-                          borderRadius: "8px",
-                          "&:hover": {
-                            backgroundColor: "#1DA1F2",
-                            color: "#fff",
-                          },
-                        }}
-                        href={marketData.socialMedia.twitter}
-                        target="_blank"
-                        startIcon={<TwitterIcon />}
-                      >
-                        Twitter
-                      </Button>
-                    )} */}
+              {marketData.socialMedia.twitter && (
+                <Button
+                  variant="outlined"
+                  sx={{
+                    borderColor: "#1DA1F2",
+                    color: "#1DA1F2",
+                    borderRadius: "8px",
+                    "&:hover": {
+                      backgroundColor: "#1DA1F2",
+                      color: "#fff",
+                    },
+                  }}
+                  href={marketData.socialMedia.twitter}
+                  target="_blank"
+                  startIcon={<TwitterIcon />}
+                >
+                  Twitter
+                </Button>
+              )}
             </Grid2>
           </Grid2>
 

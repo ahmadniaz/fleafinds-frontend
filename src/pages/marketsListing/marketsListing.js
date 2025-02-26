@@ -18,7 +18,6 @@ import {
   UserReviews,
 } from "./components";
 import { HomeNav } from "../../layout/components/header/components";
-import { featuredMarkets, reviews } from "../../data/data";
 import { MarketCard } from "../../components";
 import axios from "axios";
 
@@ -64,9 +63,24 @@ const fleaMarketCities = [
 
 const MarketListing = () => {
   const [page, setPage] = useState(1);
-  const [sortOption, setSortOption] = useState("");
   const [allMarkets, setAllMarkets] = useState([]);
   const [allReviews, setAllReviews] = useState([]);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("highest-rated");
+  const [filteredMarkets, setFilteredMarkets] = useState(allMarkets);
+
+  // Filter states
+  const [marketTypeFilter, setMarketTypeFilter] = useState([]);
+  const [categoryFilter, setCategoryFilter] = useState([]);
+  const [citiesFilter, setCitiesFilter] = useState([]);
+  const [ratingFilter, setRatingFilter] = useState("");
+
+  // Handle filter updates
+  const handleMarketTypeChange = (types) => setMarketTypeFilter(types);
+  const handleCategoryChange = (categories) => setCategoryFilter(categories);
+  const handleCitiesChange = (cities) => setCitiesFilter(cities);
+  const handleRatingChange = (rating) => setRatingFilter(rating);
 
   useEffect(() => {
     getOwnerMarkets();
@@ -100,10 +114,6 @@ const MarketListing = () => {
   const totalMarkets = allMarkets?.length;
   const totalPages = Math.ceil(totalMarkets / marketsPerPage);
 
-  const handleSortChange = (event) => {
-    setSortOption(event.target.value);
-  };
-
   const handlePageChange = (event, value) => {
     setPage(value);
   };
@@ -122,6 +132,74 @@ const MarketListing = () => {
     setIsModalOpen(false);
   };
 
+  // Handle Sorting
+  const handleSortChange = (event) => setSortOption(event.target.value);
+
+  // Handle Search
+  const handleSearchChange = (event) => setSearchTerm(event.target.value);
+
+  // Apply Filters and Sorting
+  useEffect(() => {
+    let filtered = allMarkets;
+
+    // Search Filter
+    if (searchTerm) {
+      filtered = filtered.filter((market) =>
+        market.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Market Type Filter
+    if (marketTypeFilter.length > 0) {
+      filtered = filtered.filter((market) =>
+        marketTypeFilter.includes(market.marketType)
+      );
+    }
+
+    // Category Filter
+    if (categoryFilter.length > 0) {
+      filtered = filtered.filter((market) =>
+        market.categories.some((category) => categoryFilter.includes(category))
+      );
+      console.log(filtered, "FILTERED");
+    }
+
+    // Cities Filter
+    if (citiesFilter.length > 0) {
+      filtered = filtered.filter((market) =>
+        citiesFilter.includes(market.city)
+      );
+    }
+
+    // Rating Filter
+    if (ratingFilter) {
+      filtered = filtered.filter(
+        (market) => market.averageRating >= parseFloat(ratingFilter)
+      );
+    }
+
+    // Sorting
+    if (sortOption === "highest-rated") {
+      filtered = filtered.sort((a, b) => b.averageRating - a.averageRating);
+    } else if (sortOption === "lowest-rated") {
+      filtered = filtered.sort((a, b) => a.averageRating - b.averageRating);
+    } else if (sortOption === "most-reviews") {
+      filtered = filtered.sort((a, b) => b.reviewCount - a.reviewCount);
+    } else if (sortOption === "least-reviews") {
+      filtered = filtered.sort((a, b) => a.reviewCount - b.reviewCount);
+    }
+
+    setFilteredMarkets(filtered);
+  }, [
+    searchTerm,
+    marketTypeFilter,
+    categoryFilter,
+    citiesFilter,
+    ratingFilter,
+    sortOption,
+    allMarkets,
+  ]);
+
   return (
     <>
       {/* Navigation Bar*/}
@@ -133,7 +211,7 @@ const MarketListing = () => {
       <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />
 
       {/* Featured Markets Slide */}
-      <FeaturedMarkets featuredMarkets={featuredMarkets} />
+      <FeaturedMarkets featuredMarkets={allMarkets} />
 
       {/* Divider Between Sections */}
       <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />
@@ -141,11 +219,17 @@ const MarketListing = () => {
       {/* Filters and Listing Data Section*/}
       <Grid2 container padding={2} spacing={2} mt={4}>
         {/* Left Side Filters*/}
+
         <MarketFilters
           fleaMarketCategories={fleaMarketCategories}
           fleaMarketTypesInFinland={fleaMarketTypesInFinland}
           fleaMarketCities={fleaMarketCities}
+          onMarketTypeChange={handleMarketTypeChange}
+          onCategoryChange={handleCategoryChange}
+          onCitiesChange={handleCitiesChange}
+          onRatingChange={handleRatingChange}
         />
+
         {/* Listing component*/}
         <Grid2 item size={{ xs: 12, lg: 10, md: 9 }}>
           {/* Search Nearby and Sorting Dropdown */}
@@ -165,26 +249,14 @@ const MarketListing = () => {
                     },
                   },
                 }}
+                onChange={handleSearchChange}
               />
             </Grid2>
 
             <Grid2 item size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <FormControl fullWidth>
                 <InputLabel>Sort By</InputLabel>
-                <Select
-                  value={sortOption}
-                  onChange={handleSortChange}
-                  sx={{
-                    backgroundColor: "#fff",
-                    borderRadius: "5px",
-                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "#15a0db",
-                      },
-                    },
-                  }}
-                >
+                <Select value={sortOption} onChange={handleSortChange}>
                   <MenuItem value="highest-rated">Highest Rated</MenuItem>
                   <MenuItem value="lowest-rated">Lowest Rated</MenuItem>
                   <MenuItem value="most-reviews">Most Reviews</MenuItem>
@@ -219,7 +291,7 @@ const MarketListing = () => {
 
           {/* Flea Market Cards */}
           <Grid2 container spacing={4} mt={3}>
-            {displayedMarkets.map((market) => (
+            {filteredMarkets?.map((market) => (
               <MarketCard key={market?._id} market={market} />
             ))}
           </Grid2>

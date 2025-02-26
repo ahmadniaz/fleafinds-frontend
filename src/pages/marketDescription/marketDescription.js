@@ -86,7 +86,10 @@ const MarketDescriptionPage = () => {
           <HomeNav />
           <Container>
             {/* Title Section */}
-            <TitleSection marketData={marketData} />
+            <TitleSection
+              marketData={marketData}
+              reviewFormRef={reviewFormRef}
+            />
             {/* Information Sections */}
             <InfoSection marketData={marketData} />
             {/* Image Gallery Section */}

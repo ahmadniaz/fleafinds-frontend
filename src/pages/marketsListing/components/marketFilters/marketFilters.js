@@ -1,134 +1,108 @@
-import React, { useState } from "react";
 import {
-  Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
-  FormGroup,
-  FormControlLabel,
+  Button,
   Checkbox,
-  Collapse,
-  Grid2,
-  RadioGroup,
+  Divider,
+  FormControlLabel,
+  FormGroup,
+  Grid,
   Radio,
+  RadioGroup,
+  Typography,
 } from "@mui/material";
-import { ExpandMore, ExpandLess } from "@mui/icons-material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useEffect, useState } from "react";
 
 const MarketFilters = ({
   fleaMarketCategories,
   fleaMarketTypesInFinland,
   fleaMarketCities,
+  onMarketTypeChange,
+  onCategoryChange,
+  onCitiesChange,
+  onRatingChange,
 }) => {
-  const [openRating, setOpenRating] = useState(false);
-  const [openMarketTypes, setOpenMarketTypes] = useState(false);
-  const [openCategories, setOpenCategories] = useState(false);
-  const [openCities, setOpenCities] = useState(false);
   const [marketTypeFilter, setMarketTypeFilter] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [citiesFilter, setCitiesFilter] = useState([]);
+  const [ratingFilter, setRatingFilter] = useState("");
 
-  const handleToggle = (filter) => {
-    switch (filter) {
-      case "rating":
-        setOpenRating((prev) => !prev);
-        break;
-      case "marketTypes":
-        setOpenMarketTypes((prev) => !prev);
-        break;
-      case "categories":
-        setOpenCategories((prev) => !prev);
-        break;
-      case "cities":
-        setOpenCities((prev) => !prev);
-        break;
-      default:
-        break;
-    }
+  useEffect(() => {
+    onMarketTypeChange(marketTypeFilter);
+  }, [marketTypeFilter]);
+
+  useEffect(() => {
+    onCategoryChange(categoryFilter);
+  }, [categoryFilter]);
+
+  useEffect(() => {
+    onCitiesChange(citiesFilter);
+  }, [citiesFilter]);
+
+  useEffect(() => {
+    onRatingChange(ratingFilter);
+  }, [ratingFilter]);
+
+  const clearFilters = () => {
+    setMarketTypeFilter([]);
+    setCategoryFilter([]);
+    setCitiesFilter([]);
+    setRatingFilter("");
   };
 
   return (
-    <Grid2 item size={{ xs: 12, lg: 2, md: 3 }}>
+    <Grid item xs={12} md={3} lg={2}>
       <Box
-        sx={{
-          backgroundColor: "#fff",
-          padding: "20px",
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-          borderRadius: "10px",
-          border: "1px solid #15a0db",
-          display: { sm: "block" }, // Hide on small screens
-        }}
+        sx={{ padding: "20px", backgroundColor: "#fff", borderRadius: "10px" }}
       >
-        <Typography variant="h6" gutterBottom fontWeight="bold" color="#15a0db">
+        <Typography variant="h6" fontWeight="bold" color="#15a0db">
           Filters
         </Typography>
 
-        {/* Divider Line */}
-        <Box
-          sx={{
-            height: "1px",
-            width: "100%",
-            backgroundColor: "#e0e0e0",
-            marginBottom: 2,
-          }}
-        />
+        <Button
+          variant="outlined"
+          color="secondary"
+          fullWidth
+          onClick={clearFilters}
+          sx={{ my: 2 }}
+        >
+          Clear Filters
+        </Button>
 
         {/* Rating Filter */}
-        <Box marginBottom={2}>
-          <Typography
-            variant="subtitle1"
-            fontWeight="bold"
-            color="#ff0000"
-            sx={{ cursor: "pointer", display: "flex" }}
-            onClick={() => handleToggle("rating")}
-          >
-            Rating
-            {openRating ? (
-              <ExpandLess sx={{ fontSize: "1.5rem", marginLeft: 1 }} />
-            ) : (
-              <ExpandMore sx={{ fontSize: "1.5rem", marginLeft: 1 }} />
-            )}
-          </Typography>
-          <Collapse in={openRating}>
-            <RadioGroup>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography fontWeight="bold">Rating</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <RadioGroup
+              onChange={(e) => setRatingFilter(e.target.value)}
+              value={ratingFilter}
+            >
               <FormControlLabel
-                value="4.5+"
-                control={<Radio sx={{ color: "#15a0db" }} />}
+                value="4.5"
+                control={<Radio />}
                 label="4.5 and above"
               />
               <FormControlLabel
-                value="4.0+"
-                control={<Radio sx={{ color: "#15a0db" }} />}
+                value="4.0"
+                control={<Radio />}
                 label="4.0 and above"
               />
             </RadioGroup>
-          </Collapse>
-        </Box>
+          </AccordionDetails>
+        </Accordion>
+        <Divider sx={{ my: 2 }} />
 
-        {/* Divider Line */}
-        <Box
-          sx={{
-            height: "1px",
-            width: "100%",
-            backgroundColor: "#e0e0e0",
-            marginBottom: 2,
-          }}
-        />
-
-        {/* Flea Market Types Filter */}
-        <Box marginBottom={2}>
-          <Typography
-            variant="subtitle1"
-            fontWeight="bold"
-            color="#ff0000"
-            sx={{ cursor: "pointer", display: "flex" }}
-            onClick={() => handleToggle("marketTypes")}
-          >
-            Flea Market Types
-            {openMarketTypes ? (
-              <ExpandLess sx={{ fontSize: "1.5rem", marginLeft: 1 }} />
-            ) : (
-              <ExpandMore sx={{ fontSize: "1.5rem", marginLeft: 1 }} />
-            )}
-          </Typography>
-          <Collapse in={openMarketTypes}>
+        {/* Market Types */}
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography fontWeight="bold">Market Types</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
             <FormGroup>
               {fleaMarketTypesInFinland.map((type) => (
                 <FormControlLabel
@@ -137,18 +111,11 @@ const MarketFilters = ({
                     <Checkbox
                       checked={marketTypeFilter.includes(type)}
                       onChange={(e) => {
-                        if (e.target.checked) {
-                          setMarketTypeFilter([...marketTypeFilter, type]);
-                        } else {
-                          setMarketTypeFilter(
-                            marketTypeFilter.filter((item) => item !== type)
-                          );
-                        }
-                      }}
-                      name="marketType"
-                      sx={{
-                        color: "#15a0db",
-                        "&.Mui-checked": { color: "#15a0db" },
+                        setMarketTypeFilter(
+                          e.target.checked
+                            ? [...marketTypeFilter, type]
+                            : marketTypeFilter.filter((item) => item !== type)
+                        );
                       }}
                     />
                   }
@@ -156,36 +123,16 @@ const MarketFilters = ({
                 />
               ))}
             </FormGroup>
-          </Collapse>
-        </Box>
+          </AccordionDetails>
+        </Accordion>
+        <Divider sx={{ my: 2 }} />
 
-        {/* Divider Line */}
-        <Box
-          sx={{
-            height: "1px",
-            width: "100%",
-            backgroundColor: "#e0e0e0",
-            marginBottom: 2,
-          }}
-        />
-
-        {/* Categories Filter */}
-        <Box marginBottom={2}>
-          <Typography
-            variant="subtitle1"
-            fontWeight="bold"
-            color="#ff0000"
-            sx={{ cursor: "pointer", display: "flex" }}
-            onClick={() => handleToggle("categories")}
-          >
-            Categories
-            {openCategories ? (
-              <ExpandLess sx={{ fontSize: "1.5rem", marginLeft: 1 }} />
-            ) : (
-              <ExpandMore sx={{ fontSize: "1.5rem", marginLeft: 1 }} />
-            )}
-          </Typography>
-          <Collapse in={openCategories}>
+        {/* Categories */}
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography fontWeight="bold">Categories</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
             <FormGroup>
               {fleaMarketCategories.map((category) => (
                 <FormControlLabel
@@ -194,18 +141,11 @@ const MarketFilters = ({
                     <Checkbox
                       checked={categoryFilter.includes(category)}
                       onChange={(e) => {
-                        if (e.target.checked) {
-                          setCategoryFilter([...categoryFilter, category]);
-                        } else {
-                          setCategoryFilter(
-                            categoryFilter.filter((item) => item !== category)
-                          );
-                        }
-                      }}
-                      name="categories"
-                      sx={{
-                        color: "#15a0db",
-                        "&.Mui-checked": { color: "#15a0db" },
+                        setCategoryFilter(
+                          e.target.checked
+                            ? [...categoryFilter, category]
+                            : categoryFilter.filter((item) => item !== category)
+                        );
                       }}
                     />
                   }
@@ -213,36 +153,16 @@ const MarketFilters = ({
                 />
               ))}
             </FormGroup>
-          </Collapse>
-        </Box>
+          </AccordionDetails>
+        </Accordion>
+        <Divider sx={{ my: 2 }} />
 
-        {/* Divider Line */}
-        <Box
-          sx={{
-            height: "1px",
-            width: "100%",
-            backgroundColor: "#e0e0e0",
-            marginBottom: 2,
-          }}
-        />
-
-        {/* Cities Filter */}
-        <Box marginBottom={2}>
-          <Typography
-            variant="subtitle1"
-            fontWeight="bold"
-            color="#ff0000"
-            sx={{ cursor: "pointer", display: "flex" }}
-            onClick={() => handleToggle("cities")}
-          >
-            Cities
-            {openCities ? (
-              <ExpandLess sx={{ fontSize: "1.5rem", marginLeft: 1 }} />
-            ) : (
-              <ExpandMore sx={{ fontSize: "1.5rem", marginLeft: 1 }} />
-            )}
-          </Typography>
-          <Collapse in={openCities}>
+        {/* Cities */}
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography fontWeight="bold">Cities</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
             <FormGroup>
               {fleaMarketCities.map((city) => (
                 <FormControlLabel
@@ -251,18 +171,11 @@ const MarketFilters = ({
                     <Checkbox
                       checked={citiesFilter.includes(city)}
                       onChange={(e) => {
-                        if (e.target.checked) {
-                          setCitiesFilter([...citiesFilter, city]);
-                        } else {
-                          setCitiesFilter(
-                            citiesFilter.filter((item) => item !== city)
-                          );
-                        }
-                      }}
-                      name="cities"
-                      sx={{
-                        color: "#15a0db",
-                        "&.Mui-checked": { color: "#15a0db" },
+                        setCitiesFilter(
+                          e.target.checked
+                            ? [...citiesFilter, city]
+                            : citiesFilter.filter((item) => item !== city)
+                        );
                       }}
                     />
                   }
@@ -270,10 +183,10 @@ const MarketFilters = ({
                 />
               ))}
             </FormGroup>
-          </Collapse>
-        </Box>
+          </AccordionDetails>
+        </Accordion>
       </Box>
-    </Grid2>
+    </Grid>
   );
 };
 

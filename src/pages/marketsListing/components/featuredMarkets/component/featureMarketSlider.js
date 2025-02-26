@@ -1,124 +1,186 @@
-// FeaturedMarketSlider.js
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Card,
   CardContent,
   CardMedia,
   Typography,
+  IconButton,
+  Button,
   useMediaQuery,
 } from "@mui/material";
+import { ArrowBackIos, ArrowForwardIos, LocationOn } from "@mui/icons-material";
+import { Rating } from "@mui/material";
 
-const FeaturedMarketSlider = ({ items, speed = 5 }) => {
+const FeaturedMarketSlider = ({ items }) => {
+  const scrollContainerRef = useRef(null);
+  // const [scrollPosition, setScrollPosition] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const isMediumScreen = useMediaQuery("(max-width:960px)");
 
-  // Define slidesToShow based on screen size for responsive behavior
-  const slidesToShow = isSmallScreen ? 1 : isMediumScreen ? 2 : 4;
+  const slidesToShow = isSmallScreen ? 1 : isMediumScreen ? 3 : 5;
 
-  // Adjust speed based on screen size
-  const adjustedSpeed = isSmallScreen
-    ? speed / 3
-    : isMediumScreen
-    ? speed * 0.75
-    : speed;
+  // Handle manual scroll for arrows
+  const scroll = (direction) => {
+    const scrollAmount = scrollContainerRef.current.offsetWidth / slidesToShow;
+    scrollContainerRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
-  // Reference to the scroll container
-  const scrollContainerRef = useRef(null);
-
+  // Auto-scroll effect
   useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-
-    // Scroll reset to create an infinite loop
-    const handleScroll = () => {
-      if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
-        scrollContainer.scrollLeft = 0; // Reset to start
-      }
-    };
-
-    // Set an interval to scroll at a fixed speed
-    const scrollInterval = setInterval(() => {
-      scrollContainer.scrollLeft += 1;
-    }, adjustedSpeed);
-
-    // Add scroll event listener to handle reset
-    scrollContainer.addEventListener("scroll", handleScroll);
-
-    return () => {
-      clearInterval(scrollInterval); // Clean up on component unmount
-      scrollContainer.removeEventListener("scroll", handleScroll);
-    };
-  }, [adjustedSpeed]);
+    const interval = setInterval(() => {
+      scroll("right");
+    }, 4000); // Auto-scroll every 4 seconds
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <Box
-      sx={{
-        mt: 4,
-        overflow: "hidden",
-        position: "relative",
-        width: "100%",
-        p: 3,
-        whiteSpace: "nowrap",
-      }}
-      ref={scrollContainerRef}
-    >
-      <Box
+    <Box sx={{ mt: 5, position: "relative", width: "100%" }}>
+      {/* Navigation Arrows */}
+      <IconButton
+        onClick={() => scroll("left")}
         sx={{
-          display: "flex",
-          "&:hover": {
-            animationPlayState: "paused",
-          },
+          position: "absolute",
+          top: "50%",
+          left: 0,
+          transform: "translateY(-50%)",
+          background: "rgba(255, 255, 255, 0.7)",
+          zIndex: 10,
+          "&:hover": { background: "white" },
         }}
       >
-        {/* Original and cloned items for seamless loop */}
-        {[...items, ...items].map((item, index) => (
+        <ArrowBackIos />
+      </IconButton>
+
+      <Box
+        ref={scrollContainerRef}
+        sx={{
+          display: "flex",
+          overflowX: "hidden",
+          scrollBehavior: "smooth",
+          whiteSpace: "nowrap",
+          padding: "10px 0",
+        }}
+      >
+        {items.map((item) => (
           <Card
-            key={`${item.id}-${index}`}
+            key={item?._id}
             sx={{
-              flex: `0 0 calc(100% / ${slidesToShow})`, // Adjusts based on slidesToShow for responsiveness
-              minWidth: `calc(100% / ${slidesToShow})`, // Minimum width for each slide
-              maxWidth: 400, // Limits max width for better readability on larger screens
+              flex: `0 0 calc(100% / ${slidesToShow} - 20px)`,
+              minWidth: `calc(100% / ${slidesToShow} - 20px)`,
+              maxWidth: 400,
               mx: 1,
               boxShadow: 3,
               borderRadius: 2,
+              position: "relative",
             }}
           >
-            <CardMedia
-              component="img"
-              image={item.image}
-              alt={item.name}
-              height="200"
-              sx={{
-                objectFit: "cover",
-                width: "100%",
-                borderTopLeftRadius: 8,
-                borderTopRightRadius: 8,
-              }}
-            />
-            <CardContent>
-              <Typography
-                variant="h6"
+            {/* Market Image with Overlay */}
+            <Box sx={{ position: "relative" }}>
+              <CardMedia
+                component="img"
+                image={item?.logo}
+                alt={item?.name}
+                height="220"
                 sx={{
-                  color: "#ff0000",
-                  fontSize: isSmallScreen ? "1rem" : "1.25rem",
-                  fontWeight: "bold",
+                  objectFit: "cover",
+                  width: "100%",
+                  borderTopLeftRadius: 8,
+                  borderTopRightRadius: 8,
+                }}
+              />
+              <Box
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  background:
+                    "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
+                  color: "white",
+                  padding: "10px",
                 }}
               >
-                {item.name}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontSize: isSmallScreen ? "0.8rem" : "1rem",
-                  color: "#555",
-                }}
+                <Typography variant="h6" fontWeight="bold">
+                  {item?.name}
+                </Typography>
+                <Typography variant="body2">{item?.marketType}</Typography>
+              </Box>
+            </Box>
+
+            {/* Card Content */}
+            <CardContent sx={{ padding: "16px", textAlign: "center" }}>
+              {/* Location */}
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                mb={1}
               >
-                {item.description}
-              </Typography>
+                <LocationOn
+                  sx={{ color: "#ff0000", fontSize: "1.2rem", mr: 0.5 }}
+                />
+                <Typography variant="body2" color="textSecondary">
+                  {item?.location?.address}
+                </Typography>
+              </Box>
+
+              {/* Ratings */}
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                mb={1}
+              >
+                <Rating
+                  value={item?.averageRating}
+                  precision={0.1}
+                  readOnly
+                  size="small"
+                />
+                <Typography variant="body2" color="textSecondary" ml={1}>
+                  ({item?.reviewCount} reviews)
+                </Typography>
+              </Box>
+
+              {/* Explore Button */}
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                sx={{
+                  backgroundColor: "#15a0db",
+                  "&:hover": { backgroundColor: "#127bb5" },
+                  borderRadius: 2,
+                  mt: 1,
+                }}
+                onClick={() => window.open(item.websiteUrl, "_blank")}
+              >
+                Explore Market
+              </Button>
             </CardContent>
           </Card>
         ))}
       </Box>
+
+      {/* Right Navigation Arrow */}
+      <IconButton
+        onClick={() => scroll("right")}
+        sx={{
+          position: "absolute",
+          top: "50%",
+          right: 0,
+          transform: "translateY(-50%)",
+          background: "rgba(255, 255, 255, 0.7)",
+          zIndex: 10,
+          "&:hover": { background: "white" },
+        }}
+      >
+        <ArrowForwardIos />
+      </IconButton>
     </Box>
   );
 };
