@@ -27,7 +27,7 @@ const HomeSection = ({ setActiveForm, setUpdateMarket }) => {
   const getOwnerMarkets = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL_LOCAL}api/market/owner`,
+        `${process.env.REACT_APP_API_URL}api/market/owner`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -50,14 +50,11 @@ const HomeSection = ({ setActiveForm, setUpdateMarket }) => {
 
   const handleDeleteIconClick = async (id) => {
     try {
-      await axios.delete(
-        `${process.env.REACT_APP_API_URL_LOCAL}api/market/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axios.delete(`${process.env.REACT_APP_API_URL}api/market/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       getOwnerMarkets();
     } catch (error) {
       console.log(error, "ERROR");

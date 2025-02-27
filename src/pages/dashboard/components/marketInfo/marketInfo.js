@@ -268,8 +268,8 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
       };
 
       const url = marketData
-        ? `${process.env.REACT_APP_API_URL_LOCAL}api/market/update/${marketData?._id}`
-        : `${process.env.REACT_APP_API_URL_LOCAL}api/market`;
+        ? `${process.env.REACT_APP_API_URL}api/market/update/${marketData?._id}`
+        : `${process.env.REACT_APP_API_URL}api/market`;
 
       await axios({
         method: marketData ? "put" : "post",
