@@ -19,8 +19,11 @@ const CustomCardContent = ({
   market,
   hovered,
   handleUpdateIconClick,
+  handleDeleteIconClick,
 }) => {
   const slicedCategories = market?.categories?.slice(0, 3);
+  const normalizedLogoPreview =
+    typeof market?.logo === "string" ? market?.logo : market?.logo?.url;
 
   return (
     <>
@@ -64,7 +67,7 @@ const CustomCardContent = ({
         <Box sx={{ position: "relative", height: "180px", overflow: "hidden" }}>
           <CardMedia
             component="img"
-            image={market?.logo}
+            image={normalizedLogoPreview}
             alt={market?.name}
             sx={{
               width: "100%",
@@ -135,7 +138,7 @@ const CustomCardContent = ({
           <Box display="flex" alignItems="center" marginBottom={1}>
             <LocationOnIcon sx={{ color: "text.secondary", marginRight: 1 }} />
             <Typography variant="body2" color="text.secondary" noWrap>
-              {market.location.address}
+              {market?.location?.address}
             </Typography>
           </Box>
 
@@ -181,7 +184,7 @@ const CustomCardContent = ({
             </IconButton>
 
             <IconButton
-              onClick={() => console.log("Delete", market.id)}
+              onClick={() => handleDeleteIconClick(market?._id)}
               color="error"
             >
               <Delete fontSize="small" />

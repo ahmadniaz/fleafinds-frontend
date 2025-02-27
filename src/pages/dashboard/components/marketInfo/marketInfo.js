@@ -21,10 +21,11 @@ import {
 import { Formik, Form, Field } from "formik";
 import { useSnackbar } from "../../../../components/snackbar/customSnackBar";
 import * as Yup from "yup";
-import { CloudUpload } from "@mui/icons-material";
+import { CloudUpload, Cancel } from "@mui/icons-material";
 import MarketImagesSection from "./components/marketImagesSection";
 import SocialMediaSection from "./components/socialMediaSection";
 import { LoadingFallback } from "../../../../components";
+import MarketContactSection from "./components/marketContactSection";
 
 // Validation schema for the dashboard form
 const validationSchema = Yup.object({
@@ -38,6 +39,15 @@ const validationSchema = Yup.object({
     .required("Categories are required"),
   openingHours: Yup.string().required("Opening hours are required"),
   priceList: Yup.string().required("Price information is required"),
+  marketNumber: Yup.string().matches(
+    /^\+?\d{10,15}$/,
+    "Invalid contact number format"
+  ),
+  marketEmail: Yup.string().email("Invalid email format"),
+  marketWebsite: Yup.string().matches(
+    /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
+    "Invalid website URL format"
+  ),
 });
 
 const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
@@ -105,6 +115,8 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
       ? values.categories.filter((category) => category !== value)
       : [...values.categories, value];
 
+    console.log(values, value, updatedCategories, "UPDATED CAT");
+
     setFieldValue("categories", updatedCategories);
   };
 
@@ -114,7 +126,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "fleafind_preset"); // Set in Cloudinary settings
+    formData.append("upload_preset", "fleafind_preset");
 
     try {
       const response = await axios.post(
@@ -122,11 +134,12 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
         formData
       );
 
-      const imageUrl = response.data.secure_url; // Get URL from Cloudinary response
+      const imageUrl = response.data.secure_url;
+      const publicId = response.data.public_id; // Get public_id for deletion
 
       setImagePreviews((prev) => {
         const newPreviews = [...prev];
-        newPreviews[index] = imageUrl; // Store Cloudinary URL instead of Blob
+        newPreviews[index] = { url: imageUrl, publicId }; // Store both URL & public_id
         return newPreviews;
       });
     } catch (error) {
@@ -134,12 +147,156 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
     }
   };
 
-  const handleImageRemove = (index) => {
+  const handleImageRemove = async (index) => {
     setImagePreviews((prev) => {
       const newPreviews = [...prev];
-      newPreviews[index] = null; // Remove the image from the array
+      const publicId = newPreviews[index]?.publicId;
+
+      if (publicId) {
+        axios
+          .post(
+            `https://api.cloudinary.com/v1_1/ddnhd2ue9/image/destroy`,
+            {
+              public_id: publicId,
+            },
+            {
+              auth: {
+                username: process.env.REACT_APP_CLOUDINARY_KEY,
+                password: process.env.REACT_APP_CLOUDINARY_SECRET,
+              },
+            }
+          )
+          .then(() => console.log("Image deleted from Cloudinary"))
+          .catch((error) => console.error("Failed to delete image", error));
+      }
+
+      newPreviews[index] = null; // Remove from state
       return newPreviews;
     });
+  };
+
+  const handleLogoUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "fleafind_preset");
+
+    try {
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/ddnhd2ue9/image/upload",
+        formData
+      );
+
+      const imageUrl = response.data.secure_url;
+      const publicId = response.data.public_id; // Get public_id for deletion
+
+      setLogoPreview({ url: imageUrl, publicId });
+    } catch (error) {
+      console.error("Upload failed", error);
+    }
+  };
+
+  const handleLogoRemove = async () => {
+    if (logoPreview?.publicId) {
+      await axios
+        .post(
+          `https://api.cloudinary.com/v1_1/ddnhd2ue9/image/destroy`,
+          {
+            public_id: logoPreview.publicId,
+          },
+          {
+            auth: {
+              username: "YOUR_CLOUDINARY_API_KEY",
+              password: "YOUR_CLOUDINARY_API_SECRET",
+            },
+          }
+        )
+        .then(() => console.log("Logo deleted from Cloudinary"))
+        .catch((error) => console.error("Failed to delete logo", error));
+    }
+
+    setLogoPreview(null);
+  };
+
+  const handleFormSubmit = async (values, { resetForm }) => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("name", values.marketName);
+      formData.append("marketType", values.marketType);
+      formData.append("description", values.description);
+      formData.append("city", values.city);
+      formData.append("location", values.location);
+      formData.append("latitude", latitude); // Add latitude to form data
+      formData.append("longitude", longitude); // Add longitude to form data
+      formData.append("categories", JSON.stringify(values.categories));
+      formData.append("openingHours", values.openingHours);
+      formData.append("priceList", values.priceList);
+      formData.append("socialMedia", JSON.stringify(values.socialMedia));
+      formData.append("marketNumber", values.marketNumber);
+      formData.append("marketEmail", values.marketEmail);
+      formData.append("marketWebsite", values.marketWebsite);
+
+      if (logoPreview) {
+        formData.append(
+          "logo",
+          JSON.stringify({
+            url: logoPreview?.url || logoPreview, // If it's a string URL, use it directly
+            publicId: logoPreview?.publicId, // Ensure the publicId is included
+          })
+        );
+      }
+
+      // Handle images
+      imagePreviews.forEach((image, index) => {
+        if (image) {
+          formData.append(
+            "images",
+            JSON.stringify({
+              url: image.url,
+              publicId: image.publicId,
+            })
+          );
+        }
+      });
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data", // Ensure multipart/form-data
+      };
+
+      const url = marketData
+        ? `${process.env.REACT_APP_API_URL_LOCAL}api/market/update/${marketData?._id}`
+        : `${process.env.REACT_APP_API_URL_LOCAL}api/market`;
+
+      await axios({
+        method: marketData ? "put" : "post",
+        url,
+        data: formData,
+        headers,
+      });
+
+      setLoading(false);
+      showSnackbar(
+        marketData
+          ? "Market Updated Successfully"
+          : "Market Created Successfully",
+        "success"
+      );
+      resetForm();
+      setUpdateMarket(null);
+      setLogoPreview(null);
+      setImagePreviews([]);
+      setActiveForm("home");
+    } catch (error) {
+      setLoading(false);
+      console.error(
+        "Error creating market:",
+        error.response ? error.response.data : error.message
+      );
+    }
   };
 
   const handleLocationChange = async (event) => {
@@ -170,96 +327,8 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
     }
   };
 
-  const handleLogoUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "fleafind_preset"); // Set in Cloudinary settings
-
-    try {
-      const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/ddnhd2ue9/image/upload",
-        formData
-      );
-
-      const imageUrl = response.data.secure_url; // Get URL from Cloudinary response
-
-      setLogoPreview(imageUrl);
-    } catch (error) {
-      console.error("Upload failed", error);
-    }
-  };
-
-  const handleFormSubmit = async (values, { resetForm }) => {
-    setLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append("name", values.marketName);
-      formData.append("marketType", values.marketType);
-      formData.append("description", values.description);
-      formData.append("city", values.city);
-      formData.append("location", values.location);
-      formData.append("latitude", latitude); // Add latitude to form data
-      formData.append("longitude", longitude); // Add longitude to form data
-      formData.append("categories", JSON.stringify(selectedCategories));
-      formData.append("openingHours", values.openingHours);
-      formData.append("priceList", values.priceList);
-      formData.append("socialMedia", JSON.stringify(values.socialMedia));
-
-      if (logoPreview) {
-        formData.append("logo", logoPreview);
-      }
-
-      imagePreviews.forEach((image, index) => {
-        if (image) {
-          formData.append(`images`, image);
-        }
-      });
-
-      if (marketData) {
-        await axios.put(
-          `${process.env.REACT_APP_API_URL}api/market/update/${marketData?._id}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-
-        setLoading(false);
-        showSnackbar("Market Updated Successfully", "success");
-      } else {
-        await axios.post(
-          `${process.env.REACT_APP_API_URL}api/market`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        setLoading(false);
-        showSnackbar("Market Created Successfully", "success");
-      }
-      resetForm();
-      setUpdateMarket(null);
-      // Optionally, you can reset the preview state as well
-      setLogoPreview(null);
-      setImagePreviews([]);
-      setActiveForm("home");
-    } catch (error) {
-      setLoading(false);
-      console.error(
-        "Error creating market:",
-        error.response ? error.response.data : error.message
-      );
-    }
-  };
+  const normalizedLogoPreview =
+    typeof logoPreview === "string" ? logoPreview : logoPreview?.url;
 
   // Determine if the screen size is small (mobile view)
 
@@ -301,6 +370,9 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                 instagram: marketData?.socialMedia?.instagram || "",
                 twitter: marketData?.socialMedia?.twitter || "",
               },
+              marketNumber: marketData?.marketNumber || "",
+              marketEmail: marketData?.marketEmail || "",
+              marketWebsite: marketData?.marketWebsite || "",
             }}
             validationSchema={validationSchema}
             onSubmit={(data, { resetForm }) =>
@@ -378,9 +450,9 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                         backgroundColor: "#fafafa",
                       }}
                     >
-                      {logoPreview ? (
+                      {normalizedLogoPreview ? (
                         <img
-                          src={logoPreview}
+                          src={normalizedLogoPreview}
                           alt="Logo"
                           style={{
                             width: "100%",
@@ -392,6 +464,25 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                         <Typography variant="body2" color="textSecondary">
                           Upload Market Logo
                         </Typography>
+                      )}
+
+                      {/* Close (remove) button */}
+                      {normalizedLogoPreview && (
+                        <IconButton
+                          onClick={handleLogoRemove}
+                          sx={{
+                            position: "absolute",
+                            top: "5px",
+                            right: "5px",
+                            backgroundColor: "#d32f2f",
+                            color: "#fff",
+                            "&:hover": {
+                              backgroundColor: "#b71c1c",
+                            },
+                          }}
+                        >
+                          <Cancel />
+                        </IconButton>
                       )}
                       <input
                         type="file"
@@ -567,6 +658,14 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                       Social Media Links
                     </Typography>
                     <SocialMediaSection errors={errors} touched={touched} />
+                  </Grid2>
+
+                  {/* Market Contact Info*/}
+                  <Grid2 item size={{ xs: 12 }} mt={3}>
+                    <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+                      Market Contact Information
+                    </Typography>
+                    <MarketContactSection touched={touched} errors={errors} />
                   </Grid2>
 
                   {/* Submit Button */}

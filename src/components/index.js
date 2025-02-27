@@ -2,6 +2,7 @@ import Breadcrumb from "./breadcrumbs/breadCrumbs";
 import PrivateRoute from "./protectedRoute";
 import LoadingFallback from "./loader/loader";
 import { SnackbarProvider } from "./snackbar/customSnackBar";
+import SkeletonLoader from "./skeletonLoader/skeletonLoader";
 import MarketCard from "./marketCard/marketCards";
 
 export {
@@ -10,4 +11,5 @@ export {
   LoadingFallback,
   SnackbarProvider,
   MarketCard,
+  SkeletonLoader,
 };

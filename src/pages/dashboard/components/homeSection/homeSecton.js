@@ -7,17 +7,17 @@ import {
   Divider,
   Grid2,
 } from "@mui/material";
-
 import { useLocation } from "react-router-dom";
 import Breadcrumb from "../../../../components/breadcrumbs/breadCrumbs";
-import { MarketCard } from "../../../../components";
+import { MarketCard, SkeletonLoader } from "../../../../components";
 import axios from "axios";
 
 const HomeSection = ({ setActiveForm, setUpdateMarket }) => {
   const location = useLocation();
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
-  const token = localStorage.getItem("token"); // Get token from storage
+  const token = localStorage.getItem("token");
   const [ownerMarkets, setOwnerMarkets] = useState([]);
+  const [loading, setLoading] = useState(true); // Track loading state
 
   useEffect(() => {
     getOwnerMarkets();
@@ -27,29 +27,49 @@ const HomeSection = ({ setActiveForm, setUpdateMarket }) => {
   const getOwnerMarkets = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}api/market/owner`,
+        `${process.env.REACT_APP_API_URL_LOCAL}api/market/owner`,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Ensure token is passed correctly
+            Authorization: `Bearer ${token}`,
           },
         }
       );
+      console.log(response?.data);
       setOwnerMarkets(response?.data?.markets);
     } catch (error) {
       console.log(error, "ERROR");
+    } finally {
+      setLoading(false); // Stop loading after data fetch
     }
   };
 
   const handleUpdateIconClick = (market) => {
-    console.log(market, "MARKET");
     setUpdateMarket(market);
     setActiveForm("marketInfo");
+  };
+
+  const handleDeleteIconClick = async (id) => {
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL_LOCAL}api/market/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      getOwnerMarkets();
+    } catch (error) {
+      console.log(error, "ERROR");
+    } finally {
+      setLoading(false); // Stop loading after data fetch
+    }
   };
 
   return (
     <Box
       sx={{
-        marginLeft: isSmallScreen ? 0 : "250px", // Removes margin on smaller screens
+        marginLeft: isSmallScreen ? 0 : "250px",
         padding: "20px",
         width: "100%",
         minHeight: "100vh",
@@ -72,9 +92,10 @@ const HomeSection = ({ setActiveForm, setUpdateMarket }) => {
           >
             <Breadcrumb />
           </Box>
-          <Divider sx={{ my: 1 }} /> {/* Divider under the breadcrumb */}
+          <Divider sx={{ my: 1 }} />
         </>
       )}
+
       {/* Add Flea Market Card */}
       <Card
         sx={{
@@ -99,7 +120,9 @@ const HomeSection = ({ setActiveForm, setUpdateMarket }) => {
           + Add New Flea Market
         </Typography>
       </Card>
-      <Divider sx={{ my: 1 }} /> {/* Divider under the logo */}
+      <Divider sx={{ my: 1 }} />
+
+      {/* Title */}
       <Typography
         variant="h4"
         fontWeight="bold"
@@ -109,24 +132,25 @@ const HomeSection = ({ setActiveForm, setUpdateMarket }) => {
       >
         Your Flea Markets
       </Typography>
-      <Box
-        sx={{
-          gap: "20px",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
-        <Grid2 container spacing={4} mt={3}>
-          {ownerMarkets?.length > 0 &&
-            ownerMarkets?.map((market) => (
-              <MarketCard
-                key={market?._id}
-                market={market}
-                handleUpdateIconClick={handleUpdateIconClick}
-              />
-            ))}
-        </Grid2>
-      </Box>
+
+      {/* Loading Skeleton */}
+      {loading ? (
+        <SkeletonLoader type="card" count={3} />
+      ) : (
+        <Box sx={{ gap: "20px", flexWrap: "wrap", justifyContent: "center" }}>
+          <Grid2 container spacing={4} mt={3}>
+            {ownerMarkets?.length > 0 &&
+              ownerMarkets?.map((market) => (
+                <MarketCard
+                  key={market?._id}
+                  market={market}
+                  handleUpdateIconClick={handleUpdateIconClick}
+                  handleDeleteIconClick={handleDeleteIconClick}
+                />
+              ))}
+          </Grid2>
+        </Box>
+      )}
     </Box>
   );
 };

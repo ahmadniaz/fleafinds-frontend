@@ -6,7 +6,11 @@ import { createSlug } from "../../utils/slug";
 import CustomCardContent from "./component/cardContent";
 import { useLocation } from "react-router-dom";
 
-const MarketCard = ({ market, handleUpdateIconClick }) => {
+const MarketCard = ({
+  market,
+  handleUpdateIconClick,
+  handleDeleteIconClick,
+}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const slug = createSlug(market?.name);
@@ -37,6 +41,7 @@ const MarketCard = ({ market, handleUpdateIconClick }) => {
           <CustomCardContent
             isNewMarket={isNewMarket}
             handleUpdateIconClick={handleUpdateIconClick}
+            handleDeleteIconClick={handleDeleteIconClick}
             isOwner={isOwner}
             hovered={hovered}
             market={market}

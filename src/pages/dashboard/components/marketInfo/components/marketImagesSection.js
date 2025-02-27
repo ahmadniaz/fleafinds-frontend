@@ -7,9 +7,16 @@ const MarketImagesSection = ({
   handleImageUpload,
   handleImageRemove,
 }) => {
+  // Normalize imagePreviews: If it's an array of objects, extract the URLs.
+  const normalizedPreviews = Array.isArray(imagePreviews)
+    ? imagePreviews?.every((item) => typeof item === "string")
+      ? imagePreviews // Old schema (array of strings)
+      : imagePreviews?.map((image) => image?.url) // New schema (array of objects)
+    : [];
+
   return (
     <Grid2 container spacing={2}>
-      {imagePreviews.map((preview, index) => (
+      {normalizedPreviews.map((preview, index) => (
         <Grid2 item size={{ xs: 12, sm: 4, md: 3 }} key={index}>
           <Box
             sx={{
@@ -40,7 +47,7 @@ const MarketImagesSection = ({
             {/* Close (remove) button */}
             {preview && (
               <IconButton
-                onClick={() => handleImageRemove(index)} // Handle image removal
+                onClick={() => handleImageRemove(index)}
                 sx={{
                   position: "absolute",
                   top: "5px",

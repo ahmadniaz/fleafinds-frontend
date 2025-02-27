@@ -18,7 +18,7 @@ import {
   UserReviews,
 } from "./components";
 import { HomeNav } from "../../layout/components/header/components";
-import { MarketCard } from "../../components";
+import { MarketCard, SkeletonLoader } from "../../components";
 import axios from "axios";
 
 // Categories and Types for Filters
@@ -65,6 +65,8 @@ const MarketListing = () => {
   const [page, setPage] = useState(1);
   const [allMarkets, setAllMarkets] = useState([]);
   const [allReviews, setAllReviews] = useState([]);
+  const [marketsLoading, setMarketsLoading] = useState(true);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("highest-rated");
@@ -95,6 +97,8 @@ const MarketListing = () => {
       setAllMarkets(response?.data?.markets);
     } catch (error) {
       console.log(error, "ERROR");
+    } finally {
+      setMarketsLoading(false);
     }
   };
 
@@ -103,10 +107,11 @@ const MarketListing = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}api/review`
       );
-      console.log("Response", response);
       setAllReviews(response?.data?.reviews);
     } catch (error) {
       console.log(error, "ERROR");
+    } finally {
+      setReviewsLoading(false);
     }
   };
 
@@ -161,7 +166,6 @@ const MarketListing = () => {
       filtered = filtered.filter((market) =>
         market.categories.some((category) => categoryFilter.includes(category))
       );
-      console.log(filtered, "FILTERED");
     }
 
     // Cities Filter
@@ -211,7 +215,11 @@ const MarketListing = () => {
       <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />
 
       {/* Featured Markets Slide */}
-      <FeaturedMarkets featuredMarkets={allMarkets} />
+      {marketsLoading ? (
+        <SkeletonLoader type="card" count={4} />
+      ) : (
+        <FeaturedMarkets featuredMarkets={allMarkets} />
+      )}
 
       {/* Divider Between Sections */}
       <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />
@@ -291,9 +299,13 @@ const MarketListing = () => {
 
           {/* Flea Market Cards */}
           <Grid2 container spacing={4} mt={3}>
-            {filteredMarkets?.map((market) => (
-              <MarketCard key={market?._id} market={market} />
-            ))}
+            {marketsLoading ? (
+              <SkeletonLoader type="card" count={12} />
+            ) : (
+              filteredMarkets?.map((market) => (
+                <MarketCard key={market._id} market={market} />
+              ))
+            )}
           </Grid2>
 
           {/* Pagination */}
@@ -310,8 +322,11 @@ const MarketListing = () => {
       <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />
 
       {/* User Reviews Slide*/}
-      <UserReviews reviews={allReviews} markets={displayedMarkets} />
-
+      {reviewsLoading ? (
+        <SkeletonLoader type="card" count={4} />
+      ) : (
+        <UserReviews reviews={allReviews} markets={displayedMarkets} />
+      )}
       {/* Nearby Markets Modal */}
       <NearbyMarketsModal
         open={isModalOpen}
