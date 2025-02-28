@@ -122,7 +122,7 @@ const ReviewsSlider = ({ items, markets, speed = 5 }) => {
                   }}
                 >
                   <img
-                    src={item?.marketLogo || "/default-logo.png"} // Ensure you have a default image
+                    src={item?.marketLogo?.url || "/default-logo.png"} // Ensure you have a default image
                     alt="Market Logo"
                     style={{
                       width: "100%",

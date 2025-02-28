@@ -4,6 +4,7 @@ import LoadingFallback from "./loader/loader";
 import { SnackbarProvider } from "./snackbar/customSnackBar";
 import SkeletonLoader from "./skeletonLoader/skeletonLoader";
 import MarketCard from "./marketCard/marketCards";
+import EventCard from "./eventCard/eventCard";
 
 export {
   Breadcrumb,
@@ -12,4 +13,5 @@ export {
   SnackbarProvider,
   MarketCard,
   SkeletonLoader,
+  EventCard,
 };

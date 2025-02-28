@@ -5,13 +5,14 @@ import {
   MarketInfoForm,
   OwnerInfoForm,
   HomeSection,
+  EventsInfoForm,
 } from "./components";
 
 const Dashboard = () => {
   const [activeForm, setActiveForm] = useState("home");
   const [updateMarket, setUpdateMarket] = useState(null);
-
-  console.log(updateMarket, "UPDATE MARKET DATA");
+  const [updateEvent, setUpdateEvent] = useState(null);
+  const [ownerAllMarkets, setOwnerAllMarkets] = useState([]);
 
   return (
     <div style={{ display: "flex" }}>
@@ -28,6 +29,16 @@ const Dashboard = () => {
         <HomeSection
           setActiveForm={setActiveForm}
           setUpdateMarket={setUpdateMarket}
+          setUpdateEvent={setUpdateEvent}
+          setOwnerAllMarkets={setOwnerAllMarkets}
+        />
+      )}
+      {activeForm === "events" && (
+        <EventsInfoForm
+          setActiveForm={setActiveForm}
+          updateEventData={updateEvent}
+          ownerAllMarkets={ownerAllMarkets}
+          setUpdateEvent={setUpdateEvent}
         />
       )}
     </div>

@@ -56,8 +56,6 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const token = localStorage.getItem("token");
   const showSnackbar = useSnackbar();
 
@@ -103,7 +101,6 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
     if (marketData) {
       setLogoPreview(marketData?.logo || null);
       setImagePreviews(marketData?.images || Array(10).fill(null));
-      setSelectedCategories(marketData?.categories || []);
       setLatitude(marketData?.location?.coordinates[1] || null);
       setLongitude(marketData?.location?.coordinates[0] || null);
     }
@@ -114,8 +111,6 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
     const updatedCategories = values.categories.includes(value)
       ? values.categories.filter((category) => category !== value)
       : [...values.categories, value];
-
-    console.log(values, value, updatedCategories, "UPDATED CAT");
 
     setFieldValue("categories", updatedCategories);
   };
@@ -243,7 +238,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
         formData.append(
           "logo",
           JSON.stringify({
-            url: logoPreview?.url || logoPreview, // If it's a string URL, use it directly
+            url: logoPreview?.url, // If it's a string URL, use it directly
             publicId: logoPreview?.publicId, // Ensure the publicId is included
           })
         );
@@ -268,8 +263,8 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
       };
 
       const url = marketData
-        ? `${process.env.REACT_APP_API_URL}api/market/update/${marketData?._id}`
-        : `${process.env.REACT_APP_API_URL}api/market`;
+        ? `${process.env.REACT_APP_API_URL_LOCAL}api/market/update/${marketData?._id}`
+        : `${process.env.REACT_APP_API_URL_LOCAL}api/market`;
 
       await axios({
         method: marketData ? "put" : "post",
@@ -339,12 +334,13 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
       ) : (
         <Container
           sx={{
-            marginLeft: isSmallScreen ? 0 : "270px",
-            backgroundColor: "#f9f9f9",
-            padding: { xs: "15px", sm: "30px" },
-            borderRadius: "10px",
-            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-            mt: { xs: 3, sm: 3, md: 3 },
+            marginLeft: { xs: 0, sm: 0, md: "270px" }, // Responsive margin
+            padding: { xs: "10px", sm: "20px", md: "30px" }, // Responsive padding
+            backgroundColor: "#fff",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            borderRadius: "8px",
+            width: { xs: "100%", sm: "90%" }, // Responsive width
+            marginX: "auto", // Center the form
           }}
         >
           <Typography

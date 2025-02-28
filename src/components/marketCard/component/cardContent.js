@@ -22,8 +22,6 @@ const CustomCardContent = ({
   handleDeleteIconClick,
 }) => {
   const slicedCategories = market?.categories?.slice(0, 3);
-  const normalizedLogoPreview =
-    typeof market?.logo === "string" ? market?.logo : market?.logo?.url;
 
   return (
     <>
@@ -67,7 +65,7 @@ const CustomCardContent = ({
         <Box sx={{ position: "relative", height: "180px", overflow: "hidden" }}>
           <CardMedia
             component="img"
-            image={normalizedLogoPreview}
+            image={market?.logo?.url}
             alt={market?.name}
             sx={{
               width: "100%",

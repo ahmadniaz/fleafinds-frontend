@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, Link } from "@mui/material";
 
 const TopMarkets = ({ allMarkets }) => {
-  const topMarkets = allMarkets?.slice(0, 1); // Display top 3 markets
+  const topMarkets = allMarkets?.slice(0, 5); // Display top 3 markets
 
   return (
     <Box sx={{ mb: 2 }}>
@@ -14,7 +14,7 @@ const TopMarkets = ({ allMarkets }) => {
       </Typography>
 
       <Box component="ul" sx={{ pl: 2 }}>
-        {allMarkets?.map((market) => (
+        {topMarkets?.map((market) => (
           <Box
             component="li"
             key={market?._id}
@@ -32,7 +32,7 @@ const TopMarkets = ({ allMarkets }) => {
               component="span"
               sx={{ color: "#ff0000", fontWeight: "medium", ml: 1 }}
             >
-              ({market.reviewCount} reviews, {market.averageRating} ⭐)
+              ({market?.reviewCount} reviews, {market?.averageRating} ⭐)
             </Typography>
           </Box>
         ))}

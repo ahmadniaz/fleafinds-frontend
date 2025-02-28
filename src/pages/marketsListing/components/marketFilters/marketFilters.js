@@ -14,6 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const MarketFilters = ({
@@ -24,11 +25,16 @@ const MarketFilters = ({
   onCategoryChange,
   onCitiesChange,
   onRatingChange,
+  cityFromUrl,
 }) => {
   const [marketTypeFilter, setMarketTypeFilter] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState([]);
-  const [citiesFilter, setCitiesFilter] = useState([]);
+  const [citiesFilter, setCitiesFilter] = useState(
+    cityFromUrl ? [cityFromUrl] : []
+  );
+
   const [ratingFilter, setRatingFilter] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     onMarketTypeChange(marketTypeFilter);
@@ -43,6 +49,12 @@ const MarketFilters = ({
   }, [citiesFilter]);
 
   useEffect(() => {
+    if (cityFromUrl) {
+      setCitiesFilter([cityFromUrl]);
+    }
+  }, [cityFromUrl]);
+
+  useEffect(() => {
     onRatingChange(ratingFilter);
   }, [ratingFilter]);
 
@@ -51,6 +63,7 @@ const MarketFilters = ({
     setCategoryFilter([]);
     setCitiesFilter([]);
     setRatingFilter("");
+    navigate("/markets", { replace: true });
   };
 
   return (
@@ -158,7 +171,7 @@ const MarketFilters = ({
         <Divider sx={{ my: 2 }} />
 
         {/* Cities */}
-        <Accordion>
+        <Accordion expanded={cityFromUrl}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography fontWeight="bold">Cities</Typography>
           </AccordionSummary>

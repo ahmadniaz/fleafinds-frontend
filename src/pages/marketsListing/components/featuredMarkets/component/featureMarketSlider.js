@@ -22,8 +22,9 @@ const FeaturedMarketSlider = ({ items }) => {
 
   // Handle manual scroll for arrows
   const scroll = (direction) => {
-    const scrollAmount = scrollContainerRef.current.offsetWidth / slidesToShow;
-    scrollContainerRef.current.scrollBy({
+    const scrollAmount =
+      scrollContainerRef?.current?.offsetWidth / slidesToShow;
+    scrollContainerRef?.current?.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
     });
@@ -65,7 +66,7 @@ const FeaturedMarketSlider = ({ items }) => {
           padding: "10px 0",
         }}
       >
-        {items.map((item) => (
+        {items?.map((item) => (
           <Card
             key={item?._id}
             sx={{
@@ -92,14 +93,26 @@ const FeaturedMarketSlider = ({ items }) => {
                   borderTopRightRadius: 8,
                 }}
               />
+              {/* Dark Overlay */}
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust transparency here
+                  borderTopLeftRadius: 8,
+                  borderTopRightRadius: 8,
+                }}
+              />
+              {/* Text on Image */}
               <Box
                 sx={{
                   position: "absolute",
                   bottom: 0,
                   left: 0,
                   width: "100%",
-                  background:
-                    "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
                   color: "white",
                   padding: "10px",
                 }}

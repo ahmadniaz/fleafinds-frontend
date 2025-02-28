@@ -14,6 +14,7 @@ const HeaderSection = ({ allMarkets }) => {
   });
 
   const totalMarkets = allMarkets?.length;
+  const topMarkets = allMarkets?.slice(0, 5);
 
   return (
     <Box
@@ -30,7 +31,7 @@ const HeaderSection = ({ allMarkets }) => {
               mb: 2,
             }}
           >
-            Turku Flea Markets
+            All Flea Markets
           </Typography>
         </Grid2>
 
@@ -41,11 +42,11 @@ const HeaderSection = ({ allMarkets }) => {
                 variant="subtitle1"
                 sx={{ color: "#ff0000", fontWeight: "medium", mb: 1 }}
               >
-                Discover and explore {totalMarkets} flea markets in Turku,
-                offering unique and affordable finds.
+                Discover and explore the top {topMarkets?.length} flea markets
+                in Finland, offering unique and affordable finds.
               </Typography>
               <Typography variant="body2" sx={{ mb: 3 }}>
-                Turku is home to vibrant flea markets. Find the best spots,
+                Finland is home to vibrant flea markets. Find the best spots,
                 explore new ones, and connect with local sellers to enhance your
                 shopping experience.
               </Typography>
@@ -65,12 +66,12 @@ const HeaderSection = ({ allMarkets }) => {
             }}
           >
             <MapContainer
-              center={[60.4518, 22.2666]} // Coordinates for Turku
-              zoom={12}
+              center={[64.0, 26.0]} // Center of Finland
+              zoom={5} // Zoomed out to cover whole Finland
               style={{
                 height: "100%",
                 width: "100%",
-                minHeight: "350px",
+                minHeight: "400px",
               }}
             >
               <TileLayer

@@ -6,5 +6,12 @@ const LeftNavigation = React.lazy(() =>
 const MarketInfoForm = React.lazy(() => import("./marketInfo/marketInfo"));
 const OwnerInfoForm = React.lazy(() => import("./ownerInfo/ownerInfo"));
 const HomeSection = React.lazy(() => import("./homeSection/homeSecton"));
+const EventsInfoForm = React.lazy(() => import("./eventsInfo/eventsInfo"));
 
-export { LeftNavigation, MarketInfoForm, OwnerInfoForm, HomeSection };
+export {
+  LeftNavigation,
+  MarketInfoForm,
+  OwnerInfoForm,
+  HomeSection,
+  EventsInfoForm,
+};

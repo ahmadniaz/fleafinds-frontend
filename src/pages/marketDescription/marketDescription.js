@@ -30,7 +30,7 @@ const MarketDescriptionPage = () => {
   const getAllReviews = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}api/review/${location?.state?.marketData?._id}`
+        `${process.env.REACT_APP_API_URL_LOCAL}api/review/${location?.state?.marketData?._id}`
       );
       setAllReviews(response?.data?.reviews);
     } catch (error) {
@@ -50,7 +50,7 @@ const MarketDescriptionPage = () => {
     try {
       const marketId = marketData?._id;
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}api/review`,
+        `${process.env.REACT_APP_API_URL_LOCAL}api/review`,
         {
           marketId,
           ...values,
@@ -61,20 +61,18 @@ const MarketDescriptionPage = () => {
         showSnackbar("Review Submitted Successfully", "success");
         getAllReviews();
       }
-      console.log("Review submitted:", response);
-      setLoading(false);
     } catch (error) {
       console.error(
         "Error submitting review:",
         error.response?.data || error.message
       );
-      setLoading(false);
       showSnackbar("Error Submitting Review", "success");
       showSnackbar(error.message, "error");
+    } finally {
+      setLoading(false);
     }
   };
 
-  console.log();
   const reviewFormRef = useRef(null);
 
   return (

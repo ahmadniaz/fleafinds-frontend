@@ -9,6 +9,7 @@ import {
   TextField,
   Button,
   Divider,
+  Typography,
 } from "@mui/material";
 import {
   HeaderSection,
@@ -19,6 +20,7 @@ import {
 } from "./components";
 import { HomeNav } from "../../layout/components/header/components";
 import { MarketCard, SkeletonLoader } from "../../components";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 // Categories and Types for Filters
@@ -62,6 +64,9 @@ const fleaMarketCities = [
 ];
 
 const MarketListing = () => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const cityFromUrl = params.get("city");
   const [page, setPage] = useState(1);
   const [allMarkets, setAllMarkets] = useState([]);
   const [allReviews, setAllReviews] = useState([]);
@@ -75,7 +80,9 @@ const MarketListing = () => {
   // Filter states
   const [marketTypeFilter, setMarketTypeFilter] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState([]);
-  const [citiesFilter, setCitiesFilter] = useState([]);
+  const [citiesFilter, setCitiesFilter] = useState(
+    cityFromUrl ? [cityFromUrl] : []
+  );
   const [ratingFilter, setRatingFilter] = useState("");
 
   // Handle filter updates
@@ -85,6 +92,12 @@ const MarketListing = () => {
   const handleRatingChange = (rating) => setRatingFilter(rating);
 
   useEffect(() => {
+    if (cityFromUrl) {
+      setCitiesFilter([cityFromUrl]);
+    }
+  }, [cityFromUrl]);
+
+  useEffect(() => {
     getOwnerMarkets();
     getAllReviews();
   }, []);
@@ -92,7 +105,7 @@ const MarketListing = () => {
   const getOwnerMarkets = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}api/market`
+        `${process.env.REACT_APP_API_URL_LOCAL}api/market`
       );
       setAllMarkets(response?.data?.markets);
     } catch (error) {
@@ -105,7 +118,7 @@ const MarketListing = () => {
   const getAllReviews = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}api/review`
+        `${process.env.REACT_APP_API_URL_LOCAL}api/review`
       );
       setAllReviews(response?.data?.reviews);
     } catch (error) {
@@ -182,15 +195,19 @@ const MarketListing = () => {
       );
     }
 
-    // Sorting
+    // Sorting (Use slice() before sorting to prevent state mutation)
     if (sortOption === "highest-rated") {
-      filtered = filtered.sort((a, b) => b.averageRating - a.averageRating);
+      filtered = [...filtered].sort(
+        (a, b) => b.averageRating - a.averageRating
+      );
     } else if (sortOption === "lowest-rated") {
-      filtered = filtered.sort((a, b) => a.averageRating - b.averageRating);
+      filtered = [...filtered].sort(
+        (a, b) => a.averageRating - b.averageRating
+      );
     } else if (sortOption === "most-reviews") {
-      filtered = filtered.sort((a, b) => b.reviewCount - a.reviewCount);
+      filtered = [...filtered].sort((a, b) => b.reviewCount - a.reviewCount);
     } else if (sortOption === "least-reviews") {
-      filtered = filtered.sort((a, b) => a.reviewCount - b.reviewCount);
+      filtered = [...filtered].sort((a, b) => a.reviewCount - b.reviewCount);
     }
 
     setFilteredMarkets(filtered);
@@ -236,6 +253,7 @@ const MarketListing = () => {
           onCategoryChange={handleCategoryChange}
           onCitiesChange={handleCitiesChange}
           onRatingChange={handleRatingChange}
+          cityFromUrl={cityFromUrl}
         />
 
         {/* Listing component*/}
@@ -298,13 +316,20 @@ const MarketListing = () => {
           </Grid2>
 
           {/* Flea Market Cards */}
-          <Grid2 container spacing={4} mt={3}>
+          <Grid2 container spacing={4} mt={3} justifyContent="center">
             {marketsLoading ? (
               <SkeletonLoader type="card" count={12} />
-            ) : (
-              filteredMarkets?.map((market) => (
+            ) : filteredMarkets.length > 0 ? (
+              filteredMarkets.map((market) => (
                 <MarketCard key={market._id} market={market} />
               ))
+            ) : (
+              <Grid2 item xs={12} textAlign="center">
+                <Typography variant="h6" color="textSecondary">
+                  No flea markets found. Try adjusting your filters or search
+                  criteria.
+                </Typography>
+              </Grid2>
             )}
           </Grid2>
 
@@ -313,7 +338,7 @@ const MarketListing = () => {
             count={totalPages}
             page={page}
             onChange={handlePageChange}
-            sx={{ marginTop: 4, display: "flex", justifyContent: "center" }}
+            sx={{ mt: 3, display: "flex", justifyContent: "right" }}
           />
         </Grid2>
       </Grid2>

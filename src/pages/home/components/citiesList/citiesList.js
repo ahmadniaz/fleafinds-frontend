@@ -91,8 +91,8 @@ const CitiesList = ({ citiesRef }) => {
       </Box>
 
       <Grid2 container spacing={4} justifyContent="center">
-        {filteredCities.length > 0 ? (
-          filteredCities.map((city, index) => (
+        {filteredCities?.length > 0 ? (
+          filteredCities?.map((city, index) => (
             <Grid2 item xs={12} sm={6} md={4} key={index}>
               <CityCard
                 name={city.name}

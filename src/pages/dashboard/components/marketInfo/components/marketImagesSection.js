@@ -7,16 +7,9 @@ const MarketImagesSection = ({
   handleImageUpload,
   handleImageRemove,
 }) => {
-  // Normalize imagePreviews: If it's an array of objects, extract the URLs.
-  const normalizedPreviews = Array.isArray(imagePreviews)
-    ? imagePreviews?.every((item) => typeof item === "string")
-      ? imagePreviews // Old schema (array of strings)
-      : imagePreviews?.map((image) => image?.url) // New schema (array of objects)
-    : [];
-
   return (
     <Grid2 container spacing={2}>
-      {normalizedPreviews.map((preview, index) => (
+      {imagePreviews?.map((preview, index) => (
         <Grid2 item size={{ xs: 12, sm: 4, md: 3 }} key={index}>
           <Box
             sx={{
@@ -30,7 +23,7 @@ const MarketImagesSection = ({
           >
             {preview ? (
               <img
-                src={preview}
+                src={preview?.url}
                 alt={`Market${index + 1}`}
                 style={{
                   width: "250px",
@@ -66,6 +59,7 @@ const MarketImagesSection = ({
             <input
               type="file"
               accept="image/*"
+              capture="environment" // Opens the camera on mobile
               onChange={(event) => handleImageUpload(event, index)}
               style={{ display: "none" }}
               id={`image-upload-${index}`}

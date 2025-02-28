@@ -23,7 +23,7 @@ const SectionCard = styled(Card)({
 const TitleSection = ({ marketData, reviewFormRef }) => {
   // Function to scroll to the review form
   const scrollToReviewForm = () => {
-    reviewFormRef.current?.scrollIntoView({ behavior: "smooth" });
+    reviewFormRef?.current?.scrollIntoView({ behavior: "smooth" });
   };
   return (
     <SectionCard>
@@ -39,7 +39,7 @@ const TitleSection = ({ marketData, reviewFormRef }) => {
             >
               <img
                 alt="Market Logo"
-                src={marketData?.logo}
+                src={marketData?.logo?.url}
                 style={{
                   width: "200px",
                   border: "2px solid #15a0db",

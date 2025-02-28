@@ -9,30 +9,17 @@ import {
   IconButton,
   AppBar,
   Toolbar,
-  Button,
-  Menu,
-  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import PersonIcon from "@mui/icons-material/Person";
 import Logo from "../../../../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
 
 const LeftNavigation = ({ activeForm, setActiveForm }) => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  };
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleProfileMenuClose = () => {
-    setAnchorEl(null);
   };
 
   const drawerContent = (
@@ -77,6 +64,7 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
         >
           <ListItemText primary="Home" />
         </ListItem>
+
         <ListItem
           button
           onClick={() => setActiveForm("marketInfo")}
@@ -87,6 +75,7 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
         >
           <ListItemText primary="Market Information" />
         </ListItem>
+
         <ListItem
           button
           onClick={() => setActiveForm("ownerInfo")}
@@ -96,6 +85,17 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
           }}
         >
           <ListItemText primary="Owner Information" />
+        </ListItem>
+
+        <ListItem
+          button
+          onClick={() => setActiveForm("events")}
+          sx={{
+            cursor: "pointer",
+            backgroundColor: activeForm === "events" ? "primary.main" : "",
+          }}
+        >
+          <ListItemText primary="Create Event" />
         </ListItem>
       </List>
     </Box>
@@ -123,41 +123,8 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
           <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
             FleaFind Dashboard
           </Typography>
-          {/* Profile Icon for Small Screens */}
-          <IconButton
-            color="inherit"
-            onClick={handleProfileMenuOpen}
-            sx={{
-              display: { xs: "inline-flex", sm: "inline-flex", md: "none" },
-            }}
-          >
-            <PersonIcon />
-          </IconButton>
-          {/* Profile Button for Larger Screens */}
-
-          <Button
-            color="inherit"
-            startIcon={<PersonIcon />}
-            onClick={handleProfileMenuOpen}
-            sx={{
-              display: { xs: "none", sm: "none", md: "inline-flex" },
-              fontSize: { xs: "0.8rem", sm: "0.8rem", md: "1rem" },
-            }}
-          >
-            Profile
-          </Button>
         </Toolbar>
       </AppBar>
-
-      {/* Profile Menu */}
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleProfileMenuClose}
-      >
-        <MenuItem onClick={handleProfileMenuClose}>My Profile</MenuItem>
-        <MenuItem onClick={handleProfileMenuClose}>Logout</MenuItem>
-      </Menu>
 
       {/* Drawer for Mobile (xs and sm) */}
       <Drawer
