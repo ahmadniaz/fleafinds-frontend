@@ -53,7 +53,7 @@ const AuthForm = () => {
       showSnackbar("Registered Successfully", "success");
       navigate("/dashboard"); // Navigate to dashboard after successful registration
     } catch (error) {
-      showSnackbar(error?.message, "success");
+      showSnackbar(error?.message, "error");
     } finally {
       setLoading(false);
     }
@@ -66,14 +66,13 @@ const AuthForm = () => {
         `${process.env.REACT_APP_API_URL_LOCAL}api/owner/login`,
         values
       );
-      console.log(response.data);
       localStorage.setItem("token", response.data.token); // Store JWT token
       localStorage.setItem("ownerId", response.data.ownerId); // Store ownerId
       localStorage.setItem("name", response.data.name); // Store owner name
       showSnackbar("Logged In Successfully", "success");
       navigate("/dashboard"); // Navigate to dashboard after successful login
     } catch (error) {
-      showSnackbar(error.response?.data?.message, "error");
+      showSnackbar(error?.message, "error");
     } finally {
       setLoading(false);
     }

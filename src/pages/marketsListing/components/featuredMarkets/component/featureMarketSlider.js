@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Box,
   Card,
@@ -14,7 +14,6 @@ import { Rating } from "@mui/material";
 
 const FeaturedMarketSlider = ({ items }) => {
   const scrollContainerRef = useRef(null);
-  // const [scrollPosition, setScrollPosition] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const isMediumScreen = useMediaQuery("(max-width:960px)");
 

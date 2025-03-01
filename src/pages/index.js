@@ -11,6 +11,9 @@ const MarketDescription = React.lazy(() =>
   import("./marketDescription/marketDescription")
 );
 const FAQPage = React.lazy(() => import("./faq/faqs"));
+const TermsAndConditionsPage = React.lazy(() =>
+  import("./termAndCondition/termsAndCondition")
+);
 
 export {
   Home,
@@ -20,4 +23,5 @@ export {
   FleaMarketListing,
   MarketDescription,
   FAQPage,
+  TermsAndConditionsPage,
 };

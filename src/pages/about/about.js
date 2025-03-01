@@ -224,12 +224,6 @@ const AboutUs = () => {
                 </Subtitle>
               </Grid2>
               <Grid2 item size={{ xs: 12, md: 6 }}>
-                {/* <img
-                  src={whoWeAre}
-                  alt="Who We Are"
-                  width="100%"
-                  style={{ borderRadius: "8px" }}
-                /> */}
                 <Image src={whoWeAre} alt="Who We Are" />
               </Grid2>
             </Grid2>
@@ -239,12 +233,6 @@ const AboutUs = () => {
           <Section>
             <Grid2 container spacing={4} alignItems="center">
               <Grid2 item size={{ xs: 12, md: 6 }} order={{ xs: 2, md: 1 }}>
-                {/* <img
-                  src={ourMission}
-                  alt="Our Mission"
-                  width="100%"
-                  style={{ borderRadius: "8px" }}
-                /> */}
                 <Image src={ourMission} alt="our Mission" />
               </Grid2>
               <Grid2 item size={{ xs: 12, md: 6 }} order={{ xs: 1, md: 2 }}>

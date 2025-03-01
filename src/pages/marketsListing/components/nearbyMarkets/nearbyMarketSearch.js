@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,17 +14,9 @@ import {
   ListItem,
   ListItemButton,
 } from "@mui/material";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Circle,
-  Popup,
-  useMap,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Circle, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { fleaMarketsList } from "../../../../data/data";
 import { haversineDistance } from "../../../../utils/nearbyDistance";
 import { createSlug } from "../../../../utils/slug";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -67,7 +59,6 @@ const customIcon = new L.Icon({
 const NearbyMarketsModal = ({ open, handleClose, markets }) => {
   const [userLocation, setUserLocation] = useState(null);
   const [loadingLocation, setLoadingLocation] = useState(false);
-  const [userAddress, setUserAddress] = useState(""); // New state for address
   const [radius, setRadius] = useState(5); // Default radius
   const [nearbyMarkets, setNearbyMarkets] = useState([]);
   const [noMarketsFound, setNoMarketsFound] = useState(false);
@@ -79,7 +70,6 @@ const NearbyMarketsModal = ({ open, handleClose, markets }) => {
   const resetValues = () => {
     setUserLocation(null);
     setLoadingLocation(false);
-    setUserAddress("");
     setRadius(5);
     setNearbyMarkets([]);
     setNoMarketsFound(false);
@@ -88,13 +78,11 @@ const NearbyMarketsModal = ({ open, handleClose, markets }) => {
   // Function to fetch address from latitude and longitude
   const fetchAddress = async (lat, long) => {
     try {
-      const response = await axios.get(
+      await axios.get(
         `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=json`
       );
-      setUserAddress(response.data.display_name);
     } catch (error) {
       console.error("Error fetching address:", error);
-      setUserAddress("Location not found");
     }
   };
 
@@ -104,9 +92,7 @@ const NearbyMarketsModal = ({ open, handleClose, markets }) => {
       async (position) => {
         const location = {
           lat: position.coords.latitude,
-          // lat: "60.1735",
           long: position.coords.longitude,
-          // long: "24.9410",
         };
         setUserLocation(location);
         await fetchAddress(location.lat, location.long);

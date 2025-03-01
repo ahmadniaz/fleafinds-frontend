@@ -22,6 +22,7 @@ import { HomeNav } from "../../layout/components/header/components";
 import { MarketCard, SkeletonLoader } from "../../components";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { Footer } from "../../layout/components";
 
 // Categories and Types for Filters
 const fleaMarketCategories = [
@@ -358,6 +359,7 @@ const MarketListing = () => {
         handleClose={handleModalClose}
         markets={displayedMarkets}
       />
+      <Footer />
     </>
   );
 };
