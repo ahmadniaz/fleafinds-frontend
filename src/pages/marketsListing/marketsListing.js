@@ -226,7 +226,7 @@ const MarketListing = () => {
       {/* Navigation Bar*/}
       <HomeNav />
       {/* Header Section*/}
-      <HeaderSection allMarkets={allMarkets} />
+      <HeaderSection cityFromUrl={cityFromUrl} allMarkets={allMarkets} />
 
       {/* Divider Between Sections */}
       <Divider sx={{ marginY: 3, borderColor: "#f0f0f0", borderWidth: 1 }} />

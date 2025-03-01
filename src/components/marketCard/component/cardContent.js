@@ -12,6 +12,8 @@ import { Delete, Edit, Visibility } from "@mui/icons-material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import React from "react";
+import { createSlug } from "../../../utils/slug";
+import { useNavigate } from "react-router-dom";
 
 const CustomCardContent = ({
   isNewMarket,
@@ -21,7 +23,13 @@ const CustomCardContent = ({
   handleUpdateIconClick,
   handleDeleteIconClick,
 }) => {
+  const navigate = useNavigate();
+  const slug = createSlug(market?.name);
   const slicedCategories = market?.categories?.slice(0, 3);
+  const handleClick = () => {
+    // You can pass state or other parameters here
+    navigate(`/markets/${slug}`, { state: { marketData: market } });
+  };
 
   return (
     <>
@@ -174,10 +182,7 @@ const CustomCardContent = ({
               <Edit fontSize="small" />
             </IconButton>
 
-            <IconButton
-              sx={{ marginBottom: "5px" }}
-              onClick={() => window.open(market.websiteUrl, "_blank")}
-            >
+            <IconButton sx={{ marginBottom: "5px" }} onClick={handleClick}>
               <Visibility fontSize="small" />
             </IconButton>
 

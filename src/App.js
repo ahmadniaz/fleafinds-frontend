@@ -6,6 +6,7 @@ import {
   DashboardPage,
   FleaMarketListing,
   MarketDescription,
+  FAQPage,
 } from "./pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PrivateRoute, LoadingFallback } from "./components";
@@ -22,6 +23,7 @@ function App() {
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/markets" element={<FleaMarketListing />} />
             <Route path="/markets/:slug" element={<MarketDescription />} />
+            <Route path="/faqs" element={<FAQPage />} />
 
             {/* Private Route for Dashboard */}
             <Route element={<PrivateRoute />}>

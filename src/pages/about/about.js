@@ -1,26 +1,59 @@
-import React from "react";
-import { Container, Typography, Box, Button, Paper } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  Paper,
+  Grid2,
+} from "@mui/material";
 import { HomeNav } from "../../layout/components/header/components";
 import { styled } from "@mui/system";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import discoverMarkets from "../../assets/images/discoverMarkets.jpg";
+import ourMission from "../../assets/images/ourMission.png";
+import whoWeAre from "../../assets/images/whoWeAre.png";
+import whyChooseUs from "../../assets/images/whyChooseUs.jpg";
+import { useNavigate } from "react-router-dom";
+import Footer from "../../layout/components/footer/footer";
 
+// Styled Components
 const Root = styled("div")({
   backgroundColor: "#f7f7f7",
+  minHeight: "100vh",
 });
 
-const Header = styled(Box)({
-  backgroundColor: "#15a0db",
+const HeroSection = styled(Box)({
+  position: "relative",
+  backgroundImage: `url(${discoverMarkets})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
   color: "#fff",
-  padding: "48px 0",
   textAlign: "center",
-  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+  padding: "120px 20px",
+  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
+  "&::before": {
+    content: "''",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  "& *": {
+    position: "relative",
+    zIndex: 2,
+  },
 });
 
 const Section = styled(Paper)({
   margin: "32px 0",
-  padding: "32px",
+  padding: "40px 24px",
   borderRadius: "8px",
   boxShadow: "0 4px 10px rgba(0, 0, 0, 0.05)",
   backgroundColor: "#fff",
+  overflow: "hidden",
 });
 
 const Title = styled(Typography)({
@@ -28,6 +61,7 @@ const Title = styled(Typography)({
   marginBottom: "16px",
   fontWeight: "bold",
   borderBottom: "2px solid #ff0000",
+  display: "inline-block",
 });
 
 const Subtitle = styled(Typography)({
@@ -36,154 +70,268 @@ const Subtitle = styled(Typography)({
   lineHeight: "1.6",
 });
 
-const Content = styled("ul")({
-  color: "#333",
-  marginBottom: "32px",
-  lineHeight: "1.8",
-});
-
 const CustomButton = styled(Button)({
   backgroundColor: "#15a0db",
   color: "#fff",
   "&:hover": {
     backgroundColor: "#ff0000",
   },
-  padding: "8px 32px",
-  borderRadius: "5px",
+  padding: "12px 40px",
+  fontSize: "18px",
+  borderRadius: "6px",
+  transition: "all 0.3s ease-in-out",
   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
 });
 
-const Footer = styled(Box)({
-  backgroundColor: "#333",
-  color: "#fff",
-  padding: "48px 0",
+const Image = styled("img")({
+  width: "100%",
+  height: "400px",
+  objectFit: "cover",
+  borderRadius: "8px",
+});
+
+const TestimonialsSection = styled(Box)({
+  position: "relative",
+  width: "100%",
+  overflow: "hidden",
+  marginTop: "50px",
+});
+
+const TestimonialSlider = styled(Box)({
+  display: "flex",
+  transition: "transform 0.5s ease-in-out",
+});
+
+const TestimonialCard = styled(Box)({
+  minWidth: "300px",
+  marginRight: "20px",
+  padding: "20px",
+  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+  borderRadius: "10px",
+  backgroundColor: "#f7f7f7",
   textAlign: "center",
-  borderTop: "2px solid #ff0000",
+});
+
+const TestimonialButton = styled(Button)({
+  position: "absolute",
+  top: "50%",
+  transform: "translateY(-50%)",
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  color: "#fff",
+  padding: "8px",
+  borderRadius: "50%",
+  fontSize: "16px",
+  zIndex: 10,
+  minWidth: "40px",
+  height: "40px",
 });
 
 const AboutUs = () => {
+  const navigate = useNavigate();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [hovered, setHovered] = useState(false);
+  const testimonials = [
+    {
+      quote:
+        "FleaFind helped me discover hidden treasures in my city! The interface is smooth and the listings are detailed.",
+      name: "Anna K.",
+      company: "Flea Market Owner",
+    },
+    {
+      quote:
+        "The platform makes it so easy to list my market and connect with shoppers. Highly recommend it!",
+      name: "Peter L.",
+      company: "Flea Market Owner",
+    },
+    {
+      quote:
+        "I love the detailed filters and the customer reviews! It has made shopping so much more fun!",
+      name: "Sarah M.",
+      company: "Regular Shopper",
+    },
+    {
+      quote:
+        "I love the detailed filters and the customer reviews! It has made shopping so much more fun!",
+      name: "Sarah M.",
+      company: "Regular Shopper",
+    },
+    {
+      quote:
+        "I love the detailed filters and the customer reviews! It has made shopping so much more fun!",
+      name: "Sarah M.",
+      company: "Regular Shopper",
+    },
+    {
+      quote:
+        "I love the detailed filters and the customer reviews! It has made shopping so much more fun!",
+      name: "Sarah M.",
+      company: "Regular Shopper",
+    },
+    {
+      quote:
+        "I love the detailed filters and the customer reviews! It has made shopping so much more fun!",
+      name: "Sarah M.",
+      company: "Regular Shopper",
+    },
+  ];
+
+  const handlePrev = () => {
+    setCurrentIndex(
+      currentIndex === 0 ? testimonials.length - 1 : currentIndex - 1
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentIndex(
+      currentIndex === testimonials.length - 1 ? 0 : currentIndex + 1
+    );
+  };
+
+  useEffect(() => {
+    if (!hovered) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [hovered, testimonials.length]);
+
   return (
     <>
       <HomeNav />
-
       <Root>
-        {/* Header */}
-        <Header>
+        {/* Hero Section */}
+        <HeroSection>
           <Typography variant="h2" component="h1">
-            About Us
+            Discover the Best Flea Markets in Finland
           </Typography>
-        </Header>
+          <Typography variant="h5" sx={{ marginTop: "10px", opacity: 0.9 }}>
+            Connecting flea market owners & shoppers to a sustainable future.
+          </Typography>
+        </HeroSection>
 
-        <Container maxWidth="md">
-          {/* Who We Are Section */}
+        <Container maxWidth="xl">
+          {/* Who We Are */}
           <Section>
-            <Title variant="h4">Who We Are</Title>
-            <Subtitle>
-              Welcome to FleaFind, the most comprehensive platform for
-              discovering and listing flea markets across Finland! Whether
-              you’re a flea market owner or an enthusiastic shopper, we provide
-              you with all the tools and information you need to connect to the
-              best markets in your area.
-            </Subtitle>
+            <Grid2 container spacing={4} alignItems="center">
+              <Grid2 item size={{ xs: 12, md: 6 }}>
+                <Title variant="h4">Who We Are</Title>
+                <Subtitle>
+                  FleaFind is the most comprehensive platform for discovering
+                  and listing flea markets across Finland. Whether you're a flea
+                  market owner or a shopper, we connect you to the best markets
+                  near you.
+                </Subtitle>
+              </Grid2>
+              <Grid2 item size={{ xs: 12, md: 6 }}>
+                {/* <img
+                  src={whoWeAre}
+                  alt="Who We Are"
+                  width="100%"
+                  style={{ borderRadius: "8px" }}
+                /> */}
+                <Image src={whoWeAre} alt="Who We Are" />
+              </Grid2>
+            </Grid2>
           </Section>
 
-          {/* Our Mission Section */}
+          {/* Our Mission */}
           <Section>
-            <Title variant="h4">Our Mission</Title>
-            <Subtitle>
-              Our mission is to create an efficient and user-friendly platform
-              that bridges the gap between flea markets and their customers. By
-              showcasing second-hand traders, flea markets, and recycling
-              centers across Finland, we promote sustainable shopping and help
-              strengthen the circular economy.
-            </Subtitle>
+            <Grid2 container spacing={4} alignItems="center">
+              <Grid2 item size={{ xs: 12, md: 6 }} order={{ xs: 2, md: 1 }}>
+                {/* <img
+                  src={ourMission}
+                  alt="Our Mission"
+                  width="100%"
+                  style={{ borderRadius: "8px" }}
+                /> */}
+                <Image src={ourMission} alt="our Mission" />
+              </Grid2>
+              <Grid2 item size={{ xs: 12, md: 6 }} order={{ xs: 1, md: 2 }}>
+                <Title variant="h4">Our Mission</Title>
+                <Subtitle>
+                  We aim to bridge the gap between flea markets and customers,
+                  making it easier to discover sustainable shopping
+                  opportunities.
+                </Subtitle>
+              </Grid2>
+            </Grid2>
           </Section>
 
-          {/* Why Choose Us Section */}
+          {/* Why Choose Us */}
           <Section>
-            <Title variant="h4">Why Choose Us?</Title>
-            <Subtitle>
-              Explore flea markets, second-hand stores, and recycling centers in
-              every city across Finland. We provide a convenient way to discover
-              local treasures while supporting sustainable practices.
-            </Subtitle>
-            <Content>
-              <li>Comprehensive listings across Finland</li>
-              <li>Advanced filters for a better search experience</li>
-              <li>Multilingual support for international users</li>
-              <li>Customer reviews and ratings for building trust</li>
-            </Content>
+            <Grid2 container spacing={4} alignItems="center">
+              {/* Left Side - Text Content */}
+              <Grid2 item size={{ xs: 12, md: 6 }}>
+                <Title variant="h4">Why Choose Us?</Title>
+                <Grid2 container spacing={2}>
+                  <Grid2 item size={{ xs: 12 }}>
+                    <CheckCircleIcon color="primary" /> Comprehensive listings
+                    across Finland
+                  </Grid2>
+                  <Grid2 item size={{ xs: 12 }}>
+                    <CheckCircleIcon color="primary" /> Advanced filters for
+                    easy searching
+                  </Grid2>
+                  <Grid2 item size={{ xs: 12 }}>
+                    <CheckCircleIcon color="primary" /> Multilingual support for
+                    global users
+                  </Grid2>
+                  <Grid2 item size={{ xs: 12 }}>
+                    <CheckCircleIcon color="primary" /> Verified customer
+                    reviews
+                  </Grid2>
+                </Grid2>
+              </Grid2>
+
+              {/* Right Side - Image */}
+              <Grid2 item size={{ xs: 12, md: 6 }}>
+                {/* <img
+                  src={whyChooseUs}
+                  alt="Why Choose Us"
+                  width="100%"
+                  style={{ borderRadius: "8px" }}
+                /> */}
+                <Image src={whyChooseUs} alt="why Choose Us" />
+              </Grid2>
+            </Grid2>
           </Section>
 
-          {/* Our Vision Section */}
-          <Section>
-            <Title variant="h4">Our Vision</Title>
-            <Subtitle>
-              We aim to become Finland’s most trusted and expansive online
-              resource for second-hand shopping, helping both consumers and
-              sellers thrive in a growing circular economy. Our vision is to
-              support flea markets in building stronger customer relationships
-              and creating a sustainable future.
-            </Subtitle>
-          </Section>
+          {/* Testimonials */}
+          <TestimonialsSection
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          >
+            <Typography variant="h4">What Our Users Say</Typography>
+            <TestimonialSlider
+              style={{ transform: `translateX(-${currentIndex * 320}px)` }}
+            >
+              {testimonials.map((testimonial, index) => (
+                <TestimonialCard key={index}>
+                  <Typography variant="body1">{testimonial.quote}</Typography>
+                  <Typography variant="h6">{testimonial.name}</Typography>
+                  <Typography variant="subtitle">
+                    {testimonial.company}
+                  </Typography>
+                </TestimonialCard>
+              ))}
+            </TestimonialSlider>
+            <TestimonialButton onClick={handlePrev}>&lt;</TestimonialButton>
+            <TestimonialButton onClick={handleNext} style={{ right: "2px" }}>
+              &gt;
+            </TestimonialButton>
+          </TestimonialsSection>
 
-          {/* How We Work Section */}
-          <Section>
-            <Title variant="h4">How We Work</Title>
-            <Subtitle>
-              <strong>For Market Owners:</strong> Flea market owners can easily
-              register their business, share detailed descriptions, and keep
-              their market's information up-to-date. The more actively you
-              engage your customers and gather feedback, the higher your market
-              ranks, giving you greater visibility.
-            </Subtitle>
-            <Subtitle>
-              <strong>For Shoppers:</strong> By selecting your city and applying
-              filters, you’ll quickly discover markets that meet your needs,
-              whether you’re looking for vintage treasures or eco-friendly
-              recycling centers.
-            </Subtitle>
-          </Section>
-
-          {/* Commitment to Transparency Section */}
-          <Section>
-            <Title variant="h4">Our Commitment to Transparency</Title>
-            <Subtitle>
-              All reviews published on our site are verified according to our
-              strict review policy to ensure fairness and reliability. We are
-              working toward automating our information systems to provide
-              real-time updates and the most accurate details on every market
-              listed.
-            </Subtitle>
-          </Section>
-
-          {/* Sustainable Shopping Section */}
-          <Section>
-            <Title variant="h4">
-              Sustainable Shopping for a Brighter Future
-            </Title>
-            <Subtitle>
-              FleaFind is proudly developed in Finland, with a focus on boosting
-              the mainstream adoption of circular economy practices. By
-              supporting flea markets and second-hand businesses, we are
-              contributing to a more sustainable tomorrow. Our network includes
-              experts in sustainability, entrepreneurship, and influencers who
-              share our vision for a better, greener world.
-            </Subtitle>
-          </Section>
-
-          {/* CTA Section */}
-          <Box textAlign="center" marginTop={6} mb={2}>
-            <CustomButton variant="contained">Join Us Today!</CustomButton>
+          {/* CTA */}
+          <Box textAlign="center" mt={6} mb={2}>
+            <CustomButton variant="contained" onClick={() => navigate("/auth")}>
+              Join Us Today!
+            </CustomButton>
           </Box>
         </Container>
 
         {/* Footer */}
-        <Footer>
-          <Typography variant="h6">Contact Us</Typography>
-          <Typography>Email: info@fleafind.com</Typography>
-          <Typography>Phone: +358-xxx-xxxx</Typography>
-        </Footer>
+        <Footer />
       </Root>
     </>
   );

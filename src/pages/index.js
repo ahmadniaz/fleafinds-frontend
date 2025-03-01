@@ -10,6 +10,7 @@ const FleaMarketListing = React.lazy(() =>
 const MarketDescription = React.lazy(() =>
   import("./marketDescription/marketDescription")
 );
+const FAQPage = React.lazy(() => import("./faq/faqs"));
 
 export {
   Home,
@@ -18,4 +19,5 @@ export {
   DashboardPage,
   FleaMarketListing,
   MarketDescription,
+  FAQPage,
 };

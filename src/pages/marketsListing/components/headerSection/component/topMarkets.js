@@ -14,28 +14,38 @@ const TopMarkets = ({ allMarkets }) => {
       </Typography>
 
       <Box component="ul" sx={{ pl: 2 }}>
-        {topMarkets?.map((market) => (
-          <Box
-            component="li"
-            key={market?._id}
-            sx={{ mb: 1, listStyleType: "disc" }}
+        {topMarkets?.length < 1 ? (
+          <Typography
+            variant="body2"
+            component="span"
+            sx={{ color: "#ff0000", fontWeight: "medium", ml: 1 }}
           >
-            <Link
-              href={`/market/${market?._id}`} // Replace with actual URL for market details
-              underline="hover"
-              sx={{ fontWeight: "bold", color: "#15a0db" }}
+            No Markets Registered yet for this city
+          </Typography>
+        ) : (
+          topMarkets?.map((market) => (
+            <Box
+              component="li"
+              key={market?._id}
+              sx={{ mb: 1, listStyleType: "disc" }}
             >
-              {market?.name}
-            </Link>{" "}
-            <Typography
-              variant="body2"
-              component="span"
-              sx={{ color: "#ff0000", fontWeight: "medium", ml: 1 }}
-            >
-              ({market?.reviewCount} reviews, {market?.averageRating} ⭐)
-            </Typography>
-          </Box>
-        ))}
+              <Link
+                href={`/market/${market?._id}`} // Replace with actual URL for market details
+                underline="hover"
+                sx={{ fontWeight: "bold", color: "#15a0db" }}
+              >
+                {market?.name}
+              </Link>{" "}
+              <Typography
+                variant="body2"
+                component="span"
+                sx={{ color: "#ff0000", fontWeight: "medium", ml: 1 }}
+              >
+                ({market?.reviewCount} reviews, {market?.averageRating} ⭐)
+              </Typography>
+            </Box>
+          ))
+        )}
       </Box>
     </Box>
   );

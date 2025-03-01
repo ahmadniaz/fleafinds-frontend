@@ -10,7 +10,7 @@ const FeaturedMarkets = ({ featuredMarkets }) => {
         variant="h4"
         sx={{ color: "#15a0db", fontWeight: "bold", textAlign: "center" }}
       >
-        Featured Markets in Turku
+        Featured Markets in Finland
       </Typography>
       <FeaturedMarketSlider items={featuredMarkets} />
     </Box>

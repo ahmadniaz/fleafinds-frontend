@@ -8,7 +8,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import { Delete, Edit, Visibility } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
@@ -138,13 +138,6 @@ const CustomEventCard = ({
             onClick={() => handleUpdateIconClick(event)}
           >
             <Edit fontSize="small" />
-          </IconButton>
-
-          <IconButton
-            sx={{ marginBottom: "5px" }}
-            onClick={() => window.open(event?.eventLink, "_blank")}
-          >
-            <Visibility fontSize="small" />
           </IconButton>
 
           <IconButton
