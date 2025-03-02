@@ -20,7 +20,12 @@ const SectionCard = styled(Card)({
   overflow: "hidden",
 });
 
-const TitleSection = ({ marketData, reviewFormRef }) => {
+const TitleSection = ({ marketData, reviewFormRef, allReviews }) => {
+  const totalRating =
+    allReviews && allReviews?.reduce((sum, review) => sum + review?.rating, 0);
+
+  // Calculate average rating
+  const averageRating = (totalRating / allReviews?.length).toFixed(1);
   // Function to scroll to the review form
   const scrollToReviewForm = () => {
     reviewFormRef?.current?.scrollIntoView({ behavior: "smooth" });
@@ -64,8 +69,7 @@ const TitleSection = ({ marketData, reviewFormRef }) => {
                 }}
               >
                 <Rating
-                  value={marketData?.averageRating}
-                  // value={"4.7"}
+                  value={averageRating}
                   precision={0.1}
                   readOnly
                   sx={{ color: "#ff0000" }}
@@ -75,7 +79,7 @@ const TitleSection = ({ marketData, reviewFormRef }) => {
                   color="text.secondary"
                   sx={{ marginLeft: 1 }}
                 >
-                  ({marketData?.reviewCount} reviews)
+                  ({allReviews?.length} reviews)
                 </Typography>
               </Box>
               <Typography

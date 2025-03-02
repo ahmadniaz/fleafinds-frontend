@@ -15,10 +15,13 @@ import { LoadingFallback } from "../../../../components";
 const ReviewAndSocialMediaSection = ({
   reviews,
   marketData,
+  setAllReviews,
   secRef,
   submitReview,
   loading,
 }) => {
+  const ownerId = localStorage.getItem("ownerId"); // Get ownerId from localStorage
+  const isOwner = marketData?.owner === ownerId; // Check if current user is the owner
   const totalRating =
     reviews && reviews?.reduce((sum, review) => sum + review?.rating, 0);
 
@@ -59,114 +62,118 @@ const ReviewAndSocialMediaSection = ({
           {loading ? (
             <LoadingFallback />
           ) : (
-            <Box sx={{ marginTop: "40px" }} ref={secRef}>
-              <Typography
-                variant="h6"
-                sx={{ fontWeight: "bold", marginBottom: "20px" }}
-              >
-                Write a review
-              </Typography>
+            <>
+              {isOwner ? null : (
+                <Box sx={{ marginTop: "40px" }} ref={secRef}>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold", marginBottom: "20px" }}
+                  >
+                    Write a review
+                  </Typography>
 
-              <Formik
-                initialValues={{
-                  rating: 0,
-                  comment: "",
-                  name: "",
-                  email: "",
-                }}
-                onSubmit={(values, { resetForm }) => {
-                  submitReview(values);
-                  resetForm();
-                }}
-              >
-                {({ setFieldValue, values }) => (
-                  <Form>
-                    {/* Overall Rating */}
-                    <Box sx={{ marginBottom: "20px" }}>
-                      <Typography
-                        variant="subtitle1"
-                        sx={{ marginBottom: "10px" }}
-                      >
-                        Your overall rating
-                      </Typography>
-                      <Rating
-                        name="rating"
-                        value={values.rating}
-                        onChange={(event, newValue) =>
-                          setFieldValue("rating", newValue)
-                        }
-                      />
-                    </Box>
+                  <Formik
+                    initialValues={{
+                      rating: 0,
+                      comment: "",
+                      name: "",
+                      email: "",
+                    }}
+                    onSubmit={(values, { resetForm }) => {
+                      submitReview(values);
+                      resetForm();
+                    }}
+                  >
+                    {({ setFieldValue, values }) => (
+                      <Form>
+                        {/* Overall Rating */}
+                        <Box sx={{ marginBottom: "20px" }}>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{ marginBottom: "10px" }}
+                          >
+                            Your overall rating
+                          </Typography>
+                          <Rating
+                            name="rating"
+                            value={values.rating}
+                            onChange={(event, newValue) =>
+                              setFieldValue("rating", newValue)
+                            }
+                          />
+                        </Box>
 
-                    {/* Review Comment */}
-                    <Box sx={{ marginBottom: "20px" }}>
-                      <Typography
-                        variant="subtitle1"
-                        sx={{ marginBottom: "10px" }}
-                      >
-                        Your review
-                      </Typography>
-                      <Field
-                        as={TextField}
-                        name="comment"
-                        fullWidth
-                        multiline
-                        rows={4}
-                        placeholder="Write your review here"
-                        variant="outlined"
-                      />
-                    </Box>
+                        {/* Review Comment */}
+                        <Box sx={{ marginBottom: "20px" }}>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{ marginBottom: "10px" }}
+                          >
+                            Your review
+                          </Typography>
+                          <Field
+                            as={TextField}
+                            name="comment"
+                            fullWidth
+                            multiline
+                            rows={4}
+                            placeholder="Write your review here"
+                            variant="outlined"
+                          />
+                        </Box>
 
-                    {/* Name Field */}
-                    <Box sx={{ marginBottom: "20px" }}>
-                      <Typography variant="subtitle1">Name</Typography>
-                      <Field
-                        as={TextField}
-                        name="name"
-                        fullWidth
-                        placeholder="Enter your name"
-                        variant="outlined"
-                      />
-                    </Box>
+                        {/* Name Field */}
+                        <Box sx={{ marginBottom: "20px" }}>
+                          <Typography variant="subtitle1">Name</Typography>
+                          <Field
+                            as={TextField}
+                            name="name"
+                            fullWidth
+                            placeholder="Enter your name"
+                            variant="outlined"
+                          />
+                        </Box>
 
-                    {/* Email Field */}
-                    <Box sx={{ marginBottom: "20px" }}>
-                      <Typography variant="subtitle1">
-                        E-mail address
-                      </Typography>
-                      <Field
-                        as={TextField}
-                        name="email"
-                        fullWidth
-                        placeholder="Enter your email"
-                        variant="outlined"
-                      />
-                    </Box>
+                        {/* Email Field */}
+                        <Box sx={{ marginBottom: "20px" }}>
+                          <Typography variant="subtitle1">
+                            E-mail address
+                          </Typography>
+                          <Field
+                            as={TextField}
+                            name="email"
+                            fullWidth
+                            placeholder="Enter your email"
+                            variant="outlined"
+                          />
+                        </Box>
 
-                    {/* Submit Button */}
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      sx={{ backgroundColor: "#ff0000", color: "#fff" }}
-                    >
-                      Submit a review
-                    </Button>
+                        {/* Submit Button */}
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          sx={{ backgroundColor: "#ff0000", color: "#fff" }}
+                        >
+                          Submit a review
+                        </Button>
 
-                    {/* Note */}
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      fontWeight="bold"
-                      sx={{ marginTop: "10px" }}
-                    >
-                      Note: The review must be based on your own customer
-                      experience with the company. Each review is reviewed
-                      before publication. Read more about our review policy.
-                    </Typography>
-                  </Form>
-                )}
-              </Formik>
-            </Box>
+                        {/* Note */}
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          fontWeight="bold"
+                          sx={{ marginTop: "10px" }}
+                        >
+                          Note: The review must be based on your own customer
+                          experience with the company. Each review is reviewed
+                          before publication. Read more about our review policy.
+                        </Typography>
+                      </Form>
+                    )}
+                  </Formik>
+                </Box>
+              )}
+            </>
           )}
 
           <Divider sx={{ p: 2 }} />
@@ -174,6 +181,8 @@ const ReviewAndSocialMediaSection = ({
             <UserReviewsSection
               reviews={reviews}
               averageRating={averageRating}
+              marketData={marketData}
+              setAllReviews={setAllReviews}
             />
           ) : (
             <Box sx={{ p: 3 }}>

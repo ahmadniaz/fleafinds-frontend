@@ -145,14 +145,14 @@ const CompanyContactInfo = ({ marketData }) => {
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <PhoneIcon sx={{ color: "#15a0db", marginRight: "8px" }} />
                 <Typography variant="body1" sx={{ wordWrap: "break-word" }}>
-                  +358 123 4567
+                  {marketData?.marketNumber}
                 </Typography>
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <EmailIcon sx={{ color: "#15a0db", marginRight: "8px" }} />
                 <Typography variant="body1" sx={{ wordWrap: "break-word" }}>
-                  info@finnishfleamarket.com
+                  {marketData?.marketEmail}
                 </Typography>
               </Box>
 
@@ -160,7 +160,7 @@ const CompanyContactInfo = ({ marketData }) => {
                 <LanguageIcon sx={{ color: "#15a0db", marginRight: "8px" }} />
                 <Typography variant="body1" sx={{ wordWrap: "break-word" }}>
                   <Link href="https://finnishfleamarket.com" target="_blank">
-                    finnishfleamarket.com
+                    {marketData?.marketWebsite}
                   </Link>
                 </Typography>
               </Box>

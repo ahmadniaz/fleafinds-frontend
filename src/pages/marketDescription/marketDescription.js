@@ -12,6 +12,7 @@ import {
 } from "./components";
 import { LoadingFallback } from "../../components";
 import axios from "axios";
+import Footer from "../../layout/components/footer/footer";
 
 // Styled components for elegance
 const Container = styled(Box)({
@@ -87,6 +88,7 @@ const MarketDescriptionPage = () => {
             <TitleSection
               marketData={marketData}
               reviewFormRef={reviewFormRef}
+              allReviews={allReviews}
             />
             {/* Information Sections */}
             <InfoSection marketData={marketData} />
@@ -96,11 +98,13 @@ const MarketDescriptionPage = () => {
             <ReviewSection
               secRef={reviewFormRef}
               reviews={allReviews}
+              setAllReviews={setAllReviews}
               marketData={marketData}
               submitReview={submitReview}
               loading={loading}
             />
           </Container>
+          <Footer />
         </>
       )}
     </>
