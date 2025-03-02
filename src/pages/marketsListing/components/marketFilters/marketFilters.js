@@ -8,7 +8,7 @@ import {
   Divider,
   FormControlLabel,
   FormGroup,
-  Grid,
+  Grid2,
   Radio,
   RadioGroup,
   Typography,
@@ -67,7 +67,7 @@ const MarketFilters = ({
   };
 
   return (
-    <Grid item xs={12} md={3} lg={2}>
+    <Grid2 item size={{ xs: 12, md: 3, lg: 2 }}>
       <Box
         sx={{ padding: "20px", backgroundColor: "#fff", borderRadius: "10px" }}
       >
@@ -199,7 +199,7 @@ const MarketFilters = ({
           </AccordionDetails>
         </Accordion>
       </Box>
-    </Grid>
+    </Grid2>
   );
 };
 

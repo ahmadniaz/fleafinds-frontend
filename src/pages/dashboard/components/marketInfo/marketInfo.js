@@ -30,7 +30,6 @@ import MarketContactSection from "./components/marketContactSection";
 // Validation schema for the dashboard form
 const validationSchema = Yup.object({
   marketName: Yup.string().required("Market name is required"),
-  description: Yup.string().required("Description is required"),
   marketType: Yup.string().required("Market Type is required"),
   city: Yup.string().required("City is required"),
   location: Yup.string().required("Location is required"),
@@ -38,7 +37,6 @@ const validationSchema = Yup.object({
     .min(1, "At least one category is required")
     .required("Categories are required"),
   openingHours: Yup.string().required("Opening hours are required"),
-  priceList: Yup.string().required("Price information is required"),
   marketNumber: Yup.string().matches(
     /^\+?\d{10,15}$/,
     "Invalid contact number format"
@@ -516,8 +514,6 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                       label="Description"
                       multiline
                       rows={4}
-                      error={touched.description && Boolean(errors.description)}
-                      helperText={touched.description && errors.description}
                     />
                   </Grid2>
 
@@ -643,8 +639,6 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                       label="Price List"
                       multiline
                       rows={4}
-                      error={touched.priceList && Boolean(errors.priceList)}
-                      helperText={touched.priceList && errors.priceList}
                     />
                   </Grid2>
 

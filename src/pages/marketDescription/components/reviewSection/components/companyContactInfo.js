@@ -18,6 +18,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import { Link } from "react-router-dom";
 
 const CompanyContactInfo = ({ marketData }) => {
+  console.log(marketData, "MD");
   return (
     <Card
       sx={{
@@ -55,7 +56,7 @@ const CompanyContactInfo = ({ marketData }) => {
               alignItems="baseline"
               spacing={2}
             >
-              {marketData?.socialMedia?.facebook && (
+              {marketData?.socialMedia?.facebook ? (
                 <Button
                   variant="outlined"
                   sx={{
@@ -73,8 +74,15 @@ const CompanyContactInfo = ({ marketData }) => {
                 >
                   Facebook
                 </Button>
+              ) : (
+                <Typography
+                  variant="body1"
+                  sx={{ fontWeight: "bold", marginBottom: "5px" }}
+                >
+                  No data provided by owner
+                </Typography>
               )}
-              {marketData?.socialMedia?.instagram && (
+              {marketData?.socialMedia?.instagram ? (
                 <Button
                   variant="outlined"
                   sx={{
@@ -92,8 +100,15 @@ const CompanyContactInfo = ({ marketData }) => {
                 >
                   Instagram
                 </Button>
+              ) : (
+                <Typography
+                  variant="body1"
+                  sx={{ fontWeight: "bold", marginBottom: "5px" }}
+                >
+                  No data provided by owner
+                </Typography>
               )}
-              {marketData.socialMedia.twitter && (
+              {marketData.socialMedia.twitter ? (
                 <Button
                   variant="outlined"
                   sx={{
@@ -111,6 +126,13 @@ const CompanyContactInfo = ({ marketData }) => {
                 >
                   Twitter
                 </Button>
+              ) : (
+                <Typography
+                  variant="body1"
+                  sx={{ fontWeight: "bold", marginBottom: "5px" }}
+                >
+                  No data provided by owner
+                </Typography>
               )}
             </Grid2>
           </Grid2>
@@ -145,22 +167,33 @@ const CompanyContactInfo = ({ marketData }) => {
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <PhoneIcon sx={{ color: "#15a0db", marginRight: "8px" }} />
                 <Typography variant="body1" sx={{ wordWrap: "break-word" }}>
-                  {marketData?.marketNumber}
+                  {marketData?.marketNumber
+                    ? marketData?.marketNumber
+                    : "No Data provided by Owner"}
                 </Typography>
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <EmailIcon sx={{ color: "#15a0db", marginRight: "8px" }} />
                 <Typography variant="body1" sx={{ wordWrap: "break-word" }}>
-                  {marketData?.marketEmail}
+                  {marketData?.marketEmail
+                    ? marketData?.marketEmail
+                    : "No Data provided by Owner"}
                 </Typography>
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <LanguageIcon sx={{ color: "#15a0db", marginRight: "8px" }} />
                 <Typography variant="body1" sx={{ wordWrap: "break-word" }}>
-                  <Link href="https://finnishfleamarket.com" target="_blank">
-                    {marketData?.marketWebsite}
+                  <Link
+                    href={
+                      marketData?.marketWebsite ? marketData?.marketWebsite : ""
+                    }
+                    target="_blank"
+                  >
+                    {marketData?.marketWebsite
+                      ? marketData?.marketWebsite
+                      : "No Data provided by Owner"}
                   </Link>
                 </Typography>
               </Box>
