@@ -14,6 +14,7 @@ const FAQPage = React.lazy(() => import("./faq/faqs"));
 const TermsAndConditionsPage = React.lazy(() =>
   import("./termAndCondition/termsAndCondition")
 );
+const ContactUsPage = React.lazy(() => import("./contact/contact"));
 
 export {
   Home,
@@ -24,4 +25,5 @@ export {
   MarketDescription,
   FAQPage,
   TermsAndConditionsPage,
+  ContactUsPage,
 };

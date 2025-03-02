@@ -70,9 +70,9 @@ const Footer = () => {
             </Typography>
             <Box mt={3}>
               {[
+                { label: "About Us", path: "/about" },
                 { label: "FAQs", path: "/faqs" },
                 { label: "Terms & Conditions", path: "/terms" },
-                { label: "Help Center", path: "/help" },
                 { label: "Contact Us", path: "/contact" },
               ].map((item) => (
                 <Typography key={item.label} variant="body2" sx={{ mt: 1 }}>
