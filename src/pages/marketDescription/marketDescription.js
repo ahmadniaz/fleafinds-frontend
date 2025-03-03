@@ -13,6 +13,7 @@ import {
 import { LoadingFallback } from "../../components";
 import axios from "axios";
 import Footer from "../../layout/components/footer/footer";
+import RelatedEventsSection from "./components/relatedEvents/relatedEvents";
 
 // Styled components for elegance
 const Container = styled(Box)({
@@ -27,6 +28,32 @@ const MarketDescriptionPage = () => {
   const [marketData, setMarketData] = useState(null);
   const [allReviews, setAllReviews] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [allEvents, setAllEvents] = useState([]);
+  const [relatedEvents, setRelatedEvents] = useState([]);
+
+  useEffect(() => {
+    getAllEvents();
+    if (marketData) {
+      const filteredEvents = allEvents?.filter((event) =>
+        event.markets.includes(marketData._id)
+      );
+      setRelatedEvents(filteredEvents);
+    }
+  }, [marketData]);
+
+  const getAllEvents = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL_LOCAL}api/event`
+      );
+      setAllEvents(response?.data?.events);
+    } catch (error) {
+      console.log(error, "ERROR");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getAllReviews = async () => {
     try {
@@ -94,6 +121,7 @@ const MarketDescriptionPage = () => {
             <InfoSection marketData={marketData} />
             {/* Image Gallery Section */}
             <GallerySection marketData={marketData} />
+
             {/* Reviews Section */}
             <ReviewSection
               secRef={reviewFormRef}
@@ -102,6 +130,7 @@ const MarketDescriptionPage = () => {
               marketData={marketData}
               submitReview={submitReview}
               loading={loading}
+              relatedEvents={relatedEvents}
             />
           </Container>
           <Footer />

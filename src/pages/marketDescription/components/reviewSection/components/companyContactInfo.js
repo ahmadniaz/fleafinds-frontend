@@ -7,6 +7,7 @@ import {
   Divider,
   Grid2,
   Typography,
+  IconButton,
 } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -16,210 +17,152 @@ import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { Link } from "react-router-dom";
+import RelatedEventsSection from "../../relatedEvents/relatedEvents";
 
-const CompanyContactInfo = ({ marketData }) => {
-  console.log(marketData, "MD");
+const CompanyContactInfo = ({ marketData, relatedEvents }) => {
   return (
     <Card
       sx={{
         backgroundColor: "#fff",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        borderRadius: "10px",
-        padding: "20px",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+        borderRadius: "12px",
         textAlign: "center",
       }}
     >
       <CardContent>
-        {/* Follow Us Section */}
-        <Grid2 container spacing={2}>
-          <Grid2 item size={{ xs: 12, md: 12, sm: 6, lg: 12 }}>
-            <Typography
-              variant="h5"
+        {/* Social Media Section */}
+        <Typography
+          variant="h5"
+          sx={{
+            color: "#ff0000",
+            fontWeight: "bold",
+            mb: 2,
+            textAlign: "left",
+          }}
+        >
+          Follow Us
+        </Typography>
+        <Grid2
+          container
+          spacing={1}
+          justifyContent="flex-start"
+          alignItems="center"
+        >
+          {marketData?.socialMedia?.facebook ? (
+            <IconButton
+              href={marketData?.socialMedia?.facebook}
+              target="_blank"
               sx={{
-                color: "#ff0000",
-                fontWeight: "bold",
-                marginBottom: "20px",
-                textAlign: {
-                  xs: "center",
-                  sm: "left",
-                  md: "left",
-                  lg: "left",
-                },
+                color: "#3b5998",
+                "&:hover": { backgroundColor: "#3b5998", color: "#fff" },
               }}
             >
-              Follow Us
-            </Typography>
-            <Grid2
-              container
-              direction={{ xs: "row", sm: "column", md: "column" }}
-              justifyContent={"center"}
-              alignItems="baseline"
-              spacing={2}
-            >
-              {marketData?.socialMedia?.facebook ? (
-                <Button
-                  variant="outlined"
-                  sx={{
-                    borderColor: "#3b5998",
-                    color: "#3b5998",
-                    borderRadius: "8px",
-                    "&:hover": {
-                      backgroundColor: "#3b5998",
-                      color: "#fff",
-                    },
-                  }}
-                  href={marketData?.socialMedia?.facebook}
-                  target="_blank"
-                  startIcon={<FacebookIcon />}
-                >
-                  Facebook
-                </Button>
-              ) : (
-                <Typography
-                  variant="body1"
-                  sx={{ fontWeight: "bold", marginBottom: "5px" }}
-                >
-                  No data provided by owner
-                </Typography>
-              )}
-              {marketData?.socialMedia?.instagram ? (
-                <Button
-                  variant="outlined"
-                  sx={{
-                    borderColor: "#E4405F",
-                    color: "#E4405F",
-                    borderRadius: "8px",
-                    "&:hover": {
-                      backgroundColor: "#E4405F",
-                      color: "#fff",
-                    },
-                  }}
-                  href={marketData?.socialMedia?.instagram}
-                  target="_blank"
-                  startIcon={<InstagramIcon />}
-                >
-                  Instagram
-                </Button>
-              ) : (
-                <Typography
-                  variant="body1"
-                  sx={{ fontWeight: "bold", marginBottom: "5px" }}
-                >
-                  No data provided by owner
-                </Typography>
-              )}
-              {marketData.socialMedia.twitter ? (
-                <Button
-                  variant="outlined"
-                  sx={{
-                    borderColor: "#1DA1F2",
-                    color: "#1DA1F2",
-                    borderRadius: "8px",
-                    "&:hover": {
-                      backgroundColor: "#1DA1F2",
-                      color: "#fff",
-                    },
-                  }}
-                  href={marketData.socialMedia.twitter}
-                  target="_blank"
-                  startIcon={<TwitterIcon />}
-                >
-                  Twitter
-                </Button>
-              ) : (
-                <Typography
-                  variant="body1"
-                  sx={{ fontWeight: "bold", marginBottom: "5px" }}
-                >
-                  No data provided by owner
-                </Typography>
-              )}
-            </Grid2>
-          </Grid2>
-
-          {/* Contact Us Section */}
-          <Grid2 item size={{ xs: 12, md: 12, sm: 6, lg: 12 }} mt={{ md: 4 }}>
-            <Typography
-              variant="h5"
+              <FacebookIcon fontSize="large" />
+            </IconButton>
+          ) : null}
+          {marketData?.socialMedia?.instagram ? (
+            <IconButton
+              href={marketData?.socialMedia?.instagram}
+              target="_blank"
               sx={{
-                color: "#ff0000",
-                fontWeight: "bold",
-                marginBottom: "20px",
-                textAlign: {
-                  xs: "center",
-                  sm: "left",
-                  md: "left",
-                  lg: "left",
-                },
-                fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.75rem" }, // Responsive font size
+                color: "#E4405F",
+                "&:hover": { backgroundColor: "#E4405F", color: "#fff" },
               }}
             >
-              Contact Us
-            </Typography>
-
-            <Grid2
-              container
-              direction="column"
-              alignItems="baseline"
-              spacing={2}
-              sx={{ paddingX: { xs: 1, sm: 2, md: 0 } }} // Responsive padding for smaller screens
+              <InstagramIcon fontSize="large" />
+            </IconButton>
+          ) : null}
+          {marketData?.socialMedia?.twitter ? (
+            <IconButton
+              href={marketData?.socialMedia?.twitter}
+              target="_blank"
+              sx={{
+                color: "#1DA1F2",
+                "&:hover": { backgroundColor: "#1DA1F2", color: "#fff" },
+              }}
             >
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <PhoneIcon sx={{ color: "#15a0db", marginRight: "8px" }} />
-                <Typography variant="body1" sx={{ wordWrap: "break-word" }}>
-                  {marketData?.marketNumber
-                    ? marketData?.marketNumber
-                    : "No Data provided by Owner"}
-                </Typography>
-              </Box>
-
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <EmailIcon sx={{ color: "#15a0db", marginRight: "8px" }} />
-                <Typography variant="body1" sx={{ wordWrap: "break-word" }}>
-                  {marketData?.marketEmail
-                    ? marketData?.marketEmail
-                    : "No Data provided by Owner"}
-                </Typography>
-              </Box>
-
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <LanguageIcon sx={{ color: "#15a0db", marginRight: "8px" }} />
-                <Typography variant="body1" sx={{ wordWrap: "break-word" }}>
-                  <Link
-                    href={
-                      marketData?.marketWebsite ? marketData?.marketWebsite : ""
-                    }
-                    target="_blank"
-                  >
-                    {marketData?.marketWebsite
-                      ? marketData?.marketWebsite
-                      : "No Data provided by Owner"}
-                  </Link>
-                </Typography>
-              </Box>
-            </Grid2>
-          </Grid2>
+              <TwitterIcon fontSize="large" />
+            </IconButton>
+          ) : null}
         </Grid2>
 
         {/* Divider */}
-        <Divider sx={{ marginY: "20px" }} />
-        {/* Report Button */}
-        <Box
+        <Divider sx={{ my: 3 }} />
+
+        {/* Contact Section */}
+        <Typography
+          variant="h5"
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            color: "#ff0000",
+            fontWeight: "bold",
+            mb: 2,
+            textAlign: "left",
           }}
         >
+          Contact Us
+        </Typography>
+
+        <Grid2 container direction="column" alignItems="flex-start" spacing={1}>
+          {/* Phone */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <PhoneIcon sx={{ color: "#15a0db" }} />
+            <Typography variant="body1">
+              <Link
+                to={`tel:${marketData?.marketNumber}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                {marketData?.marketNumber || "No Data Provided"}
+              </Link>
+            </Typography>
+          </Box>
+
+          {/* Email */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <EmailIcon sx={{ color: "#15a0db" }} />
+            <Typography variant="body1">
+              <Link
+                to={`mailto:${marketData?.marketEmail}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                {marketData?.marketEmail || "No Data Provided"}
+              </Link>
+            </Typography>
+          </Box>
+
+          {/* Website */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <LanguageIcon sx={{ color: "#15a0db" }} />
+            <Typography variant="body1">
+              <Link
+                to={marketData?.marketWebsite || "#"}
+                target="_blank"
+                style={{ textDecoration: "none", color: "#15a0db" }}
+              >
+                {marketData?.marketWebsite || "No Data Provided"}
+              </Link>
+            </Typography>
+          </Box>
+        </Grid2>
+
+        {/* Divider */}
+        <Divider sx={{ my: 3 }} />
+
+        {/* Report Button
+        <Box sx={{ mt: 3, textAlign: "center" }}>
           <Button
             variant="contained"
             color="error"
-            target="_blank"
             startIcon={<ReportProblemIcon />}
           >
             Report this Flea Market
           </Button>
-        </Box>
+        </Box> */}
+
+        {/* Related Events */}
+        <RelatedEventsSection
+          relatedEvents={relatedEvents}
+          marketData={marketData}
+        />
       </CardContent>
     </Card>
   );

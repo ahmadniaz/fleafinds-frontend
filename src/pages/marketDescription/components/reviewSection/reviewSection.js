@@ -19,6 +19,7 @@ const ReviewAndSocialMediaSection = ({
   secRef,
   submitReview,
   loading,
+  relatedEvents,
 }) => {
   const ownerId = localStorage.getItem("ownerId"); // Get ownerId from localStorage
   const isOwner = marketData?.owner === ownerId; // Check if current user is the owner
@@ -47,7 +48,7 @@ const ReviewAndSocialMediaSection = ({
   return (
     <Box
       sx={{
-        padding: { xs: "10px", sm: "20px", md: "40px" },
+        padding: { xs: "10px", sm: "20px" },
         backgroundColor: "#f9f9f9",
         borderRadius: "10px",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
@@ -176,7 +177,6 @@ const ReviewAndSocialMediaSection = ({
             </>
           )}
 
-          <Divider sx={{ p: 2 }} />
           {reviews && reviews?.length > 0 ? (
             <UserReviewsSection
               reviews={reviews}
@@ -193,7 +193,10 @@ const ReviewAndSocialMediaSection = ({
 
         {/* Right Section: Social Media Links */}
         <Grid2 item size={{ xs: 12, md: 6, sm: 12, lg: 3 }}>
-          <CompanyContactInfo marketData={marketData} />
+          <CompanyContactInfo
+            marketData={marketData}
+            relatedEvents={relatedEvents}
+          />
         </Grid2>
       </Grid2>
     </Box>
