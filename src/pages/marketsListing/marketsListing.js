@@ -75,7 +75,7 @@ const MarketListing = () => {
   const [reviewsLoading, setReviewsLoading] = useState(true);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortOption, setSortOption] = useState("highest-rated");
+  const [sortOption, setSortOption] = useState("");
   const [filteredMarkets, setFilteredMarkets] = useState(allMarkets);
 
   // Filter states
@@ -282,8 +282,14 @@ const MarketListing = () => {
 
             <Grid2 item size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <FormControl fullWidth>
-                <InputLabel>Sort By</InputLabel>
-                <Select value={sortOption} onChange={handleSortChange}>
+                <InputLabel id="sort-by-label">Sort By</InputLabel>
+                <Select
+                  labelId="sort-by-label"
+                  value={sortOption}
+                  onChange={handleSortChange}
+                  displayEmpty
+                  defaultValue="" // Ensures no value is selected by default
+                >
                   <MenuItem value="highest-rated">Highest Rated</MenuItem>
                   <MenuItem value="lowest-rated">Lowest Rated</MenuItem>
                   <MenuItem value="most-reviews">Most Reviews</MenuItem>

@@ -45,14 +45,22 @@ const AuthForm = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}api/owner/register`,
+        `${process.env.REACT_APP_API_URL}api/owner/registesr`,
         values
       );
       console.log(response.data);
       showSnackbar("Registered Successfully", "success");
       navigate("/dashboard"); // Navigate to dashboard after successful registration
     } catch (error) {
-      showSnackbar(error?.message, "error");
+      console.log(error, "EROR");
+      if (error?.status === 400) {
+        showSnackbar(error?.response?.data?.message, "error");
+      } else {
+        showSnackbar(
+          "Unable to Register at this moment. Please try again",
+          "error"
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -71,7 +79,14 @@ const AuthForm = () => {
       showSnackbar("Logged In Successfully", "success");
       navigate("/dashboard"); // Navigate to dashboard after successful login
     } catch (error) {
-      showSnackbar(error?.message, "error");
+      if (error?.status === 400) {
+        showSnackbar(error?.response?.data?.message, "error");
+      } else {
+        showSnackbar(
+          "Unable to Login at this moment. Please try again",
+          "error"
+        );
+      }
     } finally {
       setLoading(false);
     }

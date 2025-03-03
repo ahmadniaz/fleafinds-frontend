@@ -284,6 +284,15 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
       setActiveForm("home");
     } catch (error) {
       setLoading(false);
+      if (error?.status === 400) {
+        showSnackbar(error?.response?.data?.message, "error");
+      } else {
+        showSnackbar(
+          "There was a problem creating the Market. Please try again",
+          "error"
+        );
+      }
+
       console.error(
         "Error creating market:",
         error.response ? error.response.data : error.message
@@ -385,7 +394,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Market Name */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Market Name
+                      Market Name(Required*)
                     </Typography>
                     <Field
                       as={TextField}
@@ -400,7 +409,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Market Type */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Market Type
+                      Market Type(Required*)
                     </Typography>
                     <FormControl
                       fullWidth
@@ -519,7 +528,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* City */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      City
+                      City(Required*)
                     </Typography>
                     <FormControl
                       fullWidth
@@ -550,7 +559,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Location */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Market Location
+                      Market Location(Required*)
                     </Typography>
                     <Field
                       as={TextField}
@@ -571,7 +580,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Categories */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Categories
+                      Categories(Required*)
                     </Typography>
                     <FormGroup row>
                       {fleaMarketCategories.map((category) => (
@@ -611,7 +620,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Opening Hours */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Opening Hours
+                      Opening Hours(Required*)
                     </Typography>
                     <Field
                       as={TextField}

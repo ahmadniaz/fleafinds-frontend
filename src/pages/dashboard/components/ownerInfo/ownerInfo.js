@@ -35,7 +35,14 @@ const OwnerInfoForm = () => {
       showSnackbar("Information Updated Successfully", "success");
     } catch (error) {
       console.error(error);
-      showSnackbar(error.message, "error");
+      if (error?.status === 400) {
+        showSnackbar(error?.response?.data?.message, "error");
+      } else {
+        showSnackbar(
+          "There was a problem updating the password. Please try again",
+          "error"
+        );
+      }
     } finally {
       setLoading(false);
     }

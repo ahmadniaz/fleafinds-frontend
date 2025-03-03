@@ -93,8 +93,14 @@ const MarketDescriptionPage = () => {
         "Error submitting review:",
         error.response?.data || error.message
       );
-      showSnackbar("Error Submitting Review", "success");
-      showSnackbar(error.message, "error");
+      if (error?.status === 400) {
+        showSnackbar(error?.response?.data?.message, "error");
+      } else {
+        showSnackbar(
+          "There was a problem submitting this review. Please try again",
+          "error"
+        );
+      }
     } finally {
       setLoading(false);
     }

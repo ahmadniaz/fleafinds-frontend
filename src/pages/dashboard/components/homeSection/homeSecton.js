@@ -138,15 +138,21 @@ const HomeSection = ({
         <SkeletonLoader type="card" count={3} />
       ) : (
         <Grid2 container spacing={4}>
-          {ownerMarkets
-            .slice((marketPage - 1) * itemsPerPage, marketPage * itemsPerPage)
-            .map((market) => (
-              <MarketCard
-                key={market._id}
-                market={market}
-                handleUpdateIconClick={handleUpdateMarket}
-              />
-            ))}
+          {ownerMarkets && ownerMarkets?.length > 0 ? (
+            ownerMarkets
+              .slice((marketPage - 1) * itemsPerPage, marketPage * itemsPerPage)
+              .map((market) => (
+                <MarketCard
+                  key={market._id}
+                  market={market}
+                  handleUpdateIconClick={handleUpdateMarket}
+                />
+              ))
+          ) : (
+            <Typography variant="body1" color="secondary.main">
+              No Markets created yet
+            </Typography>
+          )}
         </Grid2>
       )}
       <Pagination
@@ -170,15 +176,21 @@ const HomeSection = ({
         <SkeletonLoader type="card" count={3} />
       ) : (
         <Grid2 container spacing={4}>
-          {ownerEvents
-            .slice((eventPage - 1) * itemsPerPage, eventPage * itemsPerPage)
-            .map((event) => (
-              <EventCard
-                key={event._id}
-                event={event}
-                handleUpdateIconClick={handleUpdateEvent}
-              />
-            ))}
+          {ownerEvents && ownerEvents?.length > 0 ? (
+            ownerEvents
+              .slice((eventPage - 1) * itemsPerPage, eventPage * itemsPerPage)
+              .map((event) => (
+                <EventCard
+                  key={event._id}
+                  event={event}
+                  handleUpdateIconClick={handleUpdateEvent}
+                />
+              ))
+          ) : (
+            <Typography variant="body1" color="secondary.main">
+              No Events created yet
+            </Typography>
+          )}
         </Grid2>
       )}
       <Pagination

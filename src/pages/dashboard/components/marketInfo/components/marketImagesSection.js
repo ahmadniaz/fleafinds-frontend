@@ -59,7 +59,6 @@ const MarketImagesSection = ({
             <input
               type="file"
               accept="image/*"
-              capture="environment" // Opens the camera on mobile
               onChange={(event) => handleImageUpload(event, index)}
               style={{ display: "none" }}
               id={`image-upload-${index}`}

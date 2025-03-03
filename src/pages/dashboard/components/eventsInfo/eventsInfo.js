@@ -24,9 +24,7 @@ const eventValidationSchema = Yup.object({
   eventName: Yup.string().required("Event name is required"),
   eventDescription: Yup.string().required("Event description is required"),
   eventDate: Yup.date().required("Event date is required"),
-  eventTime: Yup.string().required("Event time is required"),
   eventLocation: Yup.string().required("Event location is required"),
-  eventCategory: Yup.string().required("Event category is required"),
 });
 
 const EventForm = ({
@@ -35,7 +33,6 @@ const EventForm = ({
   updateEventData,
   setUpdateEvent,
 }) => {
-  console.log(updateEventData, "UPDATE");
   const showSnackbar = useSnackbar();
   const [loading, setLoading] = useState(false);
   const [eventImage, setEventImage] = useState(null);
@@ -133,7 +130,14 @@ const EventForm = ({
       setActiveForm("home");
     } catch (error) {
       console.error("Error submitting form:", error);
-      showSnackbar(error.message, "error");
+      if (error?.status === 400) {
+        showSnackbar(error?.response?.data?.message, "error");
+      } else {
+        showSnackbar(
+          "There was a problem creating the event. Please try again",
+          "error"
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -199,7 +203,7 @@ const EventForm = ({
                 {/* Event Name */}
                 <Grid2 item size={{ xs: 12, sm: 6 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Event Name
+                    Event Name(Required*)
                   </Typography>
                   <Field
                     as={TextField}
@@ -214,7 +218,7 @@ const EventForm = ({
                 {/* Event Market */}
                 <Grid2 item size={{ xs: 12, sm: 6 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Select Market for the Event
+                    Select Market for the Event(Required*)
                   </Typography>
                   <Select
                     fullWidth
@@ -256,7 +260,7 @@ const EventForm = ({
                 {/* Event Image Upload */}
                 <Grid2 item size={{ xs: 12, sm: 6 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Event Image
+                    Event Image(Required*)
                   </Typography>
                   <Box
                     sx={{
@@ -329,7 +333,7 @@ const EventForm = ({
                 {/* Event Description */}
                 <Grid2 item size={{ xs: 12 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Event Description
+                    Event Description(Required*)
                   </Typography>
                   <Field
                     as={TextField}
@@ -351,7 +355,7 @@ const EventForm = ({
                 {/* Event Date */}
                 <Grid2 item size={{ xs: 12, sm: 6 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Event Date
+                    Event Date(Required*)
                   </Typography>
                   <Field
                     as={TextField}
@@ -389,7 +393,7 @@ const EventForm = ({
                 {/* Event Location */}
                 <Grid2 item size={{ xs: 12 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Event Location
+                    Event Location(Required*)
                   </Typography>
                   <Field
                     as={TextField}
