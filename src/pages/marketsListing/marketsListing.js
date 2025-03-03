@@ -280,7 +280,7 @@ const MarketListing = () => {
               />
             </Grid2>
 
-            <Grid2 item size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+            <Grid2 item size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
               <FormControl fullWidth>
                 <InputLabel id="sort-by-label">Sort By</InputLabel>
                 <Select
