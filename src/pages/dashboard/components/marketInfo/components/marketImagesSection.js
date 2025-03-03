@@ -58,7 +58,7 @@ const MarketImagesSection = ({
 
             <input
               type="file"
-              accept="image/*"
+              accept="capture=camera,image/*"
               onChange={(event) => handleImageUpload(event, index)}
               style={{ display: "none" }}
               id={`image-upload-${index}`}
