@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Card, CardContent, Chip, Grid2, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import EventIcon from "@mui/icons-material/Event";
 
 const SectionCard = styled(Card)({
   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",

@@ -147,7 +147,16 @@ const CompanyContactInfo = ({ marketData, relatedEvents }) => {
         {/* Divider */}
         <Divider sx={{ my: 3 }} />
 
-        {/* Report Button
+        {/* Related Events */}
+        <RelatedEventsSection
+          relatedEvents={relatedEvents}
+          marketData={marketData}
+        />
+
+        {/* Divider */}
+        <Divider sx={{ my: 3 }} />
+
+        {/* Report Button */}
         <Box sx={{ mt: 3, textAlign: "center" }}>
           <Button
             variant="contained"
@@ -156,13 +165,7 @@ const CompanyContactInfo = ({ marketData, relatedEvents }) => {
           >
             Report this Flea Market
           </Button>
-        </Box> */}
-
-        {/* Related Events */}
-        <RelatedEventsSection
-          relatedEvents={relatedEvents}
-          marketData={marketData}
-        />
+        </Box>
       </CardContent>
     </Card>
   );

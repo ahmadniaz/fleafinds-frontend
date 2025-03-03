@@ -14,7 +14,6 @@ import {
   Checkbox,
   FormControl,
   Select,
-  useMediaQuery,
   Divider,
   FormHelperText,
 } from "@mui/material";
@@ -261,8 +260,8 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
       };
 
       const url = marketData
-        ? `${process.env.REACT_APP_API_URL_LOCAL}api/market/update/${marketData?._id}`
-        : `${process.env.REACT_APP_API_URL_LOCAL}api/market`;
+        ? `${process.env.REACT_APP_API_URL}api/market/update/${marketData?._id}`
+        : `${process.env.REACT_APP_API_URL}api/market`;
 
       await axios({
         method: marketData ? "put" : "post",
@@ -468,7 +467,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                             position: "absolute",
                             top: "5px",
                             right: "5px",
-                            backgroundColor: "#d32f2f",
+                            backgroundColor: "primary.main",
                             color: "#fff",
                             "&:hover": {
                               backgroundColor: "#b71c1c",

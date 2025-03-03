@@ -110,8 +110,8 @@ const EventForm = ({
       };
 
       const url = updateEventData
-        ? `${process.env.REACT_APP_API_URL_LOCAL}api/event/update/${updateEventData?._id}`
-        : `${process.env.REACT_APP_API_URL_LOCAL}api/event`;
+        ? `${process.env.REACT_APP_API_URL}api/event/update/${updateEventData?._id}`
+        : `${process.env.REACT_APP_API_URL}api/event`;
 
       await axios({
         method: updateEventData ? "put" : "post",

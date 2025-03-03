@@ -53,7 +53,7 @@ const UserReviewsSection = ({
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL_LOCAL}api/review/reply/${reviewId}`,
+        `${process.env.REACT_APP_API_URL}api/review/reply/${reviewId}`,
         { replyText },
         {
           headers: {

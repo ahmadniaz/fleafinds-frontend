@@ -106,7 +106,7 @@ const MarketListing = () => {
   const getOwnerMarkets = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL_LOCAL}api/market`
+        `${process.env.REACT_APP_API_URL}api/market`
       );
       setAllMarkets(response?.data?.markets);
     } catch (error) {
@@ -119,7 +119,7 @@ const MarketListing = () => {
   const getAllReviews = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL_LOCAL}api/review`
+        `${process.env.REACT_APP_API_URL}api/review`
       );
       setAllReviews(response?.data?.reviews);
     } catch (error) {
@@ -335,12 +335,14 @@ const MarketListing = () => {
           </Grid2>
 
           {/* Pagination */}
-          <Pagination
-            count={totalPages}
-            page={page}
-            onChange={handlePageChange}
-            sx={{ mt: 3, display: "flex", justifyContent: "right" }}
-          />
+          {filteredMarkets?.length > 0 && (
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={handlePageChange}
+              sx={{ mt: 3, display: "flex", justifyContent: "right" }}
+            />
+          )}
         </Grid2>
       </Grid2>
 

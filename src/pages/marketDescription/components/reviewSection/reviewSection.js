@@ -5,7 +5,6 @@ import {
   Button,
   TextField,
   Grid2,
-  Divider,
 } from "@mui/material";
 import UserReviewsSection from "./components/userReviews";
 import CompanyContactInfo from "./components/companyContactInfo";

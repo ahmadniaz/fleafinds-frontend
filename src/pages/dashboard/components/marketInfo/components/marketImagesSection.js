@@ -73,7 +73,7 @@ const MarketImagesSection = ({
                   left: "10%",
                   padding: "5px",
                   transform: "translateX(-50%)",
-                  backgroundColor: "#d32f2f",
+                  backgroundColor: "primary.main",
                   color: "#fff",
                   "&:hover": {
                     backgroundColor: "#b71c1c",

@@ -7,7 +7,6 @@ import {
   Container,
   Tabs,
   Tab,
-  Snackbar,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -46,7 +45,7 @@ const AuthForm = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL_LOCAL}api/owner/register`,
+        `${process.env.REACT_APP_API_URL}api/owner/register`,
         values
       );
       console.log(response.data);
@@ -63,7 +62,7 @@ const AuthForm = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL_LOCAL}api/owner/login`,
+        `${process.env.REACT_APP_API_URL}api/owner/login`,
         values
       );
       localStorage.setItem("token", response.data.token); // Store JWT token

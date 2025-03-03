@@ -7,7 +7,7 @@ import {
   Divider,
   useMediaQuery,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createSlug } from "../../../../../utils/slug";
 
 const ReviewsSlider = ({ items, markets, speed = 5 }) => {

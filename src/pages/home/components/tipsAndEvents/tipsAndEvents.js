@@ -8,7 +8,6 @@ import {
   CardMedia,
   Chip,
   Stack,
-  Button,
   Pagination,
 } from "@mui/material";
 import EventIcon from "@mui/icons-material/Event";
@@ -16,7 +15,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
-const LocalTipsAndEvents = ({ events, featuredMarkets }) => {
+const LocalTipsAndEvents = ({ events }) => {
   const [sortedEvents, setSortedEvents] = useState([]);
   const [page, setPage] = useState(1);
   const eventsPerPage = 5;

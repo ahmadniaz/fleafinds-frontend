@@ -13,7 +13,6 @@ import {
 import { LoadingFallback } from "../../components";
 import axios from "axios";
 import Footer from "../../layout/components/footer/footer";
-import RelatedEventsSection from "./components/relatedEvents/relatedEvents";
 
 // Styled components for elegance
 const Container = styled(Box)({
@@ -45,7 +44,7 @@ const MarketDescriptionPage = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL_LOCAL}api/event`
+        `${process.env.REACT_APP_API_URL}api/event`
       );
       setAllEvents(response?.data?.events);
     } catch (error) {
@@ -58,7 +57,7 @@ const MarketDescriptionPage = () => {
   const getAllReviews = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL_LOCAL}api/review/${location?.state?.marketData?._id}`
+        `${process.env.REACT_APP_API_URL}api/review/${location?.state?.marketData?._id}`
       );
       setAllReviews(response?.data?.reviews);
     } catch (error) {
@@ -78,7 +77,7 @@ const MarketDescriptionPage = () => {
     try {
       const marketId = marketData?._id;
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL_LOCAL}api/review`,
+        `${process.env.REACT_APP_API_URL}api/review`,
         {
           marketId,
           ...values,

@@ -7,8 +7,8 @@ import {
 } from "./components";
 import NavBar from "../../layout/components/header/header";
 import Footer from "../../layout/components/footer/footer";
-import { tips } from "../../data/data";
 import axios from "axios";
+import { SkeletonLoader } from "../../components";
 
 const Home = () => {
   const [allEvents, setAllEvents] = useState([]);
@@ -24,7 +24,7 @@ const Home = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL_LOCAL}api/event`
+        `${process.env.REACT_APP_API_URL}api/event`
       );
       setAllEvents(response?.data?.events);
     } catch (error) {
@@ -39,7 +39,12 @@ const Home = () => {
       <HeroSection citiesRef={citiesRef} />
       {!isAuthenticated && <RegistrationBanner />}
       <CitiesList citiesRef={citiesRef} />
-      <LocalTipsAndEvents tips={tips} events={allEvents} />
+      {loading ? (
+        <SkeletonLoader type="card" count={4} />
+      ) : (
+        <LocalTipsAndEvents events={allEvents} />
+      )}
+
       <Footer />
     </div>
   );

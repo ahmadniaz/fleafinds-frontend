@@ -26,15 +26,12 @@ const OwnerInfoForm = () => {
     try {
       setLoading(true);
       // Make API call to update the owner information
-      await axios.put(
-        `${process.env.REACT_APP_API_URL_LOCAL}api/owner/update`,
-        {
-          ownerId,
-          email: values.email,
-          currentPassword: values.currentPassword,
-          newPassword: values.newPassword,
-        }
-      );
+      await axios.put(`${process.env.REACT_APP_API_URL}api/owner/update`, {
+        ownerId,
+        email: values.email,
+        currentPassword: values.currentPassword,
+        newPassword: values.newPassword,
+      });
       showSnackbar("Information Updated Successfully", "success");
     } catch (error) {
       console.error(error);

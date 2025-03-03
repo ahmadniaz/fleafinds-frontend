@@ -12,25 +12,37 @@ import {
   ListItem,
   ListItemText,
   Divider,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import Breadcrumb from "../../../../../components/breadcrumbs/breadCrumbs";
 import MenuIcon from "@mui/icons-material/Menu";
+import LanguageIcon from "@mui/icons-material/Language"; // Language icon
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useLanguage } from "../../../../../context/LanguageContext";
+
 import Logo from "../../../../../assets/images/logo.png";
 
 const HomeNavbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
+  const { translations, changeLanguage } = useLanguage();
+
   const isAuthenticated = localStorage.getItem("token"); // Check if token exists
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const menuLinks = ["Markets", "About", "Contact"];
+  const menuLinks = [
+    `${translations.NAVBAR.MARKETS}`,
+    `${translations.NAVBAR.ABOUT}`,
+    `${translations.NAVBAR.CONTACT}`,
+  ];
 
   useEffect(() => {
     let lastScroll = window.pageYOffset;
@@ -64,6 +76,7 @@ const HomeNavbar = () => {
     localStorage.removeItem("name");
     window.location.href = "/"; // Redirect to home
   };
+  // Handle Language Change
 
   return (
     <AppBar
@@ -142,6 +155,37 @@ const HomeNavbar = () => {
                       />
                     </ListItem>
                   ))}
+                  {/* Language Switcher */}
+                  <IconButton
+                    color="inherit"
+                    sx={{ marginRight: 2 }}
+                    onClick={(e) => setAnchorEl(e.currentTarget)}
+                  >
+                    <LanguageIcon sx={{ color: "#15a0db" }} />
+                  </IconButton>
+
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={() => setAnchorEl(null)}
+                  >
+                    <MenuItem
+                      onClick={() => {
+                        changeLanguage("ENU");
+                        setAnchorEl(null);
+                      }}
+                    >
+                      🇬🇧 English
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        changeLanguage("FIN");
+                        setAnchorEl(null);
+                      }}
+                    >
+                      🇫🇮 Finnish
+                    </MenuItem>
+                  </Menu>
                   <ListItem button onClick={handleDrawerToggle}>
                     {isAuthenticated ? (
                       <Box>
@@ -267,6 +311,38 @@ const HomeNavbar = () => {
                   {text}
                 </Link>
               ))}
+
+              {/* Language Switcher */}
+              <IconButton
+                color="inherit"
+                sx={{ marginRight: 2 }}
+                onClick={(e) => setAnchorEl(e.currentTarget)}
+              >
+                <LanguageIcon sx={{ color: "#15a0db" }} />
+              </IconButton>
+
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+              >
+                <MenuItem
+                  onClick={() => {
+                    changeLanguage("ENU");
+                    setAnchorEl(null);
+                  }}
+                >
+                  🇬🇧 English
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    changeLanguage("FIN");
+                    setAnchorEl(null);
+                  }}
+                >
+                  🇫🇮 Finnish
+                </MenuItem>
+              </Menu>
               {isAuthenticated ? (
                 <Box display="flex">
                   <Button
