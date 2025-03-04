@@ -10,6 +10,7 @@ import UserReviewsSection from "./components/userReviews";
 import CompanyContactInfo from "./components/companyContactInfo";
 import { Formik, Form, Field } from "formik";
 import { LoadingFallback } from "../../../../components";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const ReviewAndSocialMediaSection = ({
   reviews,
@@ -30,6 +31,8 @@ const ReviewAndSocialMediaSection = ({
 
   // Initialize rating breakdown object (default 0)
   const ratingsBreakdown = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+
+  const { translations } = useLanguage();
 
   // Count occurrences of each rating
   reviews?.forEach((review) => {
@@ -69,7 +72,7 @@ const ReviewAndSocialMediaSection = ({
                     variant="h6"
                     sx={{ fontWeight: "bold", marginBottom: "20px" }}
                   >
-                    Write a review
+                    {translations.MARKET_DESCRIPTION.WRITE_REVIEW}
                   </Typography>
 
                   <Formik
@@ -92,7 +95,7 @@ const ReviewAndSocialMediaSection = ({
                             variant="subtitle1"
                             sx={{ marginBottom: "10px" }}
                           >
-                            Your overall rating
+                            {translations.MARKET_DESCRIPTION.YOUR_OVERALL_RATING}
                           </Typography>
                           <Rating
                             name="rating"
@@ -109,7 +112,7 @@ const ReviewAndSocialMediaSection = ({
                             variant="subtitle1"
                             sx={{ marginBottom: "10px" }}
                           >
-                            Your review
+                            {translations.MARKET_DESCRIPTION.YOUR_REVIEW}
                           </Typography>
                           <Field
                             as={TextField}
@@ -117,19 +120,19 @@ const ReviewAndSocialMediaSection = ({
                             fullWidth
                             multiline
                             rows={4}
-                            placeholder="Write your review here"
+                            placeholder={`${translations.MARKET_DESCRIPTION.WRITE_YOUR_REVIEW_HERE}`}
                             variant="outlined"
                           />
                         </Box>
 
                         {/* Name Field */}
                         <Box sx={{ marginBottom: "20px" }}>
-                          <Typography variant="subtitle1">Name</Typography>
+                          <Typography variant="subtitle1">{translations.MARKET_DESCRIPTION.REVIEWER_NAME}</Typography>
                           <Field
                             as={TextField}
                             name="name"
                             fullWidth
-                            placeholder="Enter your name"
+                            placeholder={`${translations.MARKET_DESCRIPTION.ENTER_YOUR_NAME}`}
                             variant="outlined"
                           />
                         </Box>
@@ -137,13 +140,13 @@ const ReviewAndSocialMediaSection = ({
                         {/* Email Field */}
                         <Box sx={{ marginBottom: "20px" }}>
                           <Typography variant="subtitle1">
-                            E-mail address
+                          {translations.MARKET_DESCRIPTION.REVIEWER_EMAIL}
                           </Typography>
                           <Field
                             as={TextField}
                             name="email"
                             fullWidth
-                            placeholder="Enter your email"
+                            placeholder={`${translations.MARKET_DESCRIPTION.ENTER_YOUR_EMAIL}`}
                             variant="outlined"
                           />
                         </Box>
@@ -154,7 +157,7 @@ const ReviewAndSocialMediaSection = ({
                           variant="contained"
                           sx={{ backgroundColor: "#ff0000", color: "#fff" }}
                         >
-                          Submit a review
+                          {translations.MARKET_DESCRIPTION.SUBMIT_REVIEW}
                         </Button>
 
                         {/* Note */}
@@ -164,9 +167,7 @@ const ReviewAndSocialMediaSection = ({
                           fontWeight="bold"
                           sx={{ marginTop: "10px" }}
                         >
-                          Note: The review must be based on your own customer
-                          experience with the company. Each review is reviewed
-                          before publication. Read more about our review policy.
+                          {translations.MARKET_DESCRIPTION.NOTE_TEXT}
                         </Typography>
                       </Form>
                     )}
@@ -185,7 +186,7 @@ const ReviewAndSocialMediaSection = ({
             />
           ) : (
             <Box sx={{ p: 3 }}>
-              <Typography>No Reviews Yet</Typography>
+              <Typography>{translations.MARKET_DESCRIPTION.NO_REVIEWS_YET}</Typography>
             </Box>
           )}
         </Grid2>

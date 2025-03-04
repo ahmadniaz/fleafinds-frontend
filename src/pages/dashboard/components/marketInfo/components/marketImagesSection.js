@@ -1,12 +1,14 @@
 import React from "react";
 import { CloudUpload, Cancel } from "@mui/icons-material";
 import { Box, Grid2, IconButton, Typography } from "@mui/material";
+import { useLanguage } from "../../../../../context/LanguageContext";
 
 const MarketImagesSection = ({
   imagePreviews,
   handleImageUpload,
   handleImageRemove,
 }) => {
+  const { translations } = useLanguage();
   return (
     <Grid2 container spacing={2}>
       {imagePreviews?.map((preview, index) => (
@@ -33,7 +35,7 @@ const MarketImagesSection = ({
               />
             ) : (
               <Typography variant="body2" color="textSecondary">
-                No Image Uploaded
+                {translations.MARKET_REGISTRATION.NO_IMAGE}
               </Typography>
             )}
 

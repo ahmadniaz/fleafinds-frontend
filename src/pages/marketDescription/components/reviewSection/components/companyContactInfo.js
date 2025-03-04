@@ -18,8 +18,10 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { Link } from "react-router-dom";
 import RelatedEventsSection from "../../relatedEvents/relatedEvents";
+import { useLanguage } from "../../../../../context/LanguageContext";
 
 const CompanyContactInfo = ({ marketData, relatedEvents }) => {
+  const { translations } = useLanguage();  
   return (
     <Card
       sx={{
@@ -40,7 +42,7 @@ const CompanyContactInfo = ({ marketData, relatedEvents }) => {
             textAlign: "left",
           }}
         >
-          Follow Us
+          {translations.MARKET_DESCRIPTION.FOLLOW_US}
         </Typography>
         <Grid2
           container
@@ -99,7 +101,7 @@ const CompanyContactInfo = ({ marketData, relatedEvents }) => {
             textAlign: "left",
           }}
         >
-          Contact Us
+          {translations.MARKET_DESCRIPTION.CONTACT_US}
         </Typography>
 
         <Grid2 container direction="column" alignItems="flex-start" spacing={1}>
@@ -111,7 +113,7 @@ const CompanyContactInfo = ({ marketData, relatedEvents }) => {
                 to={`tel:${marketData?.marketNumber}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                {marketData?.marketNumber || "No Data Provided"}
+                {marketData?.marketNumber || `${translations.MARKET_DESCRIPTION.NO_DATA_PROVIDED}`}
               </Link>
             </Typography>
           </Box>
@@ -124,7 +126,7 @@ const CompanyContactInfo = ({ marketData, relatedEvents }) => {
                 to={`mailto:${marketData?.marketEmail}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                {marketData?.marketEmail || "No Data Provided"}
+                {marketData?.marketEmail || `${translations.MARKET_DESCRIPTION.NO_DATA_PROVIDED}`}
               </Link>
             </Typography>
           </Box>
@@ -138,7 +140,7 @@ const CompanyContactInfo = ({ marketData, relatedEvents }) => {
                 target="_blank"
                 style={{ textDecoration: "none", color: "#15a0db" }}
               >
-                {marketData?.marketWebsite || "No Data Provided"}
+                {marketData?.marketWebsite || `${translations.MARKET_DESCRIPTION.NO_DATA_PROVIDED}`}
               </Link>
             </Typography>
           </Box>
@@ -163,7 +165,7 @@ const CompanyContactInfo = ({ marketData, relatedEvents }) => {
             color="error"
             startIcon={<ReportProblemIcon />}
           >
-            Report this Flea Market
+            {translations.MARKET_DESCRIPTION.REPORT_MARKET}
           </Button>
         </Box>
       </CardContent>

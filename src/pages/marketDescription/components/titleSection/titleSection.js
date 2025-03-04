@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import styled from "@emotion/styled";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 // Styled components for elegance
 
@@ -30,6 +31,9 @@ const TitleSection = ({ marketData, reviewFormRef, allReviews }) => {
   const scrollToReviewForm = () => {
     reviewFormRef?.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const { translations } = useLanguage();
+
   return (
     <SectionCard>
       <CardContent>
@@ -107,7 +111,7 @@ const TitleSection = ({ marketData, reviewFormRef, allReviews }) => {
                 onClick={() => scrollToReviewForm()}
                 startIcon={<RateReviewIcon />}
               >
-                Add a Review
+                {translations.MARKET_DESCRIPTION.WRITE_REVIEW}
               </Button>
             </Box>
           </Grid2>

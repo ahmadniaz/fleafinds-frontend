@@ -423,11 +423,11 @@ const eventValidationSchema = Yup.object({
                     }
                     helperText={touched.eventCategory && errors.eventCategory}
                   >
-                    <MenuItem value="">Select Category</MenuItem>
-                    <MenuItem value="Market">Market</MenuItem>
-                    <MenuItem value="Music">Music</MenuItem>
-                    <MenuItem value="Food">Food</MenuItem>
-                    <MenuItem value="Art">Art</MenuItem>
+                    <MenuItem value=""> {translations.EVENT_CATEGORY.SELECT_CATEGORY} </MenuItem>
+                    <MenuItem value="Market">{translations.EVENT_CATEGORY.MARKET}</MenuItem>
+                    <MenuItem value="Music">{translations.EVENT_CATEGORY.MUSIC}</MenuItem>
+                    <MenuItem value="Food">{translations.EVENT_CATEGORY.FOOD}</MenuItem>
+                    <MenuItem value="Art">{translations.EVENT_CATEGORY.ART}</MenuItem>
                   </Field>
                 </Grid2>
 

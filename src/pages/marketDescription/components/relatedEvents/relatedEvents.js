@@ -12,12 +12,14 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useState } from "react";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const RelatedEventsSection = ({ marketData, relatedEvents }) => {
+  const { translations } = useLanguage();
   return (
     <Box sx={{ mt: 4, maxHeight: 400, overflowY: "auto" }}>
       <Typography variant="h6" fontWeight="bold" gutterBottom>
-        📅 Upcoming Events at {marketData?.name}
+        📅 {translations.MARKET_DESCRIPTION.UPCOMING_EVENTS_AT} {marketData?.name}
       </Typography>
       {relatedEvents.length > 0 ? (
         <List sx={{ width: "100%" }}>
@@ -27,7 +29,7 @@ const RelatedEventsSection = ({ marketData, relatedEvents }) => {
         </List>
       ) : (
         <Typography variant="body1" color="text.secondary">
-          No events found for this market.
+          {translations.MARKET_DESCRIPTION.NO_EVENTS_FOUND}
         </Typography>
       )}
     </Box>

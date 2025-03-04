@@ -13,6 +13,7 @@ import {
 import { LoadingFallback } from "../../components";
 import axios from "axios";
 import Footer from "../../layout/components/footer/footer";
+import { useLanguage } from "../../context/LanguageContext";
 
 // Styled components for elegance
 const Container = styled(Box)({
@@ -29,6 +30,7 @@ const MarketDescriptionPage = () => {
   const [loading, setLoading] = useState(false);
   const [allEvents, setAllEvents] = useState([]);
   const [relatedEvents, setRelatedEvents] = useState([]);
+  const { translations } = useLanguage();
 
   useEffect(() => {
     getAllEvents();
@@ -85,7 +87,7 @@ const MarketDescriptionPage = () => {
       );
 
       if (response?.statusText === "Created" || response?.status === 201) {
-        showSnackbar("Review Submitted Successfully", "success");
+        showSnackbar(`${translations.SNACKBARS.REVIEW_SUBMITTED}`, "success");
         getAllReviews();
       }
     } catch (error) {
@@ -93,7 +95,7 @@ const MarketDescriptionPage = () => {
         "Error submitting review:",
         error.response?.data || error.message
       );
-      showSnackbar("Error Submitting Review", "success");
+      showSnackbar(`${translations.SNACKBARS.REVIEW_SUBMIT_ERROR}`, "success");
       showSnackbar(error.message, "error");
     } finally {
       setLoading(false);

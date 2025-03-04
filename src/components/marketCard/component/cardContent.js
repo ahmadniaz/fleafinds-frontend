@@ -14,6 +14,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import React from "react";
 import { createSlug } from "../../../utils/slug";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const CustomCardContent = ({
   isNewMarket,
@@ -30,6 +31,7 @@ const CustomCardContent = ({
     // You can pass state or other parameters here
     navigate(`/markets/${slug}`, { state: { marketData: market } });
   };
+  const { translations } = useLanguage();
 
   return (
     <>
@@ -65,7 +67,7 @@ const CustomCardContent = ({
               zIndex: 10,
             }}
           >
-            New
+            {translations.MARKET_CARD.NEW}
           </Box>
         )}
 
@@ -128,7 +130,7 @@ const CustomCardContent = ({
               color="text.secondary"
               sx={{ marginLeft: 1 }}
             >
-              ({market?.reviewCount} reviews)
+              ({market?.reviewCount} {translations.MARKET_CARD.REVIEWS})
             </Typography>
           </Box>
 

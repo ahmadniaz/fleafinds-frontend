@@ -11,10 +11,12 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import styled from "@emotion/styled";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const GallerySection = ({ marketData }) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedImg, setSelectedImg] = useState(null);
+  const { translations } = useLanguage();
 
   const handleOpenModal = (img) => {
     setSelectedImg(img);
@@ -44,7 +46,7 @@ const GallerySection = ({ marketData }) => {
     <>
       <Card>
         <CardContent>
-          <HeaderTypography variant="h5">Gallery</HeaderTypography>
+          <HeaderTypography variant="h5">{translations.MARKET_DESCRIPTION.GALLERY}</HeaderTypography>
           <Grid2 container spacing={2} p={2} justifyContent="center">
             {normalizedMarketImages?.map((img, index) => (
               <Grid2 item xs={12} sm={6} md={4} key={index}>

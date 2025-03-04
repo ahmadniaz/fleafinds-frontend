@@ -5,23 +5,26 @@ import * as Yup from "yup";
 import axios from "axios";
 import { LoadingFallback } from "../../../../components";
 import { useSnackbar } from "../../../../components/snackbar/customSnackBar";
-
-// Validation schema for changing email and password
-const changeInfoValidationSchema = Yup.object({
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  currentPassword: Yup.string().required("Current password is required"),
-  newPassword: Yup.string()
-    .min(6, "Password must be at least 6 characters long")
-    .required("New password is required"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
-    .required("Confirm new password is required"),
-});
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const OwnerInfoForm = () => {
   const ownerId = localStorage.getItem("ownerId");
   const showSnackbar = useSnackbar();
   const [loading, setLoading] = useState(false);
+  const { translations } = useLanguage();
+
+  // Validation schema for changing email and password
+  const changeInfoValidationSchema = Yup.object({
+    email: Yup.string().email(`${translations.FIELD_ERRORS.OWNER_INVALID_EMAIL}`).required(`${translations.FIELD_ERRORS.OWNER_EMAIL}`),
+    currentPassword: Yup.string().required(`${translations.FIELD_ERRORS.OWNER_CURRENT_PASSWORD}`),
+    newPassword: Yup.string()
+      .min(6, `${translations.FIELD_ERRORS.OWNER_PASSWORD_MIN}`)
+      .required(`${translations.FIELD_ERRORS.OWNER_NEW_PASSWORD}`),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("newPassword"), null], `${translations.FIELD_ERRORS.OWNER_PASSWORD_MATCH}`)
+      .required(`${translations.FIELD_ERRORS.OWNER_CONFIRM_PASSWORD}`),
+  });
+
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
@@ -32,7 +35,7 @@ const OwnerInfoForm = () => {
         currentPassword: values.currentPassword,
         newPassword: values.newPassword,
       });
-      showSnackbar("Information Updated Successfully", "success");
+      showSnackbar(`${translations.SNACKBARS.OWNER_UPDATE}`, "success");
     } catch (error) {
       console.error(error);
       showSnackbar(error.message, "error");
@@ -62,7 +65,7 @@ const OwnerInfoForm = () => {
           mt: { xs: 5, sm: 5, md: 5 },
         }}
       >
-        Update Your Information
+        {translations.OWNER_INFO.UPDATE_YOUR_INFO}
       </Typography>
       {loading ? (
         <LoadingFallback />
@@ -82,13 +85,13 @@ const OwnerInfoForm = () => {
               <Grid2 container spacing={2}>
                 <Grid2 item size={{ xs: 12 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Email Address
+                  {translations.OWNER_INFO.EMAIL_ADDRESS}
                   </Typography>
                   <Field
                     as={TextField}
                     fullWidth
                     name="email"
-                    label="Email"
+                    label={`${translations.OWNER_INFO.EMAIL_ADDRESS}`}
                     error={touched.email && Boolean(errors.email)}
                     helperText={touched.email && errors.email}
                   />
@@ -96,14 +99,14 @@ const OwnerInfoForm = () => {
 
                 <Grid2 item size={{ xs: 12 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Current Password
+                  {translations.OWNER_INFO.CURRENT_PASSWORD}
                   </Typography>
                   <Field
                     as={TextField}
                     fullWidth
                     type="password"
                     name="currentPassword"
-                    label="Current Password"
+                    label={`${translations.OWNER_INFO.CURRENT_PASSWORD}`}
                     error={
                       touched.currentPassword && Boolean(errors.currentPassword)
                     }
@@ -115,14 +118,14 @@ const OwnerInfoForm = () => {
 
                 <Grid2 item size={{ xs: 12 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    New Password
+                  {translations.OWNER_INFO.NEW_PASSWORD}
                   </Typography>
                   <Field
                     as={TextField}
                     fullWidth
                     type="password"
                     name="newPassword"
-                    label="New Password"
+                    label={`${translations.OWNER_INFO.NEW_PASSWORD}`}
                     error={touched.newPassword && Boolean(errors.newPassword)}
                     helperText={touched.newPassword && errors.newPassword}
                   />
@@ -130,14 +133,14 @@ const OwnerInfoForm = () => {
 
                 <Grid2 item size={{ xs: 12 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Confirm New Password
+                  {translations.OWNER_INFO.CONFIRM_PASSWORD}
                   </Typography>
                   <Field
                     as={TextField}
                     fullWidth
                     type="password"
                     name="confirmPassword"
-                    label="Confirm New Password"
+                    label={`${translations.OWNER_INFO.CONFIRM_PASSWORD}`}
                     error={
                       touched.confirmPassword && Boolean(errors.confirmPassword)
                     }
@@ -159,7 +162,7 @@ const OwnerInfoForm = () => {
                     color="primary"
                     sx={{ padding: "10px 20px", fontWeight: "bold" }}
                   >
-                    Save Changes
+                    {translations.OWNER_INFO.SAVE_CHANGES}
                   </Button>
                 </Grid2>
               </Grid2>

@@ -9,6 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import axios from "axios";
+import { useLanguage } from "../../../../../context/LanguageContext";
 
 const UserReviewsSection = ({
   reviews,
@@ -20,6 +21,7 @@ const UserReviewsSection = ({
   const [replyingTo, setReplyingTo] = useState(null); // Track which review is being replied to
   const [replyText, setReplyText] = useState(""); // Reply content
   const reviewsPerPage = 5;
+  const { translations } = useLanguage();
 
   const ownerId = localStorage.getItem("ownerId"); // Get ownerId from localStorage
   const isOwner = marketData?.owner === ownerId; // Check if current user is the owner
@@ -100,7 +102,7 @@ const UserReviewsSection = ({
           color: "#ff0000",
         }}
       >
-        User Reviews
+        {translations.MARKET_DESCRIPTION.USER_REVIEWS}
       </Typography>
 
       {/* Overall Rating and Review Breakdown */}
@@ -109,7 +111,7 @@ const UserReviewsSection = ({
           {averageRating}
         </Typography>
         <Typography variant="subtitle1">
-          A total of {reviews?.length} reviews
+        {translations.MARKET_DESCRIPTION.TOTALT} {reviews?.length} {translations.MARKET_DESCRIPTION.REVIEWS}
         </Typography>
       </Box>
 
@@ -121,7 +123,7 @@ const UserReviewsSection = ({
           alignItems="center"
           sx={{ marginBottom: "5px" }}
         >
-          <Typography variant="body2">{rating} stars</Typography>
+          <Typography variant="body2">{rating} {translations.MARKET_DESCRIPTION.STARS}</Typography>
           <LinearProgress
             variant="determinate"
             value={ratingsBreakdown[rating] || 0}
@@ -179,7 +181,7 @@ const UserReviewsSection = ({
                 setReplyingTo(replyingTo === review._id ? null : review._id)
               }
             >
-              {replyingTo === review._id ? "Cancel" : "Reply"}
+              {replyingTo === review._id ? `${translations.MARKET_DESCRIPTION.OWNER_CANCEL}` : `${translations.MARKET_DESCRIPTION.OWNER_REPLY}`}
             </Button>
           )}
 
@@ -190,7 +192,7 @@ const UserReviewsSection = ({
                 fullWidth
                 multiline
                 rows={2}
-                placeholder="Write your reply..."
+                placeholder={`${translations.MARKET_DESCRIPTION.OWNER_WRITE_REPLY}`}
                 variant="outlined"
                 value={replyText}
                 onChange={(e) => setReplyText(e.target.value)}
@@ -201,7 +203,7 @@ const UserReviewsSection = ({
                 sx={{ marginTop: "5px" }}
                 onClick={() => handleReplySubmit(review._id)}
               >
-                Submit Reply
+                {translations.MARKET_DESCRIPTION.OWNER_SUBMIT_REPLY}
               </Button>
             </Box>
           )}
@@ -217,7 +219,7 @@ const UserReviewsSection = ({
               }}
             >
               <Typography variant="subtitle2" fontWeight="bold">
-                Owner Reply:
+              {translations.MARKET_DESCRIPTION.OWNERS_REPLY}
               </Typography>
               {review.replies.map((reply, index) => (
                 <Typography key={index} variant="body2">
@@ -239,10 +241,10 @@ const UserReviewsSection = ({
           disabled={currentPage === 1}
           onClick={() => setCurrentPage(currentPage - 1)}
         >
-          Previous
+          {translations.MARKET_DESCRIPTION.PREVIOUS}
         </Button>
         <Typography variant="body2">
-          Page {currentPage} of {totalPages}
+        {translations.MARKET_DESCRIPTION.PAGE} {currentPage} / {totalPages}
         </Typography>
         <Button
           variant="contained"
@@ -250,7 +252,7 @@ const UserReviewsSection = ({
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage(currentPage + 1)}
         >
-          Next
+          {translations.MARKET_DESCRIPTION.NEXT}
         </Button>
       </Box>
     </Box>
