@@ -11,8 +11,17 @@ import {
 } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos, LocationOn } from "@mui/icons-material";
 import { Rating } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { createSlug } from "../../../../../utils/slug";
 
 const FeaturedMarketSlider = ({ items }) => {
+  const navigate = useNavigate();
+
+  const handleClick = (market) => {
+    // You can pass state or other parameters here
+    const slug = createSlug(market?.name);
+    navigate(`/markets/${slug}`, { state: { marketData: market } });
+  };
   const scrollContainerRef = useRef(null);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const isMediumScreen = useMediaQuery("(max-width:960px)");
@@ -169,7 +178,7 @@ const FeaturedMarketSlider = ({ items }) => {
                   borderRadius: 2,
                   mt: 1,
                 }}
-                onClick={() => window.open(item.websiteUrl, "_blank")}
+                onClick={() => handleClick(item)}
               >
                 Explore Market
               </Button>

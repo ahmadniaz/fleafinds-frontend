@@ -1,9 +1,17 @@
 import React from "react";
 import { Box, Typography, Link } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { createSlug } from "../../../../../utils/slug";
 
 const TopMarkets = ({ allMarkets }) => {
   const topMarkets = allMarkets?.slice(0, 5); // Display top 3 markets
+  const navigate = useNavigate();
 
+  const handleClick = (market) => {
+    // You can pass state or other parameters here
+    const slug = createSlug(market?.name);
+    navigate(`/markets/${slug}`, { state: { marketData: market } });
+  };
   return (
     <Box sx={{ mb: 2 }}>
       <Typography
@@ -30,12 +38,14 @@ const TopMarkets = ({ allMarkets }) => {
               sx={{ mb: 1, listStyleType: "disc" }}
             >
               <Link
-                href={`/market/${market?._id}`} // Replace with actual URL for market details
+                component="button"
                 underline="hover"
                 sx={{ fontWeight: "bold", color: "#15a0db" }}
+                onClick={() => handleClick(market)} // Call handleClick function on click
               >
                 {market?.name}
-              </Link>{" "}
+              </Link>
+
               <Typography
                 variant="body2"
                 component="span"
