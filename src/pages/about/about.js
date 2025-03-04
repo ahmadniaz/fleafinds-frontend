@@ -16,6 +16,7 @@ import whoWeAre from "../../assets/images/whoWeAre.png";
 import whyChooseUs from "../../assets/images/whyChooseUs.jpg";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../layout/components/footer/footer";
+import { useLanguage } from "../../context/LanguageContext";
 
 // Styled Components
 const Root = styled("div")({
@@ -130,6 +131,7 @@ const AboutUs = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
+  const { translations, changeLanguage } = useLanguage();
   const testimonials = [
     {
       quote:
@@ -203,10 +205,10 @@ const AboutUs = () => {
         {/* Hero Section */}
         <HeroSection>
           <Typography variant="h2" component="h1">
-            Discover the Best Flea Markets in Finland
+            {translations.HEROSECTION_A.TITLE}
           </Typography>
           <Typography variant="h5" sx={{ marginTop: "10px", opacity: 0.9 }}>
-            Connecting flea market owners & shoppers to a sustainable future.
+          {translations.HEROSECTION_A.SUBTITLE}
           </Typography>
         </HeroSection>
 
@@ -215,12 +217,9 @@ const AboutUs = () => {
           <Section>
             <Grid2 container spacing={4} alignItems="center">
               <Grid2 item size={{ xs: 12, md: 6 }}>
-                <Title variant="h4">Who We Are</Title>
+                <Title variant="h4">{translations.HEROSECTION_A.ABOUT1_TITLE}</Title>
                 <Subtitle>
-                  FleaFind is the most comprehensive platform for discovering
-                  and listing flea markets across Finland. Whether you're a flea
-                  market owner or a shopper, we connect you to the best markets
-                  near you.
+                {translations.HEROSECTION_A.ABOUT1_TEXT}
                 </Subtitle>
               </Grid2>
               <Grid2 item size={{ xs: 12, md: 6 }}>
@@ -236,11 +235,9 @@ const AboutUs = () => {
                 <Image src={ourMission} alt="our Mission" />
               </Grid2>
               <Grid2 item size={{ xs: 12, md: 6 }} order={{ xs: 1, md: 2 }}>
-                <Title variant="h4">Our Mission</Title>
+                <Title variant="h4">{translations.HEROSECTION_A.ABOUT2_TITLE}</Title>
                 <Subtitle>
-                  We aim to bridge the gap between flea markets and customers,
-                  making it easier to discover sustainable shopping
-                  opportunities.
+                {translations.HEROSECTION_A.ABOUT2_TEXT}
                 </Subtitle>
               </Grid2>
             </Grid2>
@@ -251,23 +248,19 @@ const AboutUs = () => {
             <Grid2 container spacing={4} alignItems="center">
               {/* Left Side - Text Content */}
               <Grid2 item size={{ xs: 12, md: 6 }}>
-                <Title variant="h4">Why Choose Us?</Title>
+                <Title variant="h4">{translations.HEROSECTION_A.ABOUT3_TITLE}</Title>
                 <Grid2 container spacing={2}>
                   <Grid2 item size={{ xs: 12 }}>
-                    <CheckCircleIcon color="primary" /> Comprehensive listings
-                    across Finland
+                    <CheckCircleIcon color="primary" /> {translations.HEROSECTION_A.ABOUT3_TEXT1}
                   </Grid2>
                   <Grid2 item size={{ xs: 12 }}>
-                    <CheckCircleIcon color="primary" /> Advanced filters for
-                    easy searching
+                    <CheckCircleIcon color="primary" /> {translations.HEROSECTION_A.ABOUT3_TEXT2}
                   </Grid2>
                   <Grid2 item size={{ xs: 12 }}>
-                    <CheckCircleIcon color="primary" /> Multilingual support for
-                    global users
+                    <CheckCircleIcon color="primary" /> {translations.HEROSECTION_A.ABOUT3_TEXT3}
                   </Grid2>
                   <Grid2 item size={{ xs: 12 }}>
-                    <CheckCircleIcon color="primary" /> Verified customer
-                    reviews
+                    <CheckCircleIcon color="primary" /> {translations.HEROSECTION_A.ABOUT3_TEXT4}
                   </Grid2>
                 </Grid2>
               </Grid2>
@@ -290,7 +283,7 @@ const AboutUs = () => {
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
           >
-            <Typography variant="h4">What Our Users Say</Typography>
+            <Typography variant="h4">{translations.TESTIMONIAL_SECTION.TITLE}</Typography>
             <TestimonialSlider
               style={{ transform: `translateX(-${currentIndex * 320}px)` }}
             >
@@ -313,7 +306,7 @@ const AboutUs = () => {
           {/* CTA */}
           <Box textAlign="center" mt={6} mb={2}>
             <CustomButton variant="contained" onClick={() => navigate("/auth")}>
-              Join Us Today!
+            {translations.TESTIMONIAL_SECTION.BUTTON}
             </CustomButton>
           </Box>
         </Container>
