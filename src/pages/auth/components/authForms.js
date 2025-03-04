@@ -14,33 +14,34 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSnackbar } from "../../../components/snackbar/customSnackBar";
 import { LoadingFallback } from "../../../components";
-
-// Validation schemas for Signup and Login
-const signupValidationSchema = Yup.object({
-  name: Yup.string().required("Name is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-});
-
-const loginValidationSchema = Yup.object({
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-});
+import { useLanguage } from "../../../context/LanguageContext";
 
 const AuthForm = () => {
   const navigate = useNavigate();
   const showSnackbar = useSnackbar();
   const [tabIndex, setTabIndex] = useState(0); // 0 for Login, 1 for Signup
   const [loading, setLoading] = useState(false);
+  const { translations, changeLanguage } = useLanguage();
 
   const handleTabChange = (event, newIndex) => {
     setTabIndex(newIndex);
   };
 
+  // Validation schemas for Signup and Login
+  const signupValidationSchema = Yup.object({
+    name: Yup.string().required(`${translations.FIELD_ERRORS.OWNER_NAME}`),
+    email: Yup.string().email(`${translations.FIELD_ERRORS.OWNER_INVALID_EMAIL}`).required(`${translations.FIELD_ERRORS.OWNER_EMAIL}`),
+    password: Yup.string()
+      .min(6, `${translations.FIELD_ERRORS.OWNER_PASSWORD_MIN}`)
+      .required(`${translations.FIELD_ERRORS.OWNER_PASSWORD}`),
+  });
+
+  const loginValidationSchema = Yup.object({
+    email: Yup.string().email(`${translations.FIELD_ERRORS.OWNER_INVALID_EMAIL}`).required(`${translations.FIELD_ERRORS.OWNER_EMAIL}`),
+    password: Yup.string()
+      .min(6, `${translations.FIELD_ERRORS.OWNER_PASSWORD_MIN}`)
+      .required(`${translations.FIELD_ERRORS.OWNER_PASSWORD}`),
+  });
   const handleSignupSubmit = async (values) => {
     setLoading(true);
     try {
@@ -49,7 +50,7 @@ const AuthForm = () => {
         values
       );
       console.log(response.data);
-      showSnackbar("Registered Successfully", "success");
+      showSnackbar(`${translations.SNACKBARS.REGISTER_SUCCESS}`, "success");
       navigate("/dashboard"); // Navigate to dashboard after successful registration
     } catch (error) {
       showSnackbar(error?.message, "error");
@@ -68,7 +69,7 @@ const AuthForm = () => {
       localStorage.setItem("token", response.data.token); // Store JWT token
       localStorage.setItem("ownerId", response.data.ownerId); // Store ownerId
       localStorage.setItem("name", response.data.name); // Store owner name
-      showSnackbar("Logged In Successfully", "success");
+      showSnackbar(`${translations.SNACKBARS.LOGIN_SUCCESS}`, "success");
       navigate("/dashboard"); // Navigate to dashboard after successful login
     } catch (error) {
       showSnackbar(error?.message, "error");
@@ -113,8 +114,8 @@ const AuthForm = () => {
             },
           }}
         >
-          <Tab label="Login" />
-          <Tab label="Register" />
+          <Tab label={`${translations.AUTH_PAGE.LOGIN_BUTTON}`} />
+          <Tab label={`${translations.AUTH_PAGE.REGISTER_BUTTON}`} />
         </Tabs>
 
         {/* Render Login Form when tabIndex is 0 */}
@@ -130,7 +131,7 @@ const AuthForm = () => {
                   color="#d32f2f"
                   sx={{ mb: 3 }}
                 >
-                  Login to Your Account
+                  {translations.AUTH_PAGE.LOGIN_TITLE}
                 </Typography>
                 <Formik
                   initialValues={{ email: "", password: "" }}
@@ -144,7 +145,7 @@ const AuthForm = () => {
                           as={TextField}
                           fullWidth
                           name="email"
-                          label="Email"
+                          label={`${translations.AUTH_PAGE.LOGIN_TEXTFIELD1}`}
                           variant="outlined"
                           error={touched.email && Boolean(errors.email)}
                           helperText={touched.email && errors.email}
@@ -158,7 +159,7 @@ const AuthForm = () => {
                           as={TextField}
                           fullWidth
                           name="password"
-                          label="Password"
+                          label={`${translations.AUTH_PAGE.LOGIN_TEXTFIELD2}`}
                           type="password"
                           variant="outlined"
                           error={touched.password && Boolean(errors.password)}
@@ -187,7 +188,7 @@ const AuthForm = () => {
                             },
                           }}
                         >
-                          Login
+                          {translations.AUTH_PAGE.LOGIN_BUTTON}
                         </Button>
                       </Box>
                     </Form>
@@ -211,7 +212,7 @@ const AuthForm = () => {
                   color="#d32f2f"
                   sx={{ mb: 3 }}
                 >
-                  Create Your Account
+                  {translations.AUTH_PAGE.REGISTER_TITLE}
                 </Typography>
                 <Formik
                   initialValues={{ name: "", email: "", password: "" }}
@@ -225,7 +226,7 @@ const AuthForm = () => {
                           as={TextField}
                           fullWidth
                           name="name"
-                          label="Name"
+                          label={`${translations.AUTH_PAGE.REGISTER_TEXTFIELD1}`}
                           variant="outlined"
                           error={touched.name && Boolean(errors.name)}
                           helperText={touched.name && errors.name}
@@ -239,7 +240,7 @@ const AuthForm = () => {
                           as={TextField}
                           fullWidth
                           name="email"
-                          label="Email"
+                          label={`${translations.AUTH_PAGE.REGISTER_TEXTFIELD2}`}
                           variant="outlined"
                           error={touched.email && Boolean(errors.email)}
                           helperText={touched.email && errors.email}
@@ -253,7 +254,7 @@ const AuthForm = () => {
                           as={TextField}
                           fullWidth
                           name="password"
-                          label="Password"
+                          label={`${translations.AUTH_PAGE.REGISTER_TEXTFIELD3}`}
                           type="password"
                           variant="outlined"
                           error={touched.password && Boolean(errors.password)}
@@ -282,7 +283,7 @@ const AuthForm = () => {
                             },
                           }}
                         >
-                          Register
+                          {translations.AUTH_PAGE.REGISTER_BUTTON}
                         </Button>
                       </Box>
                     </Form>

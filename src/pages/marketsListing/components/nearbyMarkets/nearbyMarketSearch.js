@@ -21,6 +21,7 @@ import { haversineDistance } from "../../../../utils/nearbyDistance";
 import { createSlug } from "../../../../utils/slug";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import locatMarker from "../../../../assets/images/locatMarker.png";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 // Custom styles for the modal
 const modalStyle = {
@@ -63,8 +64,8 @@ const NearbyMarketsModal = ({ open, handleClose, markets }) => {
   const [nearbyMarkets, setNearbyMarkets] = useState([]);
   const [noMarketsFound, setNoMarketsFound] = useState(false);
   const [error, setError] = useState(""); // State for error message
-
   const navigate = useNavigate();
+  const { translations, changeLanguage } = useLanguage();
 
   // Function to reset the state values
   const resetValues = () => {
@@ -112,7 +113,7 @@ const NearbyMarketsModal = ({ open, handleClose, markets }) => {
 
   const handleSearchNearbyMarkets = () => {
     if (!userLocation) {
-      setError("Please retrieve your current location before searching."); // Set error message
+      setError(`${translations.NEARBY_SEARCH.ERROR_MESSAGE}`); // Set error message
       return; // Exit the function early
     }
 
@@ -143,7 +144,7 @@ const NearbyMarketsModal = ({ open, handleClose, markets }) => {
     <Modal open={open} onClose={handleModalClose}>
       <Box sx={{ ...modalStyle, ...modalSize }}>
         <Typography variant="h6" sx={{ color: "#15a0db", mb: 2 }}>
-          Find Nearby Flea Markets
+        {translations.NEARBY_SEARCH.TITLE}
         </Typography>
 
         {/* Location Button */}
@@ -160,21 +161,21 @@ const NearbyMarketsModal = ({ open, handleClose, markets }) => {
           {loadingLocation ? (
             <CircularProgress size={24} />
           ) : (
-            "Get Current Location"
+            `${translations.NEARBY_SEARCH.LOCATION_BUTTON}`
           )}
         </Button>
 
         {/* Display current location coordinates */}
         {userLocation && (
           <Typography variant="body2" sx={{ color: "#666", mb: 2 }}>
-            Location: Latitude {userLocation.lat.toFixed(4)}, Longitude{" "}
+            {translations.NEARBY_SEARCH.LOCATION} Latitude {userLocation.lat.toFixed(4)}, Longitude{" "}
             {userLocation.long.toFixed(4)}
           </Typography>
         )}
 
         {/* Radius Selection */}
         <Typography variant="body2" sx={{ mb: 1 }}>
-          Select Search Radius:
+        {translations.NEARBY_SEARCH.RADIUS_TITLE}
         </Typography>
         <RadioGroup
           row
@@ -197,7 +198,7 @@ const NearbyMarketsModal = ({ open, handleClose, markets }) => {
           }}
           fullWidth
         >
-          Search
+          {translations.NEARBY_SEARCH.SEARCH_BUTTON}
         </Button>
 
         {/* Error Message Display */}
@@ -219,8 +220,7 @@ const NearbyMarketsModal = ({ open, handleClose, markets }) => {
               fontStyle: "italic",
             }}
           >
-            Oops! No flea markets found in your selected radius. Please try
-            expanding your search or exploring other areas!
+            {translations.NEARBY_SEARCH.NOT_FOUND_ERROR}
           </Typography>
         )}
 
@@ -263,7 +263,7 @@ const NearbyMarketsModal = ({ open, handleClose, markets }) => {
                 position={[userLocation.lat, userLocation.long]}
                 icon={customIcon}
               >
-                <Popup>You are here</Popup>
+                <Popup>{translations.NEARBY_SEARCH.YOU_ARE_HERE}</Popup>
               </Marker>
               <Circle
                 center={[userLocation.lat, userLocation.long]}

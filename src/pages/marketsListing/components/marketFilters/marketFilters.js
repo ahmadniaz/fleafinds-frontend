@@ -16,6 +16,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const MarketFilters = ({
   fleaMarketCategories,
@@ -32,9 +33,9 @@ const MarketFilters = ({
   const [citiesFilter, setCitiesFilter] = useState(
     cityFromUrl ? [cityFromUrl] : []
   );
-
   const [ratingFilter, setRatingFilter] = useState("");
   const navigate = useNavigate();
+  const { translations, changeLanguage } = useLanguage();
 
   useEffect(() => {
     onMarketTypeChange(marketTypeFilter);
@@ -72,7 +73,7 @@ const MarketFilters = ({
         sx={{ padding: "20px", backgroundColor: "#fff", borderRadius: "10px" }}
       >
         <Typography variant="h6" fontWeight="bold" color="#15a0db">
-          Filters
+          {translations.FILTERS.TITLE}
         </Typography>
 
         <Button
@@ -82,13 +83,13 @@ const MarketFilters = ({
           onClick={clearFilters}
           sx={{ my: 2 }}
         >
-          Clear Filters
+          {translations.FILTERS.CLEAR_BUTTON}
         </Button>
 
         {/* Rating Filter */}
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography fontWeight="bold">Rating</Typography>
+            <Typography fontWeight="bold">{translations.FILTERS.RATING}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <RadioGroup
@@ -98,12 +99,12 @@ const MarketFilters = ({
               <FormControlLabel
                 value="4.5"
                 control={<Radio />}
-                label="4.5 and above"
+                label={`${translations.FILTERS.AND_ABOVE1}`}
               />
               <FormControlLabel
                 value="4.0"
                 control={<Radio />}
-                label="4.0 and above"
+                label={`${translations.FILTERS.AND_ABOVE2}`}
               />
             </RadioGroup>
           </AccordionDetails>
@@ -113,7 +114,7 @@ const MarketFilters = ({
         {/* Market Types */}
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography fontWeight="bold">Market Types</Typography>
+            <Typography fontWeight="bold">{translations.FILTERS.MARKET_TYPES}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <FormGroup>
@@ -143,7 +144,7 @@ const MarketFilters = ({
         {/* Categories */}
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography fontWeight="bold">Categories</Typography>
+            <Typography fontWeight="bold">{translations.FILTERS.CATEGORIES}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <FormGroup>
@@ -173,7 +174,7 @@ const MarketFilters = ({
         {/* Cities */}
         <Accordion expanded={cityFromUrl}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography fontWeight="bold">Cities</Typography>
+            <Typography fontWeight="bold">{translations.FILTERS.CITIES}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <FormGroup>

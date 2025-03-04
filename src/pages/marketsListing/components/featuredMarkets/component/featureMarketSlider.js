@@ -11,8 +11,10 @@ import {
 } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos, LocationOn } from "@mui/icons-material";
 import { Rating } from "@mui/material";
+import { useLanguage } from "../../../../../context/LanguageContext";
 
 const FeaturedMarketSlider = ({ items }) => {
+  const { translations, changeLanguage } = useLanguage();
   const scrollContainerRef = useRef(null);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const isMediumScreen = useMediaQuery("(max-width:960px)");
@@ -154,7 +156,7 @@ const FeaturedMarketSlider = ({ items }) => {
                   size="small"
                 />
                 <Typography variant="body2" color="textSecondary" ml={1}>
-                  ({item?.reviewCount} reviews)
+                  ({item?.reviewCount} {translations.FEATURED_MARKETS.REVIEWS})
                 </Typography>
               </Box>
 
@@ -171,7 +173,7 @@ const FeaturedMarketSlider = ({ items }) => {
                 }}
                 onClick={() => window.open(item.websiteUrl, "_blank")}
               >
-                Explore Market
+                {translations.FEATURED_MARKETS.BUTTON}
               </Button>
             </CardContent>
           </Card>

@@ -2,15 +2,17 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import FeaturedMarketSlider from "./component/featureMarketSlider";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const FeaturedMarkets = ({ featuredMarkets }) => {
+  const { translations, changeLanguage } = useLanguage();
   return (
     <Box sx={{ mt: 4 }}>
       <Typography
         variant="h4"
         sx={{ color: "#15a0db", fontWeight: "bold", textAlign: "center" }}
       >
-        Featured Markets in Finland
+        {translations.FEATURED_MARKETS.TITLE}
       </Typography>
       <FeaturedMarketSlider items={featuredMarkets} />
     </Box>

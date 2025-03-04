@@ -23,6 +23,7 @@ import { MarketCard, SkeletonLoader } from "../../components";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { Footer } from "../../layout/components";
+import { useLanguage } from "../../context/LanguageContext";
 
 // Categories and Types for Filters
 const fleaMarketCategories = [
@@ -85,7 +86,7 @@ const MarketListing = () => {
     cityFromUrl ? [cityFromUrl] : []
   );
   const [ratingFilter, setRatingFilter] = useState("");
-
+  const { translations, changeLanguage } = useLanguage();
   // Handle filter updates
   const handleMarketTypeChange = (types) => setMarketTypeFilter(types);
   const handleCategoryChange = (categories) => setCategoryFilter(categories);
@@ -264,7 +265,7 @@ const MarketListing = () => {
             <Grid2 item size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
               <TextField
                 fullWidth
-                label="Search Markets by Name"
+                label={`${translations.MARKET_SORT.SEARCH_FIELD}`}
                 variant="outlined"
                 sx={{
                   backgroundColor: "#fff",
@@ -282,12 +283,12 @@ const MarketListing = () => {
 
             <Grid2 item size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <FormControl fullWidth>
-                <InputLabel>Sort By</InputLabel>
+                <InputLabel>{translations.MARKET_SORT.SORT_BY}</InputLabel>
                 <Select value={sortOption} onChange={handleSortChange}>
-                  <MenuItem value="highest-rated">Highest Rated</MenuItem>
-                  <MenuItem value="lowest-rated">Lowest Rated</MenuItem>
-                  <MenuItem value="most-reviews">Most Reviews</MenuItem>
-                  <MenuItem value="least-reviews">Least Reviews</MenuItem>
+                  <MenuItem value="highest-rated">{translations.MARKET_SORT.SORT1}</MenuItem>
+                  <MenuItem value="lowest-rated">{translations.MARKET_SORT.SORT2}</MenuItem>
+                  <MenuItem value="most-reviews">{translations.MARKET_SORT.SORT3}</MenuItem>
+                  <MenuItem value="least-reviews">{translations.MARKET_SORT.SORT4}</MenuItem>
                 </Select>
               </FormControl>
             </Grid2>
@@ -311,7 +312,7 @@ const MarketListing = () => {
                   "&:hover": { backgroundColor: "#ff0000" },
                 }}
               >
-                Find Nearby Markets
+                {translations.MARKET_SORT.NEARBY_BUTTON}
               </Button>
             </Grid2>
           </Grid2>
@@ -327,8 +328,7 @@ const MarketListing = () => {
             ) : (
               <Grid2 item xs={12} textAlign="center">
                 <Typography variant="h6" color="textSecondary">
-                  No flea markets found. Try adjusting your filters or search
-                  criteria.
+                  {translations.MARKET_SORT.NOT_FOUND}
                 </Typography>
               </Grid2>
             )}
