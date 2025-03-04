@@ -9,56 +9,56 @@ import { useLanguage } from "../../../../context/LanguageContext";
 
 const CitiesList = ({ citiesRef }) => {
   const [citySearch, setCitySearch] = useState("");
-  const { translations, changeLanguage } = useLanguage();
+  const { translations } = useLanguage();
   const cityInfo = [
     {
       name: `${translations.CITIES_LIST.CITY1}`,
-      description: "",
+      description: `${translations.CITIES_LIST.DESC1}`,
       image: Helsinki,
     },
     {
       name: `${translations.CITIES_LIST.CITY2}`,
-      description: "",
+      description: `${translations.CITIES_LIST.DESC2}`,
       image: Turku,
     },
     {
       name: `${translations.CITIES_LIST.CITY3}`,
-      description: "",
+      description: `${translations.CITIES_LIST.DESC3}`,
       image: Vaasa,
     },
     {
       name: `${translations.CITIES_LIST.CITY4}`,
-      description: "",
+      description: `${translations.CITIES_LIST.DESC4}`,
       image: Helsinki,
     },
     {
       name: `${translations.CITIES_LIST.CITY5}`,
-      description: "",
+      description: `${translations.CITIES_LIST.DESC5}`,
       image: Turku,
     },
     {
       name: `${translations.CITIES_LIST.CITY6}`,
-      description: "",
+      description: `${translations.CITIES_LIST.DESC6}`,
       image: Vaasa,
     },
     {
       name: `${translations.CITIES_LIST.CITY7}`,
-      description: "",
+      description: `${translations.CITIES_LIST.DESC7}`,
       image: Helsinki,
     },
     {
       name: `${translations.CITIES_LIST.CITY8}`,
-      description: "",
+      description: `${translations.CITIES_LIST.DESC8}`,
       image: Turku,
     },
     {
       name: `${translations.CITIES_LIST.CITY9}`,
-      description: "",
+      description: `${translations.CITIES_LIST.DESC9}`,
       image: Vaasa,
     },
     {
       name: `${translations.CITIES_LIST.CITY10}`,
-      description: "",
+      description: `${translations.CITIES_LIST.DESC10}`,
       image: Helsinki,
     },
   ];
@@ -85,7 +85,7 @@ const CitiesList = ({ citiesRef }) => {
         {translations.CITIES_LIST.TITLE}
       </Typography>
       <Typography variant="h6" color="textSecondary" sx={{ mb: 4 }}>
-      {translations.CITIES_LIST.SUBTITLE}
+        {translations.CITIES_LIST.SUBTITLE}
       </Typography>
 
       <Box sx={{ mb: 5 }}>

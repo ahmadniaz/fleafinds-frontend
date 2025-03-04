@@ -39,9 +39,15 @@ const HomeNavbar = () => {
   };
 
   const menuLinks = [
-    `${translations.NAVBAR.MARKETS}`,
-    `${translations.NAVBAR.ABOUT}`,
-    `${translations.NAVBAR.CONTACT}`,
+    { name: `${translations.NAVBAR.MARKETS}`, link: "markets" },
+    {
+      name: `${translations.NAVBAR.ABOUT}`,
+      link: "about",
+    },
+    {
+      name: `${translations.NAVBAR.CONTACT}`,
+      link: "contact",
+    },
   ];
 
   useEffect(() => {
@@ -144,13 +150,13 @@ const HomeNavbar = () => {
                   {menuLinks.map((text) => (
                     <ListItem
                       button
-                      key={text}
+                      key={text.name}
                       onClick={handleDrawerToggle}
                       component={Link}
-                      to={`/${text.toLowerCase()}`}
+                      to={`/${text.link.toLowerCase()}`}
                     >
                       <ListItemText
-                        primary={text}
+                        primary={text.name}
                         sx={{ color: "#15a0db", fontWeight: 600 }}
                       />
                     </ListItem>
@@ -296,8 +302,8 @@ const HomeNavbar = () => {
               </Link>
               {menuLinks.map((text) => (
                 <Link
-                  key={text}
-                  to={`/${text.toLowerCase()}`}
+                  key={text.name}
+                  to={`/${text.link.toLowerCase()}`}
                   style={{
                     color: "#15a0db",
                     marginRight: "16px",
@@ -308,7 +314,7 @@ const HomeNavbar = () => {
                   onMouseEnter={(e) => (e.target.style.color = "#ff0000")}
                   onMouseLeave={(e) => (e.target.style.color = "#15a0db")}
                 >
-                  {text}
+                  {text.name}
                 </Link>
               ))}
 
@@ -341,6 +347,15 @@ const HomeNavbar = () => {
                   }}
                 >
                   🇫🇮 Finnish
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    changeLanguage("SWE");
+                    setAnchorEl(null);
+                  }}
+                >
+                  🇫🇮 Swedish
                 </MenuItem>
               </Menu>
               {isAuthenticated ? (
