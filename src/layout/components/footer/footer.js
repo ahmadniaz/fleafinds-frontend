@@ -15,8 +15,10 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const Footer = () => {
+  const { translations, changeLanguage } = useLanguage();
   return (
     <Box
       sx={{
@@ -43,9 +45,7 @@ const Footer = () => {
               />
             </Link>
             <Typography variant="body2" sx={{ mt: 1, opacity: 0.8 }}>
-              Flea markets are key players in sustainable shopping and reducing
-              waste. When you shop at flea markets, you're not only finding
-              unique items but also supporting a more sustainable future.
+              {translations.FOOTER.TEXT}
             </Typography>
             <Box display="flex" gap={2} mt={2}>
               <MaterialLink href="#" color="inherit" underline="none">
@@ -66,14 +66,14 @@ const Footer = () => {
           {/* Quick Links */}
           <Grid2 item size={{ xs: 12, md: 3 }}>
             <Typography variant="h6" fontWeight="bold">
-              Quick Links
+            {translations.FOOTER.LINKS_TITLE}
             </Typography>
             <Box mt={3}>
               {[
-                { label: "About Us", path: "/about" },
-                { label: "FAQs", path: "/faqs" },
-                { label: "Terms & Conditions", path: "/terms" },
-                { label: "Contact Us", path: "/contact" },
+                { label: `${translations.FOOTER.LINK1}`, path: "/about" },
+                { label: `${translations.FOOTER.LINK2}`, path: "/faqs" },
+                { label: `${translations.FOOTER.LINK3}`, path: "/terms" },
+                { label: `${translations.FOOTER.LINK4}`, path: "/contact" },
               ].map((item) => (
                 <Typography key={item.label} variant="body2" sx={{ mt: 1 }}>
                   <MaterialLink
@@ -92,20 +92,20 @@ const Footer = () => {
           {/* Newsletter Subscription */}
           <Grid2 item size={{ xs: 12, md: 3 }}>
             <Typography variant="h6" fontWeight="bold">
-              Subscribe to Our Newsletter
+            {translations.FOOTER.SUBSC_TITLE}
             </Typography>
             <Typography variant="body2" sx={{ mt: 1, opacity: 0.8 }}>
-              Stay updated with the latest flea markets and exclusive deals.
+            {translations.FOOTER.SUBSC_TEXT}
             </Typography>
             <Box mt={2} display="flex" gap={1}>
               <TextField
                 variant="outlined"
                 size="small"
-                placeholder="Enter your email"
+                placeholder={`${translations.FOOTER.TEXTFIELD}`}
                 sx={{ bgcolor: "#fff", borderRadius: 1, flex: 1 }}
               />
               <Button variant="contained" color="primary">
-                Subscribe
+              {translations.FOOTER.BUTTON}
               </Button>
             </Box>
           </Grid2>

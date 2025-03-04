@@ -1,10 +1,11 @@
 import React from "react";
 import { Box, Typography, Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const RegistrationBanner = () => {
   const navigate = useNavigate();
-
+  const { translations, changeLanguage } = useLanguage();
   const handleRegisterClick = () => {
     navigate("/auth");
   };
@@ -33,7 +34,7 @@ const RegistrationBanner = () => {
         }}
       >
         <Typography variant="h6" sx={{ fontWeight: "bold", color: "#333" }}>
-          Want to list your flea market on FleaFind?
+          {translations.REGISTRATION_BANNER.QUESTION}
         </Typography>
         <Button
           variant="contained"
@@ -45,7 +46,7 @@ const RegistrationBanner = () => {
           }}
           onClick={handleRegisterClick}
         >
-          Register Now
+          {translations.REGISTRATION_BANNER.BUTTON}
         </Button>
       </Container>
     </Box>

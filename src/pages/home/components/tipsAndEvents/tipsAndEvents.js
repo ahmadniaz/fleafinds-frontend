@@ -14,11 +14,13 @@ import EventIcon from "@mui/icons-material/Event";
 import PlaceIcon from "@mui/icons-material/Place";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const LocalTipsAndEvents = ({ events }) => {
   const [sortedEvents, setSortedEvents] = useState([]);
   const [page, setPage] = useState(1);
   const eventsPerPage = 5;
+  const { translations, changeLanguage } = useLanguage();
 
   useEffect(() => {
     const now = new Date();
@@ -59,7 +61,7 @@ const LocalTipsAndEvents = ({ events }) => {
           mb: 3,
         }}
       >
-        Upcoming Events
+        {translations.EVENTS.TITLE}
       </Typography>
       <Grid2 container spacing={4}>
         {paginatedEvents.map((event, index) => (

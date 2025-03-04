@@ -108,7 +108,7 @@ const HomeNavbar = () => {
                 textAlign: "center",
               }}
             >
-              Flea Markets Finder
+              {translations.GENERAL_TEXT.FLEA_MARKETS_FINDER}
             </Typography>
           </Link>
 
@@ -137,7 +137,7 @@ const HomeNavbar = () => {
                     to={"/"}
                   >
                     <ListItemText
-                      primary="Home"
+                      primary={`${translations.NAVBAR.HOME}`}
                       sx={{ color: "#15a0db", fontWeight: 600 }}
                     />
                   </ListItem>
@@ -206,7 +206,7 @@ const HomeNavbar = () => {
                           component={Link}
                           to="/dashboard"
                         >
-                          Owner Dashboard
+                          {translations.NAVBAR.OWNER_DASHBOARD}
                         </Button>
                         <Button
                           variant="contained"
@@ -226,7 +226,7 @@ const HomeNavbar = () => {
                           component={Link}
                           to="/auth"
                         >
-                          Logout
+                          {translations.NAVBAR.LOGOUT}
                         </Button>
                       </Box>
                     ) : (
@@ -248,7 +248,7 @@ const HomeNavbar = () => {
                           component={Link}
                           to="/auth"
                         >
-                          Login
+                          {translations.NAVBAR.LOGIN}
                         </Button>
 
                         <Button
@@ -269,7 +269,7 @@ const HomeNavbar = () => {
                           component={Link}
                           to="/auth"
                         >
-                          Register
+                          {translations.NAVBAR.REGISTER}
                         </Button>
                       </Box>
                     )}
@@ -292,7 +292,7 @@ const HomeNavbar = () => {
                 onMouseEnter={(e) => (e.target.style.color = "#ff0000")}
                 onMouseLeave={(e) => (e.target.style.color = "#15a0db")}
               >
-                Home
+                {translations.NAVBAR.HOME}
               </Link>
               {menuLinks.map((text) => (
                 <Link
@@ -363,7 +363,7 @@ const HomeNavbar = () => {
                     component={Link}
                     to="/dashboard"
                   >
-                    Owner Dashboard
+                    {translations.NAVBAR.OWNER_DASHBOARD}
                   </Button>
                   <Button
                     variant="contained"
@@ -384,7 +384,7 @@ const HomeNavbar = () => {
                     component={Link}
                     onClick={handleLogout}
                   >
-                    Logout
+                    {translations.NAVBAR.LOGOUT}
                   </Button>
                 </Box>
               ) : (
@@ -407,7 +407,7 @@ const HomeNavbar = () => {
                     component={Link}
                     to="/auth"
                   >
-                    Login
+                    {translations.NAVBAR.LOGIN}
                   </Button>
 
                   <Button
@@ -429,7 +429,7 @@ const HomeNavbar = () => {
                     component={Link}
                     to="/auth"
                   >
-                    Register
+                    {translations.NAVBAR.REGISTER}
                   </Button>
                 </Box>
               )}
