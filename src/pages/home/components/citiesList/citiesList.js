@@ -5,58 +5,60 @@ import SearchBar from "./components/citySearch";
 import Turku from "../../../../assets/images/turku.jpeg";
 import Helsinki from "../../../../assets/images/helsinki.jpeg";
 import Vaasa from "../../../../assets/images/vaasa.jpeg";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const CitiesList = ({ citiesRef }) => {
   const [citySearch, setCitySearch] = useState("");
+  const { translations, changeLanguage } = useLanguage();
   const cityInfo = [
     {
-      name: "Helsinki",
-      description: "Discover popular flea markets in the capital, Helsinki.",
+      name: `${translations.CITIES_LIST.CITY1}`,
+      description: "",
       image: Helsinki,
     },
     {
-      name: "Espoo",
-      description: "Explore hidden treasures in flea markets across Espoo.",
+      name: `${translations.CITIES_LIST.CITY2}`,
+      description: "",
       image: Turku,
     },
     {
-      name: "Tampere",
-      description: "Find the best flea markets in the industrial hub, Tampere.",
+      name: `${translations.CITIES_LIST.CITY3}`,
+      description: "",
       image: Vaasa,
     },
     {
-      name: "Vantaa",
-      description: "Vantaa's flea markets offer unique finds from the locals.",
+      name: `${translations.CITIES_LIST.CITY4}`,
+      description: "",
       image: Helsinki,
     },
     {
-      name: "Oulu",
-      description: "Discover second-hand gems at flea markets in Oulu.",
+      name: `${translations.CITIES_LIST.CITY5}`,
+      description: "",
       image: Turku,
     },
     {
-      name: "Turku",
-      description: "Find the best flea markets in Turku.",
+      name: `${translations.CITIES_LIST.CITY6}`,
+      description: "",
       image: Vaasa,
     },
     {
-      name: "Jyväskylä",
-      description: "Explore the vibrant flea markets in Jyväskylä.",
+      name: `${translations.CITIES_LIST.CITY7}`,
+      description: "",
       image: Helsinki,
     },
     {
-      name: "Lahti",
-      description: "Lahti's flea markets offer a variety of local treasures.",
+      name: `${translations.CITIES_LIST.CITY8}`,
+      description: "",
       image: Turku,
     },
     {
-      name: "Kuopio",
-      description: "Unearth hidden gems in Kuopio's lively flea markets.",
+      name: `${translations.CITIES_LIST.CITY9}`,
+      description: "",
       image: Vaasa,
     },
     {
-      name: "Pori",
-      description: "Explore the coastal city's best flea markets in Pori.",
+      name: `${translations.CITIES_LIST.CITY10}`,
+      description: "",
       image: Helsinki,
     },
   ];
@@ -80,10 +82,10 @@ const CitiesList = ({ citiesRef }) => {
       }}
     >
       <Typography variant="h3" fontWeight="bold" color="#d32f2f" sx={{ mb: 3 }}>
-        Find Flea Markets in Your City
+        {translations.CITIES_LIST.TITLE}
       </Typography>
       <Typography variant="h6" color="textSecondary" sx={{ mb: 4 }}>
-        Select your city below to discover nearby flea markets
+      {translations.CITIES_LIST.SUBTITLE}
       </Typography>
 
       <Box sx={{ mb: 5 }}>
@@ -103,7 +105,7 @@ const CitiesList = ({ citiesRef }) => {
           ))
         ) : (
           <Typography variant="h6" color="textSecondary">
-            No flea markets found in the searched city.
+            {translations.CITIES_LIST.NOTFOUND}
           </Typography>
         )}
       </Grid2>

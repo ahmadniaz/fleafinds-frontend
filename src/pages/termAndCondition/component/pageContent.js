@@ -14,16 +14,17 @@ import GavelIcon from "@mui/icons-material/Gavel";
 import PersonIcon from "@mui/icons-material/Person";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import SecurityIcon from "@mui/icons-material/Security";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const PageContent = () => {
+  const { translations, changeLanguage } = useLanguage();
   return (
     <Container maxWidth="lg" sx={{ py: 5 }}>
       <Typography variant="h3" textAlign="center" gutterBottom>
-        Terms and Conditions
+        {translations.TC_CONTAINER.TITLE}
       </Typography>
       <Typography variant="h6" color="textSecondary" textAlign="center" mb={4}>
-        Please read these terms carefully before using our flea market listing
-        platform.
+      {translations.TC_CONTAINER.SUBTITLE}
       </Typography>
 
       {/* General Terms */}
@@ -31,27 +32,25 @@ const PageContent = () => {
         <Avatar sx={{ bgcolor: "primary.main", mr: 2 }}>
           <GavelIcon />
         </Avatar>
-        <Typography variant="h5">General Terms</Typography>
+        <Typography variant="h5">{translations.TC_CONTAINER.GENERAL_TITLE}</Typography>
       </Box>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Acceptance of Terms</Typography>
+          <Typography variant="h6">{translations.TC_CONTAINER.ACC_TERMS_TITLE}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            By using our platform, you agree to comply with and be bound by
-            these terms.
+          {translations.TC_CONTAINER.ACC_TERMS_TEXT}
           </Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Modification of Terms</Typography>
+          <Typography variant="h6">{translations.TC_CONTAINER.MOD_TERMS_TITLE}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            We reserve the right to update these terms at any time. Continued
-            use of the site constitutes agreement to the changes.
+          {translations.TC_CONTAINER.MOD_TERMS_TEXT}
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -63,27 +62,25 @@ const PageContent = () => {
         <Avatar sx={{ bgcolor: "secondary.main", mr: 2 }}>
           <PersonIcon />
         </Avatar>
-        <Typography variant="h5">For Users</Typography>
+        <Typography variant="h5">{translations.TC_CONTAINER.USERS_TITLE}</Typography>
       </Box>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">User Conduct</Typography>
+          <Typography variant="h6">{translations.TC_CONTAINER.CONDUCT_TITLE}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Users must engage respectfully and lawfully when interacting with
-            the platform and market owners.
+          {translations.TC_CONTAINER.CONDUCT_TEXT}
           </Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Account Security</Typography>
+          <Typography variant="h6">{translations.TC_CONTAINER.SECURITY_TITLE}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Users are responsible for maintaining the confidentiality of their
-            account information.
+          {translations.TC_CONTAINER.SECURITY_TEXT}
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -95,26 +92,25 @@ const PageContent = () => {
         <Avatar sx={{ bgcolor: "error.main", mr: 2 }}>
           <StorefrontIcon />
         </Avatar>
-        <Typography variant="h5">For Market Owners</Typography>
+        <Typography variant="h5">{translations.TC_CONTAINER.OWNERS_TITLE}</Typography>
       </Box>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Accurate Listings</Typography>
+          <Typography variant="h6">{translations.TC_CONTAINER.ACC_LISTING_TITLE}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Market owners must provide accurate and up-to-date information about
-            their flea markets.
+          {translations.TC_CONTAINER.ACC_LISTING_TEXT}
           </Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Compliance with Laws</Typography>
+          <Typography variant="h6">{translations.TC_CONTAINER.COMPLIANCE_TITLE}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Market owners must adhere to local regulations and business laws.
+          {translations.TC_CONTAINER.COMPLIANCE_TEXT}
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -126,27 +122,25 @@ const PageContent = () => {
         <Avatar sx={{ bgcolor: "success.main", mr: 2 }}>
           <SecurityIcon />
         </Avatar>
-        <Typography variant="h5">Privacy & Security</Typography>
+        <Typography variant="h5">{translations.TC_CONTAINER.PRIVACY_TITLE}</Typography>
       </Box>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Data Protection</Typography>
+          <Typography variant="h6">{translations.TC_CONTAINER.DATA_TITLE}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            We prioritize your privacy. Personal data is encrypted and stored
-            securely.
+          {translations.TC_CONTAINER.DATA_TEXT}
           </Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Third-Party Services</Typography>
+          <Typography variant="h6">{translations.TC_CONTAINER.THIRD_PARTY_TITLE}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Our platform may integrate third-party services. We are not
-            responsible for their terms and policies.
+          {translations.TC_CONTAINER.THIRD_PARTY_TEXT}
           </Typography>
         </AccordionDetails>
       </Accordion>

@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 import bgFleaMarket from "../../../../assets/images/fleaMarketbg.jpg";
 import heroImage2 from "../../../../assets/images/heroSection2.jpg";
 import heroImage3 from "../../../../assets/images/heroSection3.jpg";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const images = [bgFleaMarket, heroImage2, heroImage3];
 
 const HeroSection = ({ citiesRef }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  const { translations, changeLanguage } = useLanguage();
   // Auto-transition effect
   useEffect(() => {
     const interval = setInterval(() => {
@@ -74,10 +75,10 @@ const HeroSection = ({ citiesRef }) => {
         }}
       >
         <Typography variant="h2" sx={{ fontWeight: 700 }}>
-          Discover Flea Markets in Your City
+          {translations.HEROSECTION.TITLE}
         </Typography>
         <Typography variant="body1" sx={{ mt: 2, mb: 4, fontSize: "1.2rem" }}>
-          Choose your city below to explore unique markets and treasures nearby.
+        {translations.HEROSECTION.SUBTITLE}
         </Typography>
 
         <Link to="#cities-section" style={{ textDecoration: "none" }}>
@@ -98,7 +99,7 @@ const HeroSection = ({ citiesRef }) => {
             }}
             onClick={scrollToCities}
           >
-            Explore Markets
+            {translations.HEROSECTION.BUTTON}
           </Button>
         </Link>
 
@@ -107,7 +108,7 @@ const HeroSection = ({ citiesRef }) => {
           variant="body2"
           sx={{ mt: 4, color: "#fff", fontStyle: "italic" }}
         >
-          Scroll down to select your city
+          {translations.HEROSECTION.SCROLL}
         </Typography>
       </Container>
     </Box>
