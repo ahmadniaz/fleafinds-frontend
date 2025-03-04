@@ -14,15 +14,17 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import PersonIcon from "@mui/icons-material/Person";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const FaqComponent = () => {
+  const { translations, changeLanguage } = useLanguage();
   return (
     <Container maxWidth="lg" sx={{ py: 5 }}>
       <Typography variant="h3" textAlign="center" gutterBottom>
-        Frequently Asked Questions
+        {translations.FAQ_CONTAINER.TITLE}
       </Typography>
       <Typography variant="h6" color="textSecondary" textAlign="center" mb={4}>
-        Find answers to common questions about our flea market listing website.
+      {translations.FAQ_CONTAINER.SUBTITLE}
       </Typography>
 
       <Grid2 container spacing={4}>
@@ -32,43 +34,39 @@ const FaqComponent = () => {
             <Avatar sx={{ bgcolor: "primary.main", mr: 2 }}>
               <PersonIcon />
             </Avatar>
-            <Typography variant="h5">For Users</Typography>
+            <Typography variant="h5">{translations.FAQ_CONTAINER.USERS_TITLE}</Typography>
           </Box>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="h6">
-                How can I find a flea market near me?
+              {translations.FAQ_CONTAINER.USER_Q1}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                You can use our map feature to locate flea markets near you.
-                Simply enable location access, and we will show you markets
-                within your selected radius.
+              {translations.FAQ_CONTAINER.USER_ANS1}
               </Typography>
             </AccordionDetails>
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="h6">Is the website free to use?</Typography>
+              <Typography variant="h6">{translations.FAQ_CONTAINER.USER_Q2}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                Yes, browsing flea markets and using the search features is
-                completely free. Some premium features may require a small fee.
+              {translations.FAQ_CONTAINER.USER_ANS2}
               </Typography>
             </AccordionDetails>
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="h6">
-                How do I contact a flea market owner?
+              {translations.FAQ_CONTAINER.USER_Q3}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                Each listing includes the owner's contact details. You can
-                message them directly from the market page.
+              {translations.FAQ_CONTAINER.USER_ANS3}
               </Typography>
             </AccordionDetails>
           </Accordion>
@@ -80,43 +78,39 @@ const FaqComponent = () => {
             <Avatar sx={{ bgcolor: "secondary.main", mr: 2 }}>
               <StorefrontIcon />
             </Avatar>
-            <Typography variant="h5">For Market Owners</Typography>
+            <Typography variant="h5">{translations.FAQ_CONTAINER.OWNERS_TITLE}</Typography>
           </Box>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="h6">
-                How do I register my flea market?
+              {translations.FAQ_CONTAINER.OWNER_Q1}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                You can sign up for an account and register your flea market
-                through the owner dashboard, which works on both mobile and
-                desktop.
+              {translations.FAQ_CONTAINER.OWNER_ANS1}
               </Typography>
             </AccordionDetails>
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="h6">
-                Can I update my market details later?
+              {translations.FAQ_CONTAINER.OWNER_Q2}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                Yes, you can edit your market's details anytime from your
-                personalized dashboard.
+              {translations.FAQ_CONTAINER.OWNER_ANS2}
               </Typography>
             </AccordionDetails>
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="h6">Are there any listing fees?</Typography>
+              <Typography variant="h6">{translations.FAQ_CONTAINER.OWNER_Q3}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                Basic listings are free. However, premium features like better
-                visibility and advertisements have a small cost.
+              {translations.FAQ_CONTAINER.OWNER_ANS3}
               </Typography>
             </AccordionDetails>
           </Accordion>
@@ -130,40 +124,37 @@ const FaqComponent = () => {
         <Avatar sx={{ bgcolor: "success.main", mr: 2 }}>
           <HelpOutlineIcon />
         </Avatar>
-        <Typography variant="h5">General Questions</Typography>
+        <Typography variant="h5">{translations.FAQ_CONTAINER.GENERAL_TITLE}</Typography>
       </Box>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="h6">
-            Is the website available in multiple languages?
+          {translations.FAQ_CONTAINER.GEN_Q1}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Yes! Our platform supports multiple languages to ensure
-            accessibility for all users.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Is my personal data secure?</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            We take security seriously. Your personal data is encrypted and
-            stored securely.
+          {translations.FAQ_CONTAINER.GEN_ANS1}
           </Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6">Who can I contact for support?</Typography>
+          <Typography variant="h6">{translations.FAQ_CONTAINER.GEN_Q2}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            You can reach out to our support team via the contact page. We’re
-            happy to assist you!
+          {translations.FAQ_CONTAINER.GEN_ANS2}
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="h6">{translations.FAQ_CONTAINER.GEN_Q3}</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+          {translations.FAQ_CONTAINER.GEN_ANS3}
           </Typography>
         </AccordionDetails>
       </Accordion>
