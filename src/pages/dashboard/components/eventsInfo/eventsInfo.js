@@ -18,16 +18,8 @@ import * as Yup from "yup";
 import axios from "axios";
 import { LoadingFallback } from "../../../../components";
 import { useSnackbar } from "../../../../components/snackbar/customSnackBar";
+import { useLanguage } from "../../../../context/LanguageContext";
 
-// Validation schema for the event creation form
-const eventValidationSchema = Yup.object({
-  eventName: Yup.string().required("Event name is required"),
-  eventDescription: Yup.string().required("Event description is required"),
-  eventDate: Yup.date().required("Event date is required"),
-  eventTime: Yup.string().required("Event time is required"),
-  eventLocation: Yup.string().required("Event location is required"),
-  eventCategory: Yup.string().required("Event category is required"),
-});
 
 const EventForm = ({
   setActiveForm,
@@ -43,6 +35,18 @@ const EventForm = ({
     updateEventData?.markets || [] // Initialize selectedMarkets from updateEventData if available
   );
   const token = localStorage.getItem("token");
+  const { translations } = useLanguage(); 
+
+  // Validation schema for the event creation form
+const eventValidationSchema = Yup.object({
+  eventName: Yup.string().required(`${translations.FIELD_ERRORS.EVENT_NAME}`),
+  eventDescription: Yup.string().required(`${translations.FIELD_ERRORS.EVENT_DESCRIPTION}`),
+  eventDate: Yup.date().required(`${translations.FIELD_ERRORS.EVENT_DATE}`),
+  eventTime: Yup.string().required(`${translations.FIELD_ERRORS.EVENT_TIME}`),
+  eventLocation: Yup.string().required(`${translations.FIELD_ERRORS.EVENT_LOCATION}`),
+  eventCategory: Yup.string().required(`${translations.FIELD_ERRORS.EVENT_CATEGORY}`),
+});
+
 
   useEffect(() => {
     if (updateEventData) {
@@ -123,8 +127,8 @@ const EventForm = ({
       setLoading(false);
       showSnackbar(
         updateEventData
-          ? "Event Updated Successfully"
-          : "Event Created Successfully",
+          ? `${translations.SNACKBARS.EVENT_UPDATED}`
+          : `${translations.SNACKBARS.EVENT_CREATED}`,
         "success"
       );
       resetForm();
@@ -173,7 +177,7 @@ const EventForm = ({
           color: "#333",
         }}
       >
-        {updateEventData ? "Update Event" : "Create a New Event"}
+        {updateEventData ? `${translations.EVENT_REGISTRATION.UPDATE_EVENT}` : `${translations.EVENT_REGISTRATION.CREATE_EVENT}`}
       </Typography>
       {loading ? (
         <LoadingFallback />
@@ -199,13 +203,13 @@ const EventForm = ({
                 {/* Event Name */}
                 <Grid2 item size={{ xs: 12, sm: 6 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Event Name
+                  {translations.EVENT_REGISTRATION.EVENT_NAME}
                   </Typography>
                   <Field
                     as={TextField}
                     fullWidth
                     name="eventName"
-                    label="Event Name"
+                    label={ `${translations.EVENT_REGISTRATION.EVENT_NAME}` }
                     error={touched.eventName && Boolean(errors.eventName)}
                     helperText={touched.eventName && errors.eventName}
                   />
@@ -214,13 +218,13 @@ const EventForm = ({
                 {/* Event Market */}
                 <Grid2 item size={{ xs: 12, sm: 6 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Select Market for the Event
+                  {translations.EVENT_REGISTRATION.SELECT_MARKET}
                   </Typography>
                   <Select
                     fullWidth
                     multiple
                     name="markets"
-                    label="Select Market for the Event"
+                    label={ `${translations.EVENT_REGISTRATION.SELECT_MARKET}` }
                     value={selectedMarkets}
                     onChange={(event) => handleMarketChange(event)}
                     renderValue={(selected) =>
@@ -240,7 +244,7 @@ const EventForm = ({
                           selectedMarkets.length === ownerAllMarkets?.length
                         }
                       />
-                      <ListItemText primary="All Markets" />
+                      <ListItemText primary= {`${translations.EVENT_REGISTRATION.ALL_MARKETS}`} />
                     </MenuItem>
                     {ownerAllMarkets?.map((market) => (
                       <MenuItem key={market._id} value={market._id}>
@@ -256,7 +260,7 @@ const EventForm = ({
                 {/* Event Image Upload */}
                 <Grid2 item size={{ xs: 12, sm: 6 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Event Image
+                  {translations.EVENT_REGISTRATION.EVENT_IMAGE}
                   </Typography>
                   <Box
                     sx={{
@@ -280,7 +284,7 @@ const EventForm = ({
                       />
                     ) : (
                       <Typography variant="body2" color="textSecondary">
-                        Upload Event Image
+                        {translations.EVENT_REGISTRATION.UPLOAD_IMAGE}
                       </Typography>
                     )}
 
@@ -329,13 +333,13 @@ const EventForm = ({
                 {/* Event Description */}
                 <Grid2 item size={{ xs: 12 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Event Description
+                    {translations.EVENT_REGISTRATION.EVENT_DESCRIPTION}
                   </Typography>
                   <Field
                     as={TextField}
                     fullWidth
                     name="eventDescription"
-                    label="Event Description"
+                    label={`${translations.EVENT_REGISTRATION.EVENT_DESCRIPTION}`}
                     multiline
                     rows={4}
                     error={
@@ -351,13 +355,13 @@ const EventForm = ({
                 {/* Event Date */}
                 <Grid2 item size={{ xs: 12, sm: 6 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Event Date
+                  {translations.EVENT_REGISTRATION.EVENT_DATE}
                   </Typography>
                   <Field
                     as={TextField}
                     fullWidth
                     name="eventDate"
-                    label="Event Date"
+                    label={`${translations.EVENT_REGISTRATION.EVENT_DATE}`}
                     type="date"
                     InputLabelProps={{
                       shrink: true,
@@ -370,13 +374,13 @@ const EventForm = ({
                 {/* Event Time */}
                 <Grid2 item size={{ xs: 12, sm: 6 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Event Time
+                  {translations.EVENT_REGISTRATION.EVENT_TIME}
                   </Typography>
                   <Field
                     as={TextField}
                     fullWidth
                     name="eventTime"
-                    label="Event Time"
+                    label={`${translations.EVENT_REGISTRATION.EVENT_TIME}`}
                     type="time"
                     InputLabelProps={{
                       shrink: true,
@@ -389,13 +393,13 @@ const EventForm = ({
                 {/* Event Location */}
                 <Grid2 item size={{ xs: 12 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Event Location
+                  {translations.EVENT_REGISTRATION.EVENT_LOCATION}
                   </Typography>
                   <Field
                     as={TextField}
                     fullWidth
                     name="eventLocation"
-                    label="Event Location"
+                    label={`${translations.EVENT_REGISTRATION.EVENT_LOCATION}`}
                     error={
                       touched.eventLocation && Boolean(errors.eventLocation)
                     }
@@ -406,13 +410,13 @@ const EventForm = ({
                 {/* Event Category */}
                 <Grid2 item size={{ xs: 12 }}>
                   <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                    Event Category
+                  {translations.EVENT_REGISTRATION.EVENT_CATEGORY}
                   </Typography>
                   <Field
                     as={Select}
                     fullWidth
                     name="eventCategory"
-                    label="Event Category"
+                    label={`${translations.EVENT_REGISTRATION.EVENT_CATEGORY}`}
                     displayEmpty
                     error={
                       touched.eventCategory && Boolean(errors.eventCategory)
@@ -441,7 +445,7 @@ const EventForm = ({
                     sx={{ padding: "10px 20px", fontWeight: "bold" }}
                     disabled={loading}
                   >
-                    {updateEventData ? "Update" : "Create Event"}
+                    {updateEventData ? `${translations.EVENT_REGISTRATION.SUBMIT_UPDATE}` : `${translations.EVENT_REGISTRATION.SUBMIT_CREATE}`}
                   </Button>
                 </Grid2>
               </Grid2>
