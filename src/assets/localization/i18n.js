@@ -188,7 +188,8 @@ export const LangConst = {
       TYPE4: "Donation",
       TYPE5: "Pop-up",
       CATEGORIES: "Categories",
-      CITIES: "Cities"
+      CITIES: "Cities",
+      MORE_FILTERS: "More Filters"
     },
     REVIEWS: {
       TITLE: "User Reviews"
@@ -568,7 +569,8 @@ export const LangConst = {
       TYPE4: "Hyväntekeväisyys",
       TYPE5: "Pop-up",
       CATEGORIES: "Kategoriat",
-      CITIES: "Kaupungit"
+      CITIES: "Kaupungit",
+      MORE_FILTERS: "Lisää suodattimia"
     },
     REVIEWS: {
       TITLE: "Arvostelut"
@@ -948,7 +950,8 @@ export const LangConst = {
       TYPE4: "Donation",
       TYPE5: "Pop-up",
       CATEGORIES: "Kategorier",
-      CITIES: "Städer"
+      CITIES: "Städer",
+      MORE_FILTERS: "Flera filter"
     },
     REVIEWS: {
       TITLE: "Användarrecensioner"
