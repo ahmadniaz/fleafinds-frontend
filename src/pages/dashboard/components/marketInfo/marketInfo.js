@@ -224,90 +224,103 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
   };
 
   const handleFormSubmit = async (values, { resetForm }) => {
-    setLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append("name", values.marketName);
-      formData.append("marketType", values.marketType);
-      formData.append("description", values.description);
-      formData.append("city", values.city);
-      formData.append("location", values.location);
-      formData.append("latitude", latitude); // Add latitude to form data
-      formData.append("longitude", longitude); // Add longitude to form data
-      formData.append("categories", JSON.stringify(values.categories));
-      formData.append("openingHours", values.openingHours);
-      formData.append("priceList", values.priceList);
-      formData.append("socialMedia", JSON.stringify(values.socialMedia));
-      formData.append("marketNumber", values.marketNumber);
-      formData.append("marketEmail", values.marketEmail);
-      formData.append("marketWebsite", values.marketWebsite);
+    if (!logoPreview) {
+      showSnackbar(
+        `Logo is required. If you dont have logo just upload display picture of market`,
+        "error"
+      );
+    }
+    if (imagePreviews.every((image) => image === null)) {
+      showSnackbar(`At least upload one image for the market.`, "error");
+    }
+    if (logoPreview && imagePreviews?.length > 0) {
+      setLoading(true);
+      try {
+        const formData = new FormData();
+        formData.append("name", values.marketName);
+        formData.append("marketType", values.marketType);
+        formData.append("description", values.description);
+        formData.append("city", values.city);
+        formData.append("location", values.location);
+        formData.append("latitude", latitude); // Add latitude to form data
+        formData.append("longitude", longitude); // Add longitude to form data
+        formData.append("categories", JSON.stringify(values.categories));
+        formData.append("openingHours", values.openingHours);
+        formData.append("priceList", values.priceList);
+        formData.append("socialMedia", JSON.stringify(values.socialMedia));
+        formData.append("marketNumber", values.marketNumber);
+        formData.append("marketEmail", values.marketEmail);
+        formData.append("marketWebsite", values.marketWebsite);
 
-      if (logoPreview) {
-        formData.append(
-          "logo",
-          JSON.stringify({
-            url: logoPreview?.url, // If it's a string URL, use it directly
-            publicId: logoPreview?.publicId, // Ensure the publicId is included
-          })
-        );
-      }
-
-      // Handle images
-      imagePreviews.forEach((image, index) => {
-        if (image) {
+        if (logoPreview) {
           formData.append(
-            "images",
+            "logo",
             JSON.stringify({
-              url: image.url,
-              publicId: image.publicId,
+              url: logoPreview?.url, // If it's a string URL, use it directly
+              publicId: logoPreview?.publicId, // Ensure the publicId is included
             })
           );
         }
-      });
 
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data", // Ensure multipart/form-data
-      };
+        // Handle images
+        if (imagePreviews?.length > 0) {
+          imagePreviews.forEach((image, index) => {
+            if (image) {
+              formData.append(
+                "images",
+                JSON.stringify({
+                  url: image.url,
+                  publicId: image.publicId,
+                })
+              );
+            }
+          });
+        }
 
-      const url = marketData
-        ? `${process.env.REACT_APP_API_URL}api/market/update/${marketData?._id}`
-        : `${process.env.REACT_APP_API_URL}api/market`;
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data", // Ensure multipart/form-data
+        };
 
-      await axios({
-        method: marketData ? "put" : "post",
-        url,
-        data: formData,
-        headers,
-      });
+        const url = marketData
+          ? `${process.env.REACT_APP_API_URL}api/market/update/${marketData?._id}`
+          : `${process.env.REACT_APP_API_URL}api/market`;
 
-      setLoading(false);
-      showSnackbar(
-        marketData
-          ? `${translations.MARKET_REGISTRATION.MARKET_UPDATED}`
-          : `${translations.MARKET_REGISTRATION.MARKET_CREATED}`,
-        "success"
-      );
-      resetForm();
-      setUpdateMarket(null);
-      setLogoPreview(null);
-      setImagePreviews([]);
-      setActiveForm("home");
-    } catch (error) {
-      setLoading(false);
-      if (error?.status === 400) {
-        showSnackbar(error?.response?.data?.message, "error");
-      } else {
+        await axios({
+          method: marketData ? "put" : "post",
+          url,
+          data: formData,
+          headers,
+        });
+
+        setLoading(false);
         showSnackbar(
-          "There was a problem creating the Market. Please try again",
-          "error"
+          marketData
+            ? `${translations.MARKET_REGISTRATION.MARKET_UPDATED}`
+            : `${translations.MARKET_REGISTRATION.MARKET_CREATED}`,
+          "success"
+        );
+        resetForm();
+        setUpdateMarket(null);
+        setLogoPreview(null);
+        setImagePreviews([]);
+        setActiveForm("home");
+      } catch (error) {
+        setLoading(false);
+        if (error?.status === 400) {
+          showSnackbar(error?.response?.data?.message, "error");
+        } else {
+          showSnackbar(
+            "There was a problem creating the Market. Please try again",
+            "error"
+          );
+        }
+
+        console.error(
+          "Error creating market:",
+          error.response ? error.response.data : error.message
         );
       }
-
-      console.error(
-        "Error creating market:",
-        error.response ? error.response.data : error.message
-      );
     }
   };
 

@@ -13,6 +13,7 @@ import { MarketCard, EventCard, SkeletonLoader } from "../../../../components";
 import CreateActionCard from "./component/createActionCard";
 import axios from "axios";
 import { useLanguage } from "../../../../context/LanguageContext";
+import { useSnackbar } from "../../../../components/snackbar/customSnackBar";
 
 const HomeSection = ({
   setActiveForm,
@@ -30,6 +31,7 @@ const HomeSection = ({
   const [eventPage, setEventPage] = useState(1);
   const itemsPerPage = 6;
   const { translations } = useLanguage();
+  const showSnackbar = useSnackbar();
 
   useEffect(() => {
     getOwnerMarkets();
@@ -74,6 +76,26 @@ const HomeSection = ({
   const handleUpdateMarket = (market) => {
     setUpdateMarket(market);
     setActiveForm("marketInfo");
+  };
+
+  const handleDeleteIconClick = async (marketId) => {
+    try {
+      const resp = await axios.delete(
+        `${process.env.REACT_APP_API_URL}api/market/${marketId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (resp.status === 200) {
+        showSnackbar("Market Deleted Successfully", "success");
+        getOwnerMarkets();
+      }
+    } catch (error) {
+      console.log(error, "ERROR");
+      showSnackbar("Unable to Delete Market. Please try again", "error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleUpdateEvent = (event) => {
@@ -148,11 +170,12 @@ const HomeSection = ({
                   key={market._id}
                   market={market}
                   handleUpdateIconClick={handleUpdateMarket}
+                  handleDeleteIconClick={handleDeleteIconClick}
                 />
               ))
           ) : (
             <Typography variant="body1" color="secondary.main">
-              No Markets created yet
+              {translations.DASHBOARD.NO_MARKETS}
             </Typography>
           )}
         </Grid2>
@@ -190,7 +213,7 @@ const HomeSection = ({
               ))
           ) : (
             <Typography variant="body1" color="secondary.main">
-              No Events created yet
+              {translations.DASHBOARD.NO_EVENTS}
             </Typography>
           )}
         </Grid2>

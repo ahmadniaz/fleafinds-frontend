@@ -50,7 +50,7 @@ const HeaderSection = ({ allMarkets, cityFromUrl }) => {
               mb: 2,
             }}
           >
-            {cityFromUrl ? `${cityFromUrl} + Flea Markets` : "All Flea Markets"}
+            {cityFromUrl ? `${cityFromUrl} Flea Markets` : "All Flea Markets"}
           </Typography>
         </Grid2>
 

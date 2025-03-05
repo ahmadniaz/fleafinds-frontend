@@ -296,6 +296,8 @@ export const LangConst = {
     DASHBOARD: {
       ADD_MARKET: "+ Add a New Market",
       CREATE_EVENT: "+ Create an Event",
+      NO_EVENTS: "No Events created yet",
+      NO_MARKETS: "No Markets created yet",
       YOUR_MARKETS: "Your Flea Markets",
       YOUR_EVENTS: "Your Events",
       DASHBOARD: "Dashboard",
@@ -539,10 +541,10 @@ export const LangConst = {
       REVIEWER_EMAIL: "E-mail address",
       ENTER_YOUR_EMAIL: "Enter your email",
       SUBMIT_REVIEW: "Submit Review",
-      NOTE_TEXT: "NOTE: The review must be based on your own customer experience with the company. Each review is reviewed before publication. Read more about our review policy.",
+      NOTE_TEXT:
+        "NOTE: The review must be based on your own customer experience with the company. Each review is reviewed before publication. Read more about our review policy.",
       NO_REVIEWS_YET: "No Reviews Yet",
-    }
-
+    },
   },
 
   // THIS IS FINNISH TRANSLATION OF THE ABOVE TEXT
@@ -845,6 +847,8 @@ export const LangConst = {
     DASHBOARD: {
       ADD_MARKET: "+ Lisää uusi markkina",
       CREATE_EVENT: "+ Luo tapahtuma",
+      NO_EVENTS: "Tapahtumia ei ole vielä luotu",
+      NO_MARKETS: "Markkinoita ei ole vielä luotu",
       YOUR_MARKETS: "Sinun kirpputorit",
       YOUR_EVENTS: "Sinun tapahtumat",
       DASHBOARD: "Hallintapaneeli",
@@ -1238,6 +1242,8 @@ export const LangConst = {
     DASHBOARD: {
       ADD_MARKET: "+ Lägg till en ny marknad",
       CREATE_EVENT: "+ Skapa ett evenemang",
+      NO_EVENTS: "Inga evenemang har skapats ännu",
+      NO_MARKETS: "Inga marknader har skapats ännu",
       YOUR_MARKETS: "Dina loppmarknader",
       YOUR_EVENTS: "Dina evenemang",
       DASHBOARD: "Dashboard",
