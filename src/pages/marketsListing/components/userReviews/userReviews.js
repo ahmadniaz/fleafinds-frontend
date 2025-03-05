@@ -1,8 +1,10 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import ReviewsSlider from "./component/reviewSlider";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const UserReviews = ({ reviews, markets }) => {
+  const { translations, changeLanguage } = useLanguage();
   if (!reviews?.length) return null; // Don't render if no reviews exist
 
   // Sort reviews: Prioritize top ratings, then sort by most recent
@@ -28,7 +30,7 @@ const UserReviews = ({ reviews, markets }) => {
   return (
     <Box sx={{ mt: 4, textAlign: "center" }}>
       <Typography variant="h4" sx={{ color: "#15a0db", fontWeight: "bold" }}>
-        User Reviews
+        {translations.REVIEWS.TITLE}
       </Typography>
       <ReviewsSlider items={reviewItems} markets={markets} />
     </Box>

@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Typography, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { createSlug } from "../../../../../utils/slug";
+import { useLanguage } from "../../../../../context/LanguageContext";
 
 const TopMarkets = ({ allMarkets }) => {
   const topMarkets = allMarkets?.slice(0, 5); // Display top 3 markets
@@ -12,13 +13,15 @@ const TopMarkets = ({ allMarkets }) => {
     const slug = createSlug(market?.name);
     navigate(`/markets/${slug}`, { state: { marketData: market } });
   };
+
+  const { translations } = useLanguage();
   return (
     <Box sx={{ mb: 2 }}>
       <Typography
         variant="h5"
         sx={{ fontWeight: "bold", color: "#15a0db", mb: 2 }}
       >
-        Top Markets
+        {translations.MARKET_LISTING_PAGE.TOP}
       </Typography>
 
       <Box component="ul" sx={{ pl: 2 }}>
@@ -28,7 +31,7 @@ const TopMarkets = ({ allMarkets }) => {
             component="span"
             sx={{ color: "#ff0000", fontWeight: "medium", ml: 1 }}
           >
-            No Markets Registered yet for this city
+            {translations.MARKET_LISTING_PAGE.NO_MARKETS}
           </Typography>
         ) : (
           topMarkets?.map((market) => (
@@ -51,7 +54,9 @@ const TopMarkets = ({ allMarkets }) => {
                 component="span"
                 sx={{ color: "#ff0000", fontWeight: "medium", ml: 1 }}
               >
-                ({market?.reviewCount} reviews, {market?.averageRating} ⭐)
+                ({market?.reviewCount}{" "}
+                {translations.MARKET_LISTING_PAGE.REVIEWS}{" "}
+                {market?.averageRating} ⭐)
               </Typography>
             </Box>
           ))

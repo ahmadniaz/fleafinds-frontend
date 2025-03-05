@@ -14,12 +14,11 @@ import {
   Radio,
   RadioGroup,
   Typography,
-  Tooltip,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const MarketFilters = ({
   fleaMarketCategories,
@@ -38,6 +37,7 @@ const MarketFilters = ({
   );
   const [ratingFilter, setRatingFilter] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { translations } = useLanguage();
 
   useEffect(() => {
     onMarketTypeChange(marketTypeFilter);
