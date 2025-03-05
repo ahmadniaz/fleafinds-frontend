@@ -21,7 +21,7 @@ import RelatedEventsSection from "../../relatedEvents/relatedEvents";
 import { useLanguage } from "../../../../../context/LanguageContext";
 
 const CompanyContactInfo = ({ marketData, relatedEvents }) => {
-  const { translations } = useLanguage();  
+  const { translations } = useLanguage();
   return (
     <Card
       sx={{
@@ -61,7 +61,13 @@ const CompanyContactInfo = ({ marketData, relatedEvents }) => {
             >
               <FacebookIcon fontSize="large" />
             </IconButton>
-          ) : null}
+          ) : (
+            <Grid2 size={{ xs: 12 }} textAlign={"justify"}>
+              <Typography variant="body1" color="textSecondary">
+                {translations.MARKET_DESCRIPTION.NO_SOCIAL_ACCOUNT}
+              </Typography>
+            </Grid2>
+          )}
           {marketData?.socialMedia?.instagram ? (
             <IconButton
               href={marketData?.socialMedia?.instagram}
@@ -113,7 +119,8 @@ const CompanyContactInfo = ({ marketData, relatedEvents }) => {
                 to={`tel:${marketData?.marketNumber}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                {marketData?.marketNumber || `${translations.MARKET_DESCRIPTION.NO_DATA_PROVIDED}`}
+                {marketData?.marketNumber ||
+                  `${translations.MARKET_DESCRIPTION.NO_DATA_PROVIDED}`}
               </Link>
             </Typography>
           </Box>
@@ -126,7 +133,8 @@ const CompanyContactInfo = ({ marketData, relatedEvents }) => {
                 to={`mailto:${marketData?.marketEmail}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                {marketData?.marketEmail || `${translations.MARKET_DESCRIPTION.NO_DATA_PROVIDED}`}
+                {marketData?.marketEmail ||
+                  `${translations.MARKET_DESCRIPTION.NO_DATA_PROVIDED}`}
               </Link>
             </Typography>
           </Box>
@@ -140,7 +148,8 @@ const CompanyContactInfo = ({ marketData, relatedEvents }) => {
                 target="_blank"
                 style={{ textDecoration: "none", color: "#15a0db" }}
               >
-                {marketData?.marketWebsite || `${translations.MARKET_DESCRIPTION.NO_DATA_PROVIDED}`}
+                {marketData?.marketWebsite ||
+                  `${translations.MARKET_DESCRIPTION.NO_DATA_PROVIDED}`}
               </Link>
             </Typography>
           </Box>

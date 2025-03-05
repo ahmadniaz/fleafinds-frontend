@@ -46,56 +46,67 @@ const GallerySection = ({ marketData }) => {
     <>
       <Card>
         <CardContent>
-          <HeaderTypography variant="h5">{translations.MARKET_DESCRIPTION.GALLERY}</HeaderTypography>
+          <HeaderTypography variant="h5">
+            {translations.MARKET_DESCRIPTION.GALLERY}
+          </HeaderTypography>
           <Grid2 container spacing={2} p={2} justifyContent="center">
-            {normalizedMarketImages?.map((img, index) => (
-              <Grid2 item xs={12} sm={6} md={4} key={index}>
-                <Box position="relative">
-                  <Box
-                    component="img"
-                    src={img}
-                    loading="lazy"
-                    sx={{
-                      width: "100%",
-                      height: "200px",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.15)",
-                      cursor: "pointer",
-                      transition: "transform 0.3s ease",
-                      "&:hover": {
-                        transform: "scale(1.05)", // Scale effect on hover
-                      },
-                    }}
-                    alt={`Market Image ${index + 1}`}
-                  />
+            {normalizedMarketImages?.length > 0 ? (
+              normalizedMarketImages?.map((img, index) => (
+                <Grid2 item xs={12} sm={6} md={4} key={index}>
+                  <Box position="relative">
+                    <Box
+                      component="img"
+                      src={img}
+                      loading="lazy"
+                      sx={{
+                        width: "100%",
+                        height: "200px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.15)",
+                        cursor: "pointer",
+                        transition: "transform 0.3s ease",
+                        "&:hover": {
+                          transform: "scale(1.05)", // Scale effect on hover
+                        },
+                      }}
+                      alt={`Market Image ${index + 1}`}
+                    />
 
-                  {/* Overlay with Eye Icon */}
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      bgcolor: "rgba(0, 0, 0, 0.6)", // Dark overlay
-                      opacity: 0,
-                      transition: "opacity 0.3s ease",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      "&:hover": {
-                        opacity: 1, // Show overlay on hover
-                      },
-                    }}
-                  >
-                    <IconButton onClick={() => handleOpenModal(img)}>
-                      <VisibilityIcon sx={{ fontSize: 40, color: "white" }} />
-                    </IconButton>
+                    {/* Overlay with Eye Icon */}
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        bgcolor: "rgba(0, 0, 0, 0.6)", // Dark overlay
+                        opacity: 0,
+                        transition: "opacity 0.3s ease",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        "&:hover": {
+                          opacity: 1, // Show overlay on hover
+                        },
+                      }}
+                    >
+                      <IconButton onClick={() => handleOpenModal(img)}>
+                        <VisibilityIcon sx={{ fontSize: 40, color: "white" }} />
+                      </IconButton>
+                    </Box>
                   </Box>
-                </Box>
+                </Grid2>
+              ))
+            ) : (
+              <Grid2 item size={{ xs: 12 }} textAlign="center">
+                <Typography variant="h6" color="textSecondary">
+                  {/* {translations.MARKET_SORT.NOT_FOUND} */}
+                  No Images uploaded for this Market
+                </Typography>
               </Grid2>
-            ))}
+            )}
           </Grid2>
         </CardContent>
       </Card>

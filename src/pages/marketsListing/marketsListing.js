@@ -243,21 +243,22 @@ const MarketListing = () => {
 
       {/* Filters and Listing Data Section*/}
       <Grid2 container padding={2} spacing={2} mt={4}>
-        {/* Left Side Filters*/}
+        {/* Left Side Filters */}
+        <Grid2 item size={{ xs: 12, sm: 4, md: 3, lg: 2 }}>
+          <MarketFilters
+            fleaMarketCategories={fleaMarketCategories}
+            fleaMarketTypesInFinland={fleaMarketTypesInFinland}
+            fleaMarketCities={fleaMarketCities}
+            onMarketTypeChange={handleMarketTypeChange}
+            onCategoryChange={handleCategoryChange}
+            onCitiesChange={handleCitiesChange}
+            onRatingChange={handleRatingChange}
+            cityFromUrl={cityFromUrl}
+          />
+        </Grid2>
 
-        <MarketFilters
-          fleaMarketCategories={fleaMarketCategories}
-          fleaMarketTypesInFinland={fleaMarketTypesInFinland}
-          fleaMarketCities={fleaMarketCities}
-          onMarketTypeChange={handleMarketTypeChange}
-          onCategoryChange={handleCategoryChange}
-          onCitiesChange={handleCitiesChange}
-          onRatingChange={handleRatingChange}
-          cityFromUrl={cityFromUrl}
-        />
-
-        {/* Listing component*/}
-        <Grid2 item size={{ xs: 12, lg: 10, md: 9 }}>
+        {/* Listing component */}
+        <Grid2 item size={{ xs: 12, sm: 8, md: 9, lg: 10 }}>
           {/* Search Nearby and Sorting Dropdown */}
           <Grid2 container spacing={1} alignItems="center">
             <Grid2 item size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
@@ -302,7 +303,7 @@ const MarketListing = () => {
             {/* Find Nearby Button */}
             <Grid2
               item
-              size={{ xs: 12, sm: 4, md: 4, lg: 3 }}
+              size={{ xs: 12, sm: 4, md: 3 }}
               display="flex"
               justifyContent={{ xs: "center", sm: "flex-start" }}
             >
@@ -329,10 +330,16 @@ const MarketListing = () => {
               <SkeletonLoader type="card" count={12} />
             ) : displayedMarkets?.length > 0 ? (
               displayedMarkets?.map((market) => (
-                <MarketCard key={market._id} market={market} />
+                <Grid2
+                  key={market._id}
+                  item
+                  size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                >
+                  <MarketCard market={market} />
+                </Grid2>
               ))
             ) : (
-              <Grid2 item xs={12} textAlign="center">
+              <Grid2 item size={{ xs: 12 }} textAlign="center">
                 <Typography variant="h6" color="textSecondary">
                   {translations.MARKET_SORT.NOT_FOUND}
                 </Typography>

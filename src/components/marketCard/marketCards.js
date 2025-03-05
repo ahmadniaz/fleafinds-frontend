@@ -1,6 +1,6 @@
 // MarketCard.js
 import React, { useState } from "react";
-import { Grid2, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { createSlug } from "../../utils/slug";
 import CustomCardContent from "./component/cardContent";
@@ -31,33 +31,32 @@ const MarketCard = ({
     navigate(`/markets/${slug}`, { state: { marketData: market } });
   };
   return (
-    <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={market?._id}>
-      <Box
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        sx={{ position: "relative" }}
-      >
-        {isOwner ? (
+    <Box
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      sx={{ position: "relative" }}
+      key={market?._id}
+    >
+      {isOwner ? (
+        <CustomCardContent
+          isNewMarket={isNewMarket}
+          handleUpdateIconClick={handleUpdateIconClick}
+          handleDeleteIconClick={handleDeleteIconClick}
+          isOwner={isOwner}
+          hovered={hovered}
+          market={market}
+        />
+      ) : (
+        <div onClick={handleClick}>
           <CustomCardContent
             isNewMarket={isNewMarket}
-            handleUpdateIconClick={handleUpdateIconClick}
-            handleDeleteIconClick={handleDeleteIconClick}
             isOwner={isOwner}
             hovered={hovered}
             market={market}
           />
-        ) : (
-          <div onClick={handleClick}>
-            <CustomCardContent
-              isNewMarket={isNewMarket}
-              isOwner={isOwner}
-              hovered={hovered}
-              market={market}
-            />
-          </div>
-        )}
-      </Box>
-    </Grid2>
+        </div>
+      )}
+    </Box>
   );
 };
 

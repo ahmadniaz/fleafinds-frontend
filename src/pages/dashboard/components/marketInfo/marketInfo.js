@@ -235,7 +235,6 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
       showSnackbar(`At least upload one image for the market.`, "error");
     }
 
-    console.log(logoPreview, noImageUploaded, imagePreviews);
     if (logoPreview && !noImageUploaded) {
       setLoading(true);
       try {

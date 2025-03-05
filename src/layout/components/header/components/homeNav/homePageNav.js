@@ -192,7 +192,13 @@ const HomeNavbar = () => {
                         setAnchorEl(null);
                       }}
                     >
-                      🇬🇧 English
+                      <img
+                        src="https://flagcdn.com/w40/gb.png"
+                        alt="English"
+                        width="20"
+                        style={{ marginRight: 10 }}
+                      />
+                      English
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
@@ -200,16 +206,27 @@ const HomeNavbar = () => {
                         setAnchorEl(null);
                       }}
                     >
-                      🇫🇮 Finnish
+                      <img
+                        src="https://flagcdn.com/w40/fi.png"
+                        alt="Finnish"
+                        width="20"
+                        style={{ marginRight: 10 }}
+                      />
+                      Finnish
                     </MenuItem>
-
                     <MenuItem
                       onClick={() => {
                         changeLanguage("SWE");
                         setAnchorEl(null);
                       }}
                     >
-                      🇫🇮 Swedish
+                      <img
+                        src="https://flagcdn.com/w40/se.png"
+                        alt="Swedish"
+                        width="20"
+                        style={{ marginRight: 10 }}
+                      />
+                      Swedish
                     </MenuItem>
                   </Menu>
                   <ListItem button onClick={handleDrawerToggle}>
@@ -220,13 +237,17 @@ const HomeNavbar = () => {
                           sx={{
                             backgroundColor: "#15a0db",
                             color: "#fff",
+                            padding: "8px 20px",
                             fontSize: "1rem",
                             borderRadius: 2,
-                            width: "100%",
+                            minWidth: "150px", // Ensures button expands in width
+                            height: "45px", // Prevents height changes
+                            whiteSpace: "nowrap", // Ensures text doesn't break into multiple lines
+                            textOverflow: "ellipsis",
                             boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
                             "&:hover": {
-                              backgroundColor: "#ff0000",
-                              boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
+                              backgroundColor: "#15a0db",
+                              boxShadow: "0 4px 8px rgba(21, 160, 219, 0.4)",
                             },
                           }}
                           component={Link}
@@ -234,15 +255,19 @@ const HomeNavbar = () => {
                         >
                           {translations.NAVBAR.OWNER_DASHBOARD}
                         </Button>
+
                         <Button
                           variant="contained"
                           sx={{
                             backgroundColor: "#15a0db",
                             color: "#fff",
+                            padding: "8px 20px",
                             fontSize: "1rem",
                             borderRadius: 2,
-                            marginTop: "10px",
-                            width: "100%",
+                            minWidth: "150px", // Ensures button expands in width
+                            height: "45px", // Prevents height changes
+                            whiteSpace: "nowrap", // Ensures text doesn't break into multiple lines
+                            textOverflow: "ellipsis",
                             boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
                             "&:hover": {
                               backgroundColor: "#ff0000",
@@ -262,9 +287,13 @@ const HomeNavbar = () => {
                           sx={{
                             backgroundColor: "#15a0db",
                             color: "#fff",
+                            padding: "8px 20px",
                             fontSize: "1rem",
                             borderRadius: 2,
-                            width: "100%",
+                            minWidth: "150px", // Ensures button expands in width
+                            height: "45px", // Prevents height changes
+                            whiteSpace: "nowrap", // Ensures text doesn't break into multiple lines
+                            textOverflow: "ellipsis",
                             boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
                             "&:hover": {
                               backgroundColor: "#ff0000",
@@ -282,9 +311,13 @@ const HomeNavbar = () => {
                             backgroundColor: "#15a0db",
                             marginTop: "10px",
                             color: "#fff",
+                            padding: "8px 20px",
                             fontSize: "1rem",
                             borderRadius: 2,
-                            width: "100%",
+                            minWidth: "150px", // Ensures button expands in width
+                            height: "45px", // Prevents height changes
+                            whiteSpace: "nowrap", // Ensures text doesn't break into multiple lines
+                            textOverflow: "ellipsis",
                             boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
                             "&:hover": {
                               backgroundColor: "#ff0000",
@@ -356,7 +389,13 @@ const HomeNavbar = () => {
                     setAnchorEl(null);
                   }}
                 >
-                  🇬🇧 English
+                  <img
+                    src="https://flagcdn.com/w40/gb.png"
+                    alt="English"
+                    width="20"
+                    style={{ marginRight: 10 }}
+                  />
+                  English
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
@@ -364,16 +403,27 @@ const HomeNavbar = () => {
                     setAnchorEl(null);
                   }}
                 >
-                  🇫🇮 Finnish
+                  <img
+                    src="https://flagcdn.com/w40/fi.png"
+                    alt="Finnish"
+                    width="20"
+                    style={{ marginRight: 10 }}
+                  />
+                  Finnish
                 </MenuItem>
-
                 <MenuItem
                   onClick={() => {
                     changeLanguage("SWE");
                     setAnchorEl(null);
                   }}
                 >
-                  🇫🇮 Swedish
+                  <img
+                    src="https://flagcdn.com/w40/se.png"
+                    alt="Swedish"
+                    width="20"
+                    style={{ marginRight: 10 }}
+                  />
+                  Swedish
                 </MenuItem>
               </Menu>
               {isAuthenticated ? (
@@ -386,7 +436,10 @@ const HomeNavbar = () => {
                       padding: "8px 20px",
                       fontSize: "1rem",
                       borderRadius: 2,
-                      width: "100%",
+                      minWidth: "150px", // Ensures button expands in width
+                      height: "45px", // Prevents height changes
+                      whiteSpace: "nowrap", // Ensures text doesn't break into multiple lines
+                      textOverflow: "ellipsis",
                       boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
                       "&:hover": {
                         backgroundColor: "#15a0db",
@@ -398,6 +451,7 @@ const HomeNavbar = () => {
                   >
                     {translations.NAVBAR.OWNER_DASHBOARD}
                   </Button>
+
                   <Button
                     variant="contained"
                     sx={{
@@ -407,7 +461,10 @@ const HomeNavbar = () => {
                       marginLeft: "10px",
                       fontSize: "1rem",
                       borderRadius: 2,
-                      // width: "100%",
+                      minWidth: "150px", // Ensures button expands in width
+                      height: "45px", // Prevents height changes
+                      whiteSpace: "nowrap", // Ensures text doesn't break into multiple lines
+                      textOverflow: "ellipsis",
                       boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
                       "&:hover": {
                         backgroundColor: "#ff0000",
@@ -430,7 +487,10 @@ const HomeNavbar = () => {
                       padding: "8px 20px",
                       fontSize: "1rem",
                       borderRadius: 2,
-                      width: "100%",
+                      minWidth: "150px", // Ensures button expands in width
+                      height: "45px", // Prevents height changes
+                      whiteSpace: "nowrap", // Ensures text doesn't break into multiple lines
+                      textOverflow: "ellipsis",
                       boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
                       "&:hover": {
                         backgroundColor: "#15a0db",
@@ -451,7 +511,10 @@ const HomeNavbar = () => {
                       marginLeft: "10px",
                       fontSize: "1rem",
                       borderRadius: 2,
-                      width: "100%",
+                      minWidth: "150px", // Ensures button expands in width
+                      height: "45px", // Prevents height changes
+                      whiteSpace: "nowrap", // Ensures text doesn't break into multiple lines
+                      textOverflow: "ellipsis",
                       boxShadow: "0 3px 5px rgba(21, 160, 219, 0.4)",
                       "&:hover": {
                         backgroundColor: "#15a0db",

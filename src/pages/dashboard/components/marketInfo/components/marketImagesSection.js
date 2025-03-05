@@ -4,14 +4,16 @@ import { Box, Grid2, IconButton, Typography } from "@mui/material";
 import { useLanguage } from "../../../../../context/LanguageContext";
 
 const MarketImagesSection = ({
-  imagePreviews,
+  imagePreviews = [],
   handleImageUpload,
   handleImageRemove,
 }) => {
   const { translations } = useLanguage();
+  const totalSlots = 10;
+
   return (
     <Grid2 container spacing={2}>
-      {imagePreviews?.map((preview, index) => (
+      {[...Array(totalSlots)].map((_, index) => (
         <Grid2 item size={{ xs: 12, sm: 4, md: 3 }} key={index}>
           <Box
             sx={{
@@ -21,42 +23,48 @@ const MarketImagesSection = ({
               textAlign: "center",
               position: "relative",
               backgroundColor: "#fafafa",
+              minHeight: "250px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            {preview ? (
-              <img
-                src={preview?.url}
-                alt={`Market${index + 1}`}
-                style={{
-                  width: "250px",
-                  height: "250px",
-                  borderRadius: "8px",
-                }}
-              />
+            {imagePreviews[index] ? (
+              <>
+                <img
+                  src={imagePreviews[index]?.url}
+                  alt={`Market${index + 1}`}
+                  style={{
+                    width: "250px",
+                    height: "250px",
+                    borderRadius: "8px",
+                  }}
+                />
+
+                {/* Close button */}
+                <IconButton
+                  onClick={() => handleImageRemove(index)}
+                  sx={{
+                    position: "absolute",
+                    top: "5px",
+                    right: "5px",
+                    backgroundColor: "#d32f2f",
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: "#b71c1c",
+                    },
+                  }}
+                >
+                  <Cancel />
+                </IconButton>
+              </>
             ) : (
               <Typography variant="body2" color="textSecondary">
                 {translations.MARKET_REGISTRATION.NO_IMAGE}
               </Typography>
             )}
 
-            {/* Close (remove) button */}
-            {preview && (
-              <IconButton
-                onClick={() => handleImageRemove(index)}
-                sx={{
-                  position: "absolute",
-                  top: "5px",
-                  right: "5px",
-                  backgroundColor: "#d32f2f",
-                  color: "#fff",
-                  "&:hover": {
-                    backgroundColor: "#b71c1c",
-                  },
-                }}
-              >
-                <Cancel />
-              </IconButton>
-            )}
             <input
               type="file"
               accept="image/*"
@@ -68,11 +76,7 @@ const MarketImagesSection = ({
               <IconButton
                 component="span"
                 sx={{
-                  position: "absolute",
-                  bottom: "0",
-                  left: "10%",
-                  padding: "5px",
-                  transform: "translateX(-50%)",
+                  marginTop: imagePreviews[index] ? "10px" : "auto",
                   backgroundColor: "primary.main",
                   color: "#fff",
                   "&:hover": {
