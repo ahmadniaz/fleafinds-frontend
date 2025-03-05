@@ -15,7 +15,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumb from "../../../../../components/breadcrumbs/breadCrumbs";
 import MenuIcon from "@mui/icons-material/Menu";
 import LanguageIcon from "@mui/icons-material/Language"; // Language icon
@@ -31,6 +31,7 @@ const HomeNavbar = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
   const { translations, changeLanguage } = useLanguage();
+  const navigate = useNavigate();
 
   const isAuthenticated = localStorage.getItem("token"); // Check if token exists
 
@@ -49,6 +50,16 @@ const HomeNavbar = () => {
       link: "contact",
     },
   ];
+
+  const handleRegisterClick = () => {
+    let registerTab = 1;
+    navigate("/auth", { state: { registerTab } });
+  };
+
+  const handleLoginClick = () => {
+    let loginTab = 0;
+    navigate("/auth", { state: { loginTab } });
+  };
 
   useEffect(() => {
     let lastScroll = window.pageYOffset;
@@ -251,8 +262,7 @@ const HomeNavbar = () => {
                               boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
                             },
                           }}
-                          component={Link}
-                          to="/auth"
+                          onClick={handleLoginClick}
                         >
                           {translations.NAVBAR.LOGIN}
                         </Button>
@@ -272,8 +282,7 @@ const HomeNavbar = () => {
                               boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
                             },
                           }}
-                          component={Link}
-                          to="/auth"
+                          onClick={handleRegisterClick}
                         >
                           {translations.NAVBAR.REGISTER}
                         </Button>
@@ -419,8 +428,7 @@ const HomeNavbar = () => {
                         boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
                       },
                     }}
-                    component={Link}
-                    to="/auth"
+                    onClick={handleLoginClick}
                   >
                     {translations.NAVBAR.LOGIN}
                   </Button>
@@ -441,8 +449,7 @@ const HomeNavbar = () => {
                         boxShadow: "0 4px 8px rgba(255, 0, 0, 0.4)",
                       },
                     }}
-                    component={Link}
-                    to="/auth"
+                    onClick={handleRegisterClick}
                   >
                     {translations.NAVBAR.REGISTER}
                   </Button>

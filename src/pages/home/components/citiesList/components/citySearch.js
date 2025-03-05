@@ -1,7 +1,9 @@
 import React from "react";
 import { TextField, Box } from "@mui/material";
+import { useLanguage } from "../../../../../context/LanguageContext";
 
 const SearchBar = ({ handleSearch, citySearch }) => {
+  const { translations } = useLanguage();
   return (
     <Box
       sx={{
@@ -17,7 +19,7 @@ const SearchBar = ({ handleSearch, citySearch }) => {
     >
       <TextField
         fullWidth
-        placeholder="Search your City"
+        placeholder={`${translations.CITIES_LIST.TEXTFIELD}`}
         variant="outlined"
         value={citySearch}
         onChange={handleSearch}

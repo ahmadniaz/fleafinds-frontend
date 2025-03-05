@@ -2,11 +2,11 @@ import React from "react";
 import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const CityCard = ({ name, description, image }) => {
+const CityCard = ({ name, description, image, url }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/markets?city=${encodeURIComponent(name)}`);
+    navigate(`/markets?city=${encodeURIComponent(url)}`);
   };
 
   return (

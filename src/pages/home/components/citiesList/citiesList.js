@@ -15,51 +15,61 @@ const CitiesList = ({ citiesRef }) => {
       name: `${translations.CITIES_LIST.CITY1}`,
       description: `${translations.CITIES_LIST.DESC1}`,
       image: Helsinki,
+      url: "helsinki",
     },
     {
       name: `${translations.CITIES_LIST.CITY2}`,
       description: `${translations.CITIES_LIST.DESC2}`,
       image: Turku,
+      url: "espoo",
     },
     {
       name: `${translations.CITIES_LIST.CITY3}`,
       description: `${translations.CITIES_LIST.DESC3}`,
       image: Vaasa,
+      url: "tampere",
     },
     {
       name: `${translations.CITIES_LIST.CITY4}`,
       description: `${translations.CITIES_LIST.DESC4}`,
       image: Helsinki,
+      url: "vantaa",
     },
     {
       name: `${translations.CITIES_LIST.CITY5}`,
       description: `${translations.CITIES_LIST.DESC5}`,
       image: Turku,
+      url: "Oulu",
     },
     {
       name: `${translations.CITIES_LIST.CITY6}`,
       description: `${translations.CITIES_LIST.DESC6}`,
       image: Vaasa,
+      url: "Turku",
     },
     {
       name: `${translations.CITIES_LIST.CITY7}`,
       description: `${translations.CITIES_LIST.DESC7}`,
       image: Helsinki,
+      url: "Jyväskylä",
     },
     {
       name: `${translations.CITIES_LIST.CITY8}`,
       description: `${translations.CITIES_LIST.DESC8}`,
       image: Turku,
+      url: "Lahti",
     },
     {
       name: `${translations.CITIES_LIST.CITY9}`,
       description: `${translations.CITIES_LIST.DESC9}`,
       image: Vaasa,
+      url: "Kuopio",
     },
     {
       name: `${translations.CITIES_LIST.CITY10}`,
       description: `${translations.CITIES_LIST.DESC10}`,
       image: Helsinki,
+      url: "Pori",
     },
   ];
 
@@ -100,6 +110,7 @@ const CitiesList = ({ citiesRef }) => {
                 name={city.name}
                 description={city.description}
                 image={city.image}
+                url={city.url}
               />
             </Grid2>
           ))

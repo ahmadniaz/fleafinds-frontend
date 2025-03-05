@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSnackbar } from "../../../components/snackbar/customSnackBar";
 import { LoadingFallback } from "../../../components";
@@ -36,6 +36,18 @@ const AuthForm = () => {
   const showSnackbar = useSnackbar();
   const [tabIndex, setTabIndex] = useState(0); // 0 for Login, 1 for Signup
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const { loginTab, registerTab } = location?.state;
+
+  useEffect(() => {
+    if (loginTab) {
+      setTabIndex(loginTab);
+    } else if (registerTab) {
+      setTabIndex(registerTab);
+    } else {
+      setTabIndex(0);
+    }
+  }, [loginTab, registerTab]);
 
   const handleTabChange = (event, newIndex) => {
     setTabIndex(newIndex);

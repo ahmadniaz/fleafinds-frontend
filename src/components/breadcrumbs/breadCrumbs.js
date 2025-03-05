@@ -2,11 +2,13 @@ import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Breadcrumbs, Typography, IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useLanguage } from "../../context/LanguageContext";
 
 const Breadcrumb = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const pathnames = location.pathname.split("/").filter((x) => x);
+  const { translations } = useLanguage();
 
   const handleBack = () => {
     navigate(-1); // Navigates to the previous page
@@ -22,7 +24,7 @@ const Breadcrumb = () => {
       {/* Breadcrumbs navigation */}
       <Breadcrumbs aria-label="breadcrumb">
         {/* Home link */}
-        <Link to="/">Home</Link>
+        <Link to="/">{translations.NAVBAR.HOME}</Link>
 
         {pathnames.map((value, index) => {
           const to = `/${pathnames.slice(0, index + 1).join("/")}`;
