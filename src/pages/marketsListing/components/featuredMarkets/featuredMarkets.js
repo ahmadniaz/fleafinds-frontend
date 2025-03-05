@@ -5,7 +5,7 @@ import FeaturedMarketSlider from "./component/featureMarketSlider";
 import { useLanguage } from "../../../../context/LanguageContext";
 
 const FeaturedMarkets = ({ featuredMarkets }) => {
-  const { translations, changeLanguage } = useLanguage();
+  const { translations } = useLanguage();
   return (
     <Box sx={{ mt: 4 }}>
       <Typography

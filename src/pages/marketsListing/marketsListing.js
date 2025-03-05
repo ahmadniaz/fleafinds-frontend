@@ -86,7 +86,7 @@ const MarketListing = () => {
     cityFromUrl ? [cityFromUrl] : []
   );
   const [ratingFilter, setRatingFilter] = useState("");
-  const { translations, changeLanguage } = useLanguage();
+  const { translations } = useLanguage();
   // Handle filter updates
   const handleMarketTypeChange = (types) => setMarketTypeFilter(types);
   const handleCategoryChange = (categories) => setCategoryFilter(categories);
@@ -130,18 +130,16 @@ const MarketListing = () => {
     }
   };
 
-  const marketsPerPage = 12;
-  const totalMarkets = allMarkets?.length;
+  const marketsPerPage = 16;
+  const totalMarkets = filteredMarkets.length;
   const totalPages = Math.ceil(totalMarkets / marketsPerPage);
+  const startIndex = (page - 1) * marketsPerPage;
+  const endIndex = startIndex + marketsPerPage;
+  const displayedMarkets = filteredMarkets.slice(startIndex, endIndex);
 
   const handlePageChange = (event, value) => {
     setPage(value);
   };
-
-  const startIndex = (page - 1) * marketsPerPage;
-  const endIndex = startIndex + marketsPerPage;
-  const displayedMarkets = allMarkets?.slice(startIndex, endIndex);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
@@ -329,8 +327,8 @@ const MarketListing = () => {
           <Grid2 container spacing={4} mt={3} justifyContent="center">
             {marketsLoading ? (
               <SkeletonLoader type="card" count={12} />
-            ) : filteredMarkets.length > 0 ? (
-              filteredMarkets.map((market) => (
+            ) : displayedMarkets?.length > 0 ? (
+              displayedMarkets?.map((market) => (
                 <MarketCard key={market._id} market={market} />
               ))
             ) : (
@@ -348,7 +346,27 @@ const MarketListing = () => {
               count={totalPages}
               page={page}
               onChange={handlePageChange}
-              sx={{ mt: 3, display: "flex", justifyContent: "right" }}
+              variant="outlined"
+              shape="rounded"
+              size="large"
+              sx={{
+                mt: 4,
+                display: "flex",
+                justifyContent: "center",
+                "& .MuiPaginationItem-root": {
+                  fontSize: "1rem",
+                  fontWeight: "bold",
+                  color: "#15a0db",
+                  borderRadius: "8px",
+                  transition: "all 0.3s",
+                  "&:hover": { backgroundColor: "#e0f7fa" },
+                  "&.Mui-selected": {
+                    backgroundColor: "#15a0db",
+                    color: "#fff",
+                    "&:hover": { backgroundColor: "#0d8ecf" },
+                  },
+                },
+              }}
             />
           )}
         </Grid2>

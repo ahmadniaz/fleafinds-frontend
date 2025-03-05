@@ -19,23 +19,24 @@ import { useLanguage } from "../../../context/LanguageContext";
 const AuthForm = () => {
   const navigate = useNavigate();
   const showSnackbar = useSnackbar();
-  const [tabIndex, setTabIndex] = useState(0); // 0 for Login, 1 for Signup
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-  const { loginTab, registerTab } = location?.state;
+
+  const getInitialTabIndex = () => {
+    if (location.state?.loginTab === 0) return 0; // Login Tab
+    if (location.state?.registerTab === 1) return 1; // Register Tab
+    return 0; // Default to Login
+  };
+
+  const [tabIndex, setTabIndex] = useState(getInitialTabIndex);
 
   useEffect(() => {
-    if (loginTab) {
-      setTabIndex(loginTab);
-    } else if (registerTab) {
-      setTabIndex(registerTab);
-    } else {
-      setTabIndex(0);
-    }
-  }, [loginTab, registerTab]);
+    setTabIndex(getInitialTabIndex());
+  }, [location.state]);
+
   const { translations } = useLanguage();
 
-  const handleTabChange = (event, newIndex) => {
+  const handleTabChange = (_, newIndex) => {
     setTabIndex(newIndex);
   };
 

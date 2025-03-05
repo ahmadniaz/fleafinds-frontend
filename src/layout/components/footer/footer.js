@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "../../../context/LanguageContext";
 
 const Footer = () => {
-  const { translations, changeLanguage } = useLanguage();
+  const { translations } = useLanguage();
   return (
     <Box
       sx={{
@@ -66,7 +66,7 @@ const Footer = () => {
           {/* Quick Links */}
           <Grid2 item size={{ xs: 12, md: 3 }}>
             <Typography variant="h6" fontWeight="bold">
-            {translations.FOOTER.LINKS_TITLE}
+              {translations.FOOTER.LINKS_TITLE}
             </Typography>
             <Box mt={3}>
               {[
@@ -92,10 +92,10 @@ const Footer = () => {
           {/* Newsletter Subscription */}
           <Grid2 item size={{ xs: 12, md: 3 }}>
             <Typography variant="h6" fontWeight="bold">
-            {translations.FOOTER.SUBSC_TITLE}
+              {translations.FOOTER.SUBSC_TITLE}
             </Typography>
             <Typography variant="body2" sx={{ mt: 1, opacity: 0.8 }}>
-            {translations.FOOTER.SUBSC_TEXT}
+              {translations.FOOTER.SUBSC_TEXT}
             </Typography>
             <Box mt={2} display="flex" gap={1}>
               <TextField
@@ -105,7 +105,7 @@ const Footer = () => {
                 sx={{ bgcolor: "#fff", borderRadius: 1, flex: 1 }}
               />
               <Button variant="contained" color="primary">
-              {translations.FOOTER.BUTTON}
+                {translations.FOOTER.BUTTON}
               </Button>
             </Box>
           </Grid2>

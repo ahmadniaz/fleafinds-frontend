@@ -94,7 +94,7 @@ const FeaturedMarketSlider = ({ items }) => {
             <Box sx={{ position: "relative" }}>
               <CardMedia
                 component="img"
-                image={item?.logo}
+                image={item?.logo?.url}
                 alt={item?.name}
                 height="220"
                 sx={{
