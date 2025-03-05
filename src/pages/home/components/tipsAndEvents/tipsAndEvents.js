@@ -4,7 +4,7 @@ import {
   Typography,
   Card,
   CardContent,
-  Grid2,
+  Grid,
   CardMedia,
   Chip,
   Stack,
@@ -20,12 +20,12 @@ const LocalTipsAndEvents = ({ events }) => {
   const [sortedEvents, setSortedEvents] = useState([]);
   const [page, setPage] = useState(1);
   const eventsPerPage = 5;
-  const { translations, changeLanguage } = useLanguage();
+  const { translations } = useLanguage();
 
   useEffect(() => {
     const now = new Date();
-    const upcoming = events.filter((event) => new Date(event.date) > now);
-    const past = events.filter((event) => new Date(event.date) <= now);
+    const upcoming = events?.filter((event) => new Date(event?.date) > now);
+    const past = events?.filter((event) => new Date(event?.date) <= now);
     setSortedEvents([...upcoming, ...past]);
   }, [events]);
 
@@ -63,55 +63,72 @@ const LocalTipsAndEvents = ({ events }) => {
       >
         {translations.EVENTS.TITLE}
       </Typography>
-      <Grid2 container spacing={4}>
-        {paginatedEvents.map((event, index) => (
-          <Grid2 item size={{ xs: 12, md: 6 }} key={index}>
+      <Grid container spacing={4}>
+        {paginatedEvents?.map((event, index) => (
+          <Grid item xs={12} md={6} key={index}>
             <Card sx={{ boxShadow: 4, borderRadius: 3, p: 1 }}>
-              <CardMedia
-                component="img"
-                height="200"
-                image={event.eventImage.url}
-                alt={event.name}
-                sx={{ borderRadius: 2 }}
-              />
+              {event?.eventImage ? (
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={event?.eventImage?.url}
+                  alt={event?.name}
+                  sx={{ borderRadius: 2 }}
+                />
+              ) : (
+                <Box
+                  sx={{
+                    height: 200,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "#f5f5f5",
+                    borderRadius: 2,
+                  }}
+                >
+                  <Typography variant="h6" color="textSecondary">
+                    No Image Available
+                  </Typography>
+                </Box>
+              )}
               <CardContent>
                 <Typography variant="h6" fontWeight="bold" gutterBottom>
-                  {event.name}
+                  {event?.name}
                 </Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <EventIcon color="primary" />
                   <Typography variant="body2">
-                    {new Date(event.date).toDateString()} - {event.time}
+                    {new Date(event?.date).toDateString()} - {event?.time}
                   </Typography>
                 </Stack>
                 <Stack direction="row" spacing={1} alignItems="center" mt={1}>
                   <PlaceIcon color="secondary" />
-                  <Typography variant="body2">{event.location}</Typography>
+                  <Typography variant="body2">{event?.location}</Typography>
                 </Stack>
                 <Stack direction="row" spacing={1} mt={2} alignItems="center">
                   <AccessTimeIcon color="warning" />
                   <Typography
                     variant="body2"
                     color={
-                      getTimeLeft(event.date) === "Ended" ? "error" : "success"
+                      getTimeLeft(event?.date) === "Ended" ? "error" : "success"
                     }
                   >
-                    {getTimeLeft(event.date)}
+                    {getTimeLeft(event?.date)}
                   </Typography>
                 </Stack>
                 <Stack direction="row" spacing={1} mt={2}>
                   <Chip
                     icon={<MusicNoteIcon />}
-                    label={event.eventType}
+                    label={event?.eventType}
                     color="success"
                     size="small"
                   />
                 </Stack>
               </CardContent>
             </Card>
-          </Grid2>
+          </Grid>
         ))}
-      </Grid2>
+      </Grid>
 
       {/* Pagination */}
       <Box display="flex" justifyContent="center" mt={3}>

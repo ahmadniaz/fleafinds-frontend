@@ -19,11 +19,12 @@ const RelatedEventsSection = ({ marketData, relatedEvents }) => {
   return (
     <Box sx={{ mt: 4, maxHeight: 400, overflowY: "auto" }}>
       <Typography variant="h6" fontWeight="bold" gutterBottom>
-        📅 {translations.MARKET_DESCRIPTION.UPCOMING_EVENTS_AT} {marketData?.name}
+        📅 {translations.MARKET_DESCRIPTION.UPCOMING_EVENTS_AT}{" "}
+        {marketData?.name}
       </Typography>
-      {relatedEvents.length > 0 ? (
+      {relatedEvents?.length > 0 ? (
         <List sx={{ width: "100%" }}>
-          {relatedEvents.map((event) => (
+          {relatedEvents?.map((event) => (
             <EventListItem key={event._id} event={event} />
           ))}
         </List>
