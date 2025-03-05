@@ -202,6 +202,15 @@ const HomeNavbar = () => {
                     >
                       🇫🇮 Finnish
                     </MenuItem>
+
+                    <MenuItem
+                      onClick={() => {
+                        changeLanguage("SWE");
+                        setAnchorEl(null);
+                      }}
+                    >
+                      🇫🇮 Swedish
+                    </MenuItem>
                   </Menu>
                   <ListItem button onClick={handleDrawerToggle}>
                     {isAuthenticated ? (
