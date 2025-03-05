@@ -234,7 +234,9 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
     if (noImageUploaded) {
       showSnackbar(`At least upload one image for the market.`, "error");
     }
-    if (logoPreview && noImageUploaded) {
+
+    console.log(logoPreview, noImageUploaded, imagePreviews);
+    if (logoPreview && !noImageUploaded) {
       setLoading(true);
       try {
         const formData = new FormData();
@@ -343,7 +345,6 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
         } else {
           setLatitude(null);
           setLongitude(null);
-          alert(`${translations.FIELD_ERRORS.LOCATION_NOT_FOUND}`);
         }
       } catch (error) {
         console.error("Error geocoding location:", error);
