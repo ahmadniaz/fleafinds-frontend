@@ -224,16 +224,17 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
   };
 
   const handleFormSubmit = async (values, { resetForm }) => {
+    const noImageUploaded = imagePreviews.every((image) => image === null);
     if (!logoPreview) {
       showSnackbar(
         `Logo is required. If you dont have logo just upload display picture of market`,
         "error"
       );
     }
-    if (imagePreviews.every((image) => image === null)) {
+    if (noImageUploaded) {
       showSnackbar(`At least upload one image for the market.`, "error");
     }
-    if (logoPreview && imagePreviews?.length > 0) {
+    if (logoPreview && noImageUploaded) {
       setLoading(true);
       try {
         const formData = new FormData();
