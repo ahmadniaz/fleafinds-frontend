@@ -67,7 +67,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
     `${translations.CATEGORIES.ANTIQUES}`,
     `${translations.CATEGORIES.ELECTRONICS}`,
     `${translations.CATEGORIES.HOME_DECOR}`,
-    `${translations.CATEGORIES.JEWELRY_AND_ACCESORIES}`,
+    `${translations.CATEGORIES.JEWELRY_AND_ACCESSORIES}`,
     `${translations.CATEGORIES.SPORTS_EQUIPMENT}`,
     `${translations.CATEGORIES.KITCHENWARE}`,
     `${translations.CATEGORIES.MUSICAL_INSTRUMENT}`,
