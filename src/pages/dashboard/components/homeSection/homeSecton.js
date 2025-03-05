@@ -120,7 +120,7 @@ const HomeSection = ({
         <Grid2 item size={{ xs: 12, sm: 6, md: 4 }}>
           <CreateActionCard
             text={`${translations.DASHBOARD.CREATE_EVENT}`}
-            onClick={() => setActiveForm("event")}
+            onClick={() => setActiveForm("events")}
           />
         </Grid2>
       </Grid2>
