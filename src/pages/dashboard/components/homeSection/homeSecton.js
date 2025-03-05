@@ -12,6 +12,7 @@ import Breadcrumb from "../../../../components/breadcrumbs/breadCrumbs";
 import { MarketCard, EventCard, SkeletonLoader } from "../../../../components";
 import CreateActionCard from "./component/createActionCard";
 import axios from "axios";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const HomeSection = ({
   setActiveForm,
@@ -28,6 +29,7 @@ const HomeSection = ({
   const [marketPage, setMarketPage] = useState(1);
   const [eventPage, setEventPage] = useState(1);
   const itemsPerPage = 6;
+  const { translations } = useLanguage();
 
   useEffect(() => {
     getOwnerMarkets();
@@ -111,13 +113,13 @@ const HomeSection = ({
       <Grid2 container spacing={2}>
         <Grid2 item size={{ xs: 12, sm: 6, md: 4 }}>
           <CreateActionCard
-            text={"+ Add a new Market"}
+            text={`${translations.DASHBOARD.ADD_MARKET}`}
             onClick={() => setActiveForm("marketInfo")}
           />
         </Grid2>
         <Grid2 item size={{ xs: 12, sm: 6, md: 4 }}>
           <CreateActionCard
-            text={"+ Create an Event"}
+            text={`${translations.DASHBOARD.CREATE_EVENT}`}
             onClick={() => setActiveForm("event")}
           />
         </Grid2>
@@ -131,7 +133,7 @@ const HomeSection = ({
         mt={isSmallScreen ? 5 : 0}
         textAlign={isSmallScreen ? "center" : ""}
       >
-        Your Flea Markets
+        {translations.DASHBOARD.YOUR_MARKETS}
       </Typography>
 
       {loading ? (
@@ -169,7 +171,7 @@ const HomeSection = ({
         mt={5}
         textAlign={isSmallScreen ? "center" : ""}
       >
-        Your Events
+        {translations.DASHBOARD.YOUR_EVENTS}
       </Typography>
 
       {loading ? (

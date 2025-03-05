@@ -13,6 +13,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../../../../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const LeftNavigation = ({ activeForm, setActiveForm }) => {
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const { translations } = useLanguage();
 
   const drawerContent = (
     <Box
@@ -50,7 +53,7 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
           fontSize: { xs: "1.2rem", sm: "1.5rem" },
         }}
       >
-        Dashboard
+        {translations.DASHBOARD.DASHBOARD}
       </Typography>
 
       <List>
@@ -62,7 +65,7 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
             backgroundColor: activeForm === "home" ? "primary.main" : "",
           }}
         >
-          <ListItemText primary="Home" />
+          <ListItemText primary={`${translations.DASHBOARD.HOME}`} />
         </ListItem>
 
         <ListItem
@@ -73,7 +76,7 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
             backgroundColor: activeForm === "marketInfo" ? "primary.main" : "",
           }}
         >
-          <ListItemText primary="Market Information" />
+          <ListItemText primary={`${translations.DASHBOARD.MARKET_INFO}`} />
         </ListItem>
 
         <ListItem
@@ -84,7 +87,7 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
             backgroundColor: activeForm === "ownerInfo" ? "primary.main" : "",
           }}
         >
-          <ListItemText primary="Owner Information" />
+          <ListItemText primary={`${translations.DASHBOARD.OWNER_INFO}`} />
         </ListItem>
 
         <ListItem
@@ -95,7 +98,7 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
             backgroundColor: activeForm === "events" ? "primary.main" : "",
           }}
         >
-          <ListItemText primary="Create Event" />
+          <ListItemText primary={`${translations.DASHBOARD.CREATE_EVENT_SHORT}`} />
         </ListItem>
       </List>
     </Box>
@@ -121,7 +124,7 @@ const LeftNavigation = ({ activeForm, setActiveForm }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
-            FleaFind Dashboard
+          {translations.DASHBOARD.FLEAFIND_DASHBOARD}
           </Typography>
         </Toolbar>
       </AppBar>

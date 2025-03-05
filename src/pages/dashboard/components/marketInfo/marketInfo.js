@@ -25,27 +25,7 @@ import MarketImagesSection from "./components/marketImagesSection";
 import SocialMediaSection from "./components/socialMediaSection";
 import { LoadingFallback } from "../../../../components";
 import MarketContactSection from "./components/marketContactSection";
-
-// Validation schema for the dashboard form
-const validationSchema = Yup.object({
-  marketName: Yup.string().required("Market name is required"),
-  marketType: Yup.string().required("Market Type is required"),
-  city: Yup.string().required("City is required"),
-  location: Yup.string().required("Location is required"),
-  categories: Yup.array()
-    .min(1, "At least one category is required")
-    .required("Categories are required"),
-  openingHours: Yup.string().required("Opening hours are required"),
-  marketNumber: Yup.string().matches(
-    /^\+?\d{10,15}$/,
-    "Invalid contact number format"
-  ),
-  marketEmail: Yup.string().email("Invalid email format"),
-  marketWebsite: Yup.string().matches(
-    /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
-    "Invalid website URL format"
-  ),
-});
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
   const [imagePreviews, setImagePreviews] = useState(Array(10).fill(null));
@@ -55,6 +35,37 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
   const showSnackbar = useSnackbar();
+  const { translations } = useLanguage();
+
+  // Validation schema for the dashboard form
+  //previously this was outside of the const MarketInfoForm
+  const validationSchema = Yup.object({
+    marketName: Yup.string().required(
+      `${translations.FIELD_ERRORS.MARKET_NAME}`
+    ),
+    marketType: Yup.string().required(`${translations.FIELD_ERRORS.TYPE}`),
+    city: Yup.string().required(`${translations.FIELD_ERRORS.MARKET_CITY}`),
+    location: Yup.string().required(
+      `${translations.FIELD_ERRORS.MARKET_LOCATION}`
+    ),
+    categories: Yup.array()
+      .min(1, `${translations.FIELD_ERRORS.MARKET_CATEGORY_MIN}`)
+      .required(`${translations.FIELD_ERRORS.MARKET_CATEGORY}`),
+    openingHours: Yup.string().required(
+      `${translations.FIELD_ERRORS.MARKET_HOURS}`
+    ),
+    marketNumber: Yup.string().matches(
+      /^\+?\d{10,15}$/,
+      `${translations.FIELD_ERRORS.MARKET_CONTACT_NUMBER}`
+    ),
+    marketEmail: Yup.string().email(
+      `${translations.FIELD_ERRORS.MARKET_EMAIL}`
+    ),
+    marketWebsite: Yup.string().matches(
+      /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/,
+      `${translations.FIELD_ERRORS.MARKET_URL}`
+    ),
+  });
 
   const fleaMarketCategories = [
     "Clothes",
@@ -273,8 +284,8 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
       setLoading(false);
       showSnackbar(
         marketData
-          ? "Market Updated Successfully"
-          : "Market Created Successfully",
+          ? `${translations.MARKET_REGISTRATION.MARKET_UPDATED}`
+          : `${translations.MARKET_REGISTRATION.MARKET_CREATED}`,
         "success"
       );
       resetForm();
@@ -318,7 +329,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
         } else {
           setLatitude(null);
           setLongitude(null);
-          alert("Location not found");
+          alert(`${translations.FIELD_ERRORS.LOCATION_NOT_FOUND}`);
         }
       } catch (error) {
         console.error("Error geocoding location:", error);
@@ -354,7 +365,9 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
             fontWeight="bold"
             sx={{ margin: "15px 0", textAlign: "center" }}
           >
-            {marketData ? "Update Market Information" : "Create New Market"}
+            {marketData
+              ? `${translations.MARKET_REGISTRATION.UPDATE_MARKET_INFO}`
+              : `${translations.MARKET_REGISTRATION.CREATE_NEW_MARKET}`}
           </Typography>
           <Divider sx={{ mt: 1, mb: 2 }} /> {/* Divider under the breadcrumb */}
           <Formik
@@ -394,13 +407,13 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Market Name */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Market Name(Required*)
+                      {translations.MARKET_REGISTRATION.MARKET_NAME}
                     </Typography>
                     <Field
                       as={TextField}
                       fullWidth
                       name="marketName"
-                      label="Market Name"
+                      label={`${translations.MARKET_REGISTRATION.MARKET_NAME}`}
                       error={touched.marketName && Boolean(errors.marketName)}
                       helperText={touched.marketName && errors.marketName}
                     />
@@ -409,7 +422,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Market Type */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Market Type(Required*)
+                      {translations.MARKET_REGISTRATION.MARKET_TYPE}
                     </Typography>
                     <FormControl
                       fullWidth
@@ -420,10 +433,18 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                         value={values.marketType}
                         onChange={handleChange}
                         displayEmpty
-                        inputProps={{ "aria-label": "Market Type" }}
+                        inputProps={{
+                          "aria-label": `${translations.MARKET_REGISTRATION.MARKET_TYPE}`,
+                        }}
                       >
                         <MenuItem value="">
-                          <em>Select Market Type</em>
+                          <em>
+                            {" "}
+                            {
+                              translations.MARKET_REGISTRATION
+                                .SELECT_MARKET_TYPE
+                            }{" "}
+                          </em>
                         </MenuItem>
                         {fleaMarketTypesInFinland.map((type) => (
                           <MenuItem key={type} value={type}>
@@ -440,7 +461,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Logo Upload */}
                   <Grid2 item size={{ xs: 12, sm: 6, md: 4 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Market Logo/Display Picture
+                      {translations.MARKET_REGISTRATION.MARKET_LOGO}
                     </Typography>
                     <Box
                       sx={{
@@ -464,7 +485,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                         />
                       ) : (
                         <Typography variant="body2" color="textSecondary">
-                          Upload Market Logo
+                          {translations.MARKET_REGISTRATION.UPLOAD_MARKET_LOGO}
                         </Typography>
                       )}
 
@@ -513,13 +534,13 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Description */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Market Description
+                      {translations.MARKET_REGISTRATION.MARKET_DESCRIPTION}
                     </Typography>
                     <Field
                       as={TextField}
                       fullWidth
                       name="description"
-                      label="Description"
+                      label={`${translations.MARKET_REGISTRATION.DESCRIPTION}`}
                       multiline
                       rows={4}
                     />
@@ -528,7 +549,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* City */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      City(Required*)
+                      {translations.MARKET_REGISTRATION.CITY}
                     </Typography>
                     <FormControl
                       fullWidth
@@ -539,10 +560,15 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                         value={values.city}
                         onChange={handleChange}
                         displayEmpty
-                        inputProps={{ "aria-label": "City" }}
+                        inputProps={{
+                          "aria-label": `${translations.MARKET_REGISTRATION.CITY}`,
+                        }}
                       >
                         <MenuItem value="">
-                          <em>Select the City</em>
+                          <em>
+                            {" "}
+                            {translations.MARKET_REGISTRATION.SELECT_CITY}{" "}
+                          </em>
                         </MenuItem>
                         {fleaMarketCitiesInFinland.map((city) => (
                           <MenuItem key={city} value={city}>
@@ -559,13 +585,13 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Location */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Market Location(Required*)
+                      {translations.MARKET_REGISTRATION.MARKET_LOCATION}
                     </Typography>
                     <Field
                       as={TextField}
                       fullWidth
                       name="location"
-                      label="Enter Location"
+                      label={`${translations.MARKET_REGISTRATION.ENTER_LOCATION}`}
                       value={values.location}
                       onChange={(e) => {
                         handleChange(e);
@@ -580,7 +606,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Categories */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Categories(Required*)
+                      {translations.MARKET_REGISTRATION.CATEGORIES}
                     </Typography>
                     <FormGroup row>
                       {fleaMarketCategories.map((category) => (
@@ -608,7 +634,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Market Images */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Market Images
+                      {translations.MARKET_REGISTRATION.MARKET_IMAGES}
                     </Typography>
                     <MarketImagesSection
                       handleImageUpload={handleImageUpload}
@@ -620,13 +646,13 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Opening Hours */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Opening Hours(Required*)
+                      {translations.MARKET_REGISTRATION.OPENING_HOURS}
                     </Typography>
                     <Field
                       as={TextField}
                       fullWidth
                       name="openingHours"
-                      label="Opening Days and Hours"
+                      label={`${translations.MARKET_REGISTRATION.OPENING_DAYS_HOURS}`}
                       placeholder="e.g., Mon-Fri: 10-18, Sat-Sun: 10-15"
                       error={
                         touched.openingHours && Boolean(errors.openingHours)
@@ -638,13 +664,13 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Price List */}
                   <Grid2 item size={{ xs: 12 }}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Pricing List
+                      {translations.MARKET_REGISTRATION.PRICING_LIST}
                     </Typography>
                     <Field
                       as={TextField}
                       fullWidth
                       name="priceList"
-                      label="Price List"
+                      label={translations.MARKET_REGISTRATION.PRICING_LIST}
                       multiline
                       rows={4}
                     />
@@ -653,7 +679,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Social Media Links */}
                   <Grid2 item size={{ xs: 12 }} mt={3}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Social Media Links
+                      {translations.MARKET_REGISTRATION.SOCIAL_MEDIA}
                     </Typography>
                     <SocialMediaSection errors={errors} touched={touched} />
                   </Grid2>
@@ -661,7 +687,7 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                   {/* Market Contact Info*/}
                   <Grid2 item size={{ xs: 12 }} mt={3}>
                     <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                      Market Contact Information
+                      {translations.MARKET_REGISTRATION.CONTACT_INFO}
                     </Typography>
                     <MarketContactSection touched={touched} errors={errors} />
                   </Grid2>
@@ -675,7 +701,9 @@ const MarketInfoForm = ({ setActiveForm, marketData, setUpdateMarket }) => {
                       color="primary"
                       sx={{ marginTop: "10px" }}
                     >
-                      {marketData ? "Update" : "Submit Market Information"}
+                      {marketData
+                        ? `${translations.MARKET_REGISTRATION.UPDATE}`
+                        : `${translations.MARKET_REGISTRATION.SUBMIT_INFO}`}
                     </Button>
                   </Grid2>
                 </Grid2>

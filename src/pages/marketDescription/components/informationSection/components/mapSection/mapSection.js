@@ -13,6 +13,7 @@ import L from "leaflet";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import styled from "@emotion/styled";
+import { useLanguage } from "../../../../../../context/LanguageContext";
 
 const SectionCard = styled(Card)({
   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
@@ -43,11 +44,12 @@ L.Icon.Default.mergeOptions({
 });
 
 const MapSection = ({ marketData }) => {
+  const { translations } = useLanguage();
   return (
     <Grid2 item size={{ xs: 12, md: 6 }}>
       <SectionCard>
         <CardContent>
-          <HeaderTypography variant="h5">Location & Map</HeaderTypography>
+          <HeaderTypography variant="h5">{translations.MARKET_DESCRIPTION.LOCATION_MAP}</HeaderTypography>
 
           {/* Map Container */}
           <MapContainer
@@ -81,7 +83,7 @@ const MapSection = ({ marketData }) => {
           <Box mt={2} display="flex" alignItems="center">
             <LocationOnIcon sx={{ color: "primary.main", marginRight: 1 }} />
             <Box>
-              <FieldLabel>Address</FieldLabel>
+              <FieldLabel>{translations.MARKET_DESCRIPTION.ADDRESS}</FieldLabel>
               <Typography>{marketData?.location?.address}</Typography>
             </Box>
           </Box>
@@ -101,7 +103,7 @@ const MapSection = ({ marketData }) => {
                 },
               }}
             >
-              Get Directions
+              {translations.MARKET_DESCRIPTION.GET_DIRECTIONS}
             </Button>
           </Box>
         </CardContent>
