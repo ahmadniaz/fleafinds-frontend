@@ -76,7 +76,7 @@ const MarketFilters = ({
         <CloseIcon />
       </IconButton>
       <Typography variant="h6" fontWeight="bold" color="#15a0db">
-        Filters
+        {translations.FILTERS.TITLE}
       </Typography>
       <Button
         variant="outlined"
@@ -85,13 +85,15 @@ const MarketFilters = ({
         onClick={clearFilters}
         sx={{ my: 2 }}
       >
-        Clear Filters
+        {translations.FILTERS.CLEAR_BUTTON}
       </Button>
 
       {/* Rating Filter */}
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography fontWeight="bold">Rating</Typography>
+          <Typography fontWeight="bold">
+            {translations.FILTERS.RATING}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <RadioGroup
@@ -101,12 +103,12 @@ const MarketFilters = ({
             <FormControlLabel
               value="4.5"
               control={<Radio />}
-              label="4.5 and above"
+              label={`${translations.FILTERS.AND_ABOVE1}`}
             />
             <FormControlLabel
               value="4.0"
               control={<Radio />}
-              label="4.0 and above"
+              label={`${translations.FILTERS.AND_ABOVE2}`}
             />
           </RadioGroup>
         </AccordionDetails>
@@ -116,7 +118,9 @@ const MarketFilters = ({
       {/* Market Types */}
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography fontWeight="bold">Market Types</Typography>
+          <Typography fontWeight="bold">
+            {translations.FILTERS.MARKET_TYPES}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <FormGroup>
@@ -146,7 +150,9 @@ const MarketFilters = ({
       {/* Categories */}
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography fontWeight="bold">Categories</Typography>
+          <Typography fontWeight="bold">
+            {translations.FILTERS.CATEGORIES}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <FormGroup>
@@ -176,7 +182,9 @@ const MarketFilters = ({
       {/* Cities */}
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography fontWeight="bold">Cities</Typography>
+          <Typography fontWeight="bold">
+            {translations.FILTERS.CITIES}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <FormGroup>
@@ -217,7 +225,9 @@ const MarketFilters = ({
           borderRadius: "5px",
         }}
       >
-        <Typography variant="body2">More Filters</Typography>
+        <Typography variant="body2">
+          {translations.FILTERS.MORE_FILTERS}
+        </Typography>
       </IconButton>
 
       {/* Permanent Sidebar on Larger Screens */}

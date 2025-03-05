@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import TopMarkets from "./component/topMarkets";
+import { useLanguage } from "../../../../context/LanguageContext";
 
 const cityCoordinates = {
   Helsinki: [60.1695, 24.9354],
@@ -25,7 +26,7 @@ const HeaderSection = ({ allMarkets, cityFromUrl }) => {
     iconUrl: require("leaflet/dist/images/marker-icon.png"),
     shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
   });
-
+  const { translations, changeLanguage } = useLanguage();
   const filteredMarkets = cityFromUrl
     ? allMarkets?.filter((market) => market.city === cityFromUrl)
     : allMarkets;
@@ -50,7 +51,7 @@ const HeaderSection = ({ allMarkets, cityFromUrl }) => {
               mb: 2,
             }}
           >
-            {cityFromUrl ? `${cityFromUrl} Flea Markets` : "All Flea Markets"}
+            {cityFromUrl ? `${cityFromUrl} ${translations.MARKET_LISTING_PAGE.FLEA_MARKETS}` : `${translations.MARKET_LISTING_PAGE.TITLE}`}
           </Typography>
         </Grid2>
 
@@ -61,14 +62,12 @@ const HeaderSection = ({ allMarkets, cityFromUrl }) => {
                 variant="subtitle1"
                 sx={{ color: "#ff0000", fontWeight: "medium", mb: 1 }}
               >
-                Discover and explore the top {filteredMarkets?.length} flea
-                markets in {cityFromUrl || "Finland"}, offering unique and
-                affordable finds.
+                {translations.MARKET_LISTING_PAGE.SUBTITLE_PART1} {filteredMarkets?.length} {translations.MARKET_LISTING_PAGE.SUBTITLE_PART2} {cityFromUrl || "Finland"} {translations.MARKET_LISTING_PAGE.SUBTITLE_PART3}
               </Typography>
               <Typography variant="body2" sx={{ mb: 3 }}>
                 {cityFromUrl
-                  ? `Explore the best flea markets in ${cityFromUrl}. Find great deals and hidden treasures!`
-                  : "Finland is home to vibrant flea markets. Find the best spots, explore new ones, and connect with local sellers to enhance your shopping experience."}
+                  ? `${translations.MARKET_LISTING_PAGE.TEXT_PART1} ${cityFromUrl}${translations.MARKET_LISTING_PAGE.TEXT_PART2}`
+                  : `${translations.MARKET_LISTING_PAGE.OTHER_TEXT}`}
               </Typography>
 
               <TopMarkets allMarkets={filteredMarkets} />

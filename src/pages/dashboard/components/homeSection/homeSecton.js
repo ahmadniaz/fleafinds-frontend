@@ -166,12 +166,18 @@ const HomeSection = ({
             ownerMarkets
               .slice((marketPage - 1) * itemsPerPage, marketPage * itemsPerPage)
               .map((market) => (
-                <MarketCard
+                <Grid2
                   key={market._id}
-                  market={market}
-                  handleUpdateIconClick={handleUpdateMarket}
-                  handleDeleteIconClick={handleDeleteIconClick}
-                />
+                  item
+                  size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                >
+                  <MarketCard
+                    key={market._id}
+                    market={market}
+                    handleUpdateIconClick={handleUpdateMarket}
+                    handleDeleteIconClick={handleDeleteIconClick}
+                  />
+                </Grid2>
               ))
           ) : (
             <Typography variant="body1" color="secondary.main">

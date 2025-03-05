@@ -25,45 +25,6 @@ import axios from "axios";
 import { Footer } from "../../layout/components";
 import { useLanguage } from "../../context/LanguageContext";
 
-// Categories and Types for Filters
-const fleaMarketCategories = [
-  "Clothes",
-  "Toys",
-  "Furniture",
-  "Books",
-  "Antiques",
-  "Electronics",
-  "Home Decor",
-  "Jewelry & Accessories",
-  "Sports Equipment",
-  "Kitchenware",
-  "Musical Instruments",
-  "Gardening Tools",
-  "Collectibles",
-  "Handmade Crafts",
-  "Bicycles & Scooters",
-];
-
-const fleaMarketTypesInFinland = [
-  "Indoor Flea Market",
-  "Outdoor Flea Market",
-  "Secondhand Store",
-  "Donation Market",
-  "Pop-up Market",
-];
-
-const fleaMarketCities = [
-  "Helsinki",
-  "Espoo",
-  "Tampere",
-  "Vantaa",
-  "Oulu",
-  "Turku",
-  "Jyväskylä",
-  "Lahti",
-  "Kuopio",
-  "Pori",
-];
 
 const MarketListing = () => {
   const location = useLocation();
@@ -93,6 +54,45 @@ const MarketListing = () => {
   const handleCitiesChange = (cities) => setCitiesFilter(cities);
   const handleRatingChange = (rating) => setRatingFilter(rating);
 
+  // Categories and Types for Filters
+  const fleaMarketCategories = [
+    `${translations.CATEGORIES.CLOTHES}`,
+    `${translations.CATEGORIES.TOYS}`,
+    `${translations.CATEGORIES.FURNITURE}`,
+    `${translations.CATEGORIES.BOOKS}`,
+    `${translations.CATEGORIES.ANTIQUES}`,
+    `${translations.CATEGORIES.ELECTRONICS}`,
+    `${translations.CATEGORIES.HOME_DECOR}`,
+    `${translations.CATEGORIES.JEWELRY_AND_ACCESSORIES}`,
+    `${translations.CATEGORIES.SPORTS_EQUIPMENT}`,
+    `${translations.CATEGORIES.KITCHENWARE}`,
+    `${translations.CATEGORIES.MUSICAL_INSTRUMENT}`,
+    `${translations.CATEGORIES.GARDENING_TOOLS}`,
+    `${translations.CATEGORIES.COLLECTIBLES}`,
+    `${translations.CATEGORIES.HANDMADE_CRAFTS}`,
+    `${translations.CATEGORIES.BICYCLES_AND_SCOOTERS}`,
+  ];
+
+  const fleaMarketTypesInFinland = [
+    `${translations.FILTERS.TYPE1}`,
+    `${translations.FILTERS.TYPE2}`,
+    `${translations.FILTERS.TYPE3}`,
+    `${translations.FILTERS.TYPE4}`,
+    `${translations.FILTERS.TYPE5}`,
+  ];
+
+  const fleaMarketCities = [
+    `${translations.CITIES_LIST.CITY1}`,
+    `${translations.CITIES_LIST.CITY2}`,
+    `${translations.CITIES_LIST.CITY3}`,
+    `${translations.CITIES_LIST.CITY4}`,
+    `${translations.CITIES_LIST.CITY5}`,
+    `${translations.CITIES_LIST.CITY6}`,
+    `${translations.CITIES_LIST.CITY7}`,
+    `${translations.CITIES_LIST.CITY8}`,
+    `${translations.CITIES_LIST.CITY9}`,
+    `${translations.CITIES_LIST.CITY10}`,
+  ];
   useEffect(() => {
     if (cityFromUrl) {
       setCitiesFilter([cityFromUrl]);
